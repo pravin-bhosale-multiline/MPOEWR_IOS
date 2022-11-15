@@ -1,0 +1,92 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Quotation Approval</ion-title>
+    <ion-buttons slot="end" style="font-size: 1.8rem;" routerDirection="root" routerLink="/home">
+      <ion-icon name="home"></ion-icon>
+    </ion-buttons>
+    <ion-buttons (click)="refreshPage()" slot="end" style="font-size: 1.8rem;">
+      <ion-icon name="refresh"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-card class="card-custom" *ngFor="let quotation of quotationList" (click)="detailsClick(quotation)" padding>
+      
+      <ion-row>
+        <ion-col size="3">
+          <ion-label class="comname-custom">
+           {{quotation.documentno}}
+          </ion-label>
+        </ion-col>
+        <ion-col size="3">
+          <ion-label class="comname-custom">
+            {{quotation.orderdate | date:'dd-MMM-yyyy'}}
+          </ion-label>
+        </ion-col>
+        <ion-col size="6" text-end>
+          <ion-label [ngClass]="{'camc-for-one-year': quotation.productname =='CAMC1-CAMC for 1 Year',
+                                 'camc-for-three-year' : quotation.productname == 'CAMC for 3 Year',
+                                 'service-charges-others' : quotation.productname == 'Service Charges - Others',
+                                 'amc-one-year' : quotation.productname == 'AMC for 1 Year',
+                                 'default-custom': quotation.productname != 'AMC for 1 Year' &&  quotation.productname != 'Service Charges - Others' 
+                                 && quotation.productname != 'CAMC for 3 Year'
+                                 && quotation.productname!= 'CAMC1-CAMC for 1 Year'}">
+            {{quotation.productname}}
+          </ion-label>
+         </ion-col>
+      </ion-row>
+      
+      <ion-row *ngFor="let line of quotation.line">
+        <ion-col nowrap>
+          <ion-row class="serial-no-row-custom">
+            <ion-label style="font-size: small;">{{ line.serialno }}</ion-label>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-label style="font-size: small;">QTY: {{ line.qty }}</ion-label>
+            </ion-col>
+            <ion-col>
+              <ion-label style="font-size: small;">UOM: {{ line.uomname }}</ion-label>
+            </ion-col>
+            <ion-col>
+              <ion-label style="font-size: small;">Rate:{{line.rate}}</ion-label>
+            </ion-col>
+          </ion-row>
+          
+          <ion-row>
+            <ion-col>
+              <ion-label style="font-size: small;">Net Amount: {{ line.netamt }}</ion-label>
+            </ion-col>
+            <ion-col>
+              <ion-label style="font-size: small;">Tax: {{ line.taxname}}</ion-label>
+            </ion-col>
+            <ion-col>
+              <ion-label style="font-size: small;">Total Gross Amount: {{ line.totgrossamt}}</ion-label>
+            </ion-col>
+          </ion-row>
+          <div>
+            
+                  
+          </div>
+       </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-button size="default"
+          class="submit-btn quo-btn-custom" expand="block"  color="primary" (click)="reject(quotation)">Reject
+        </ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button size="default"
+          class="submit-btn quo-btn-custom" expand="block"  color="primary" (click)="approve(quotation)">Approve
+        </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-card>
+  </ion-list>
+</ion-content>

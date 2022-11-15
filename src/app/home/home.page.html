@@ -1,0 +1,202 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title text-center size="large">
+      MPOWER
+    </ion-title>
+
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content>
+
+
+  <ion-grid fixed *ngIf="isshowdata">
+    <ion-row class="ion-no-padding">
+      <ion-col class="ion-no-padding">
+        <ion-card color="white">
+          <ion-row>
+            <ion-col size="4">
+              <ion-icon src="./assets/profile.svg"></ion-icon>
+            </ion-col>
+            <ion-col>
+              <h4>Welcome <br>{{userName}}</h4>
+            </ion-col>
+          </ion-row>
+
+
+        </ion-card>
+      </ion-col>
+
+    </ion-row>
+    <ion-row>
+      <ion-col class="ion-no-padding">
+        <ion-card color="white">
+          <ion-item>
+            <ion-label position="stacked">Dashboard Type<span style="color:red!important">*</span></ion-label>
+            <ion-select [(ngModel)]="selectedDashboard" (ionChange)="onDashboardSelectChange(selectedDashboard)" interface="popover"
+              multiple="false" placeholder="Select Dashboard Type">
+              <ion-select-option *ngFor="let dashboard of dashboardTypeList" [value]="dashboard">{{dashboard.value}}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <!-- Default Dashboard -->
+    <section *ngIf="defaultDashboard">
+      <ion-row class="ion-no-padding">
+        <ion-col col-6 class="ion-no-padding" *ngIf="loginauth?.isNewLead">
+          <ion-card text-center color="white" [routerDirection]="'root'" [routerLink]="['/newcustomer']">
+            <ion-icon color="success" src="./assets/existing_lead.svg"></ion-icon>
+            <h5>New Lead</h5>
+          </ion-card>
+        </ion-col>
+        <ion-col col-6 class="ion-no-padding" *ngIf="loginauth?.isExistingLead">
+          <ion-card text-center color="white" [routerDirection]="'root'" [routerLink]="['/existingcustomer']">
+            <ion-icon src="./assets/existing_lead_1.svg"></ion-icon>
+            <h5>Existing Lead</h5>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+      <ion-row no-padding>
+        <ion-col col-6 class="ion-no-padding" *ngIf="loginauth?.isNewOrder">
+          <ion-card text-center color="white" [routerDirection]="'root'" [routerLink]="['/neworder']">
+            <ion-icon src="./assets/new_order.svg"></ion-icon>
+            <h5>New Order</h5>
+          </ion-card>
+        </ion-col>
+        <ion-col col-6 class="ion-no-padding" *ngIf="loginauth?.isDraftOrder">
+          <ion-card text-center color="white" [routerDirection]="'root'" [routerLink]="['/existingorder']">
+            <ion-icon src="./assets/existing_order.svg"></ion-icon>
+            <h5>Draft Order</h5>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-no-padding">
+        <ion-col col-6 class="ion-no-padding">
+          <ion-card text-center color="white" [routerDirection]="'root'" [routerLink]="['/settings']">
+            <ion-icon src="./assets/settings.svg"></ion-icon>
+            <h5>Settings</h5>
+          </ion-card>
+        </ion-col>
+        <ion-col col-6 class="ion-no-padding" *ngIf="loginauth?.isOrderStatus">
+
+          <ion-card text-center color="white" [routerDirection]="'root'" [routerLink]="['/order-status']">
+            <ion-icon src="./assets/order_status.svg"></ion-icon>
+            <h5>Order Status</h5>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+     <ion-row class="ion-no-padding" *ngIf="loginauth?.isBusinessPartnerAddress">
+        <ion-col col-6 class="ion-no-padding">
+          <ion-card text-center color="white" [routerDirection]="'root'" [routerLink]="['/business-partner-address']">
+            <ion-icon src="./assets/business-partner-address.svg"></ion-icon>
+            <h5>Business Partner Address</h5>
+          </ion-card>
+        </ion-col>
+        <ion-col *ngIf="loginauth?.approvalScreen" col-6 class="ion-no-padding" [routerDirection]="'root'"
+          [routerLink]="['/order-approval']">
+          <ion-card text-center color="white">
+            <ion-icon src="./assets/order_confirmation.svg"></ion-icon>
+            <h5>Approval</h5>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-no-padding" *ngIf="loginauth?.isARVisitSchedule">
+        <ion-col col-6 class="ion-no-padding">
+          <ion-card text-center color="white" [routerDirection]="'root'" [routerLink]="['/arvisitschedule']">
+            <ion-icon src="./assets/artracker.svg"></ion-icon>
+            <h5>AR Visit Schedule</h5>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </section>
+    <!-- Net Sales Dashboard -->
+    <section *ngIf="netSalesDashboard">
+      <ion-row class="ion-no-padding">
+        <ion-col class="ion-no-padding">
+          <ion-card color="white">
+            <ion-item>
+              <ion-label position="stacked">Month<span style="color:red!important">*</span></ion-label>
+              <ion-select [(ngModel)]="selectedaMonth" (ionChange)="onMonthChange()" interface="popover"
+                multiple="false" placeholder="Select Month">
+                <ion-select-option *ngFor="let selectedaMonth of monthlist" [value]="selectedaMonth">{{selectedaMonth._identifier}}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+
+
+
+
+      <ion-row class="ion-no-padding">
+        <ion-col col-6 class="ion-no-padding">
+          <ion-card text-center class="dashboard-count-card">
+            <br />
+            <ion-label class="dashboard-keywidgets">&#8377;{{netsales}}</ion-label>
+            <br />
+            <br />
+            <ion-label>NET SALES</ion-label>
+
+          </ion-card>
+        </ion-col>
+        <!-- <ion-col col-6 class="ion-no-padding" >
+        <ion-card text-center class="dashboard-count-card">
+          <br />
+          <ion-label  class="dashboard-keywidgets">&#8377;{{pendingsalesorders}}</ion-label>
+          <br />
+          <br />
+          <ion-label>PENDING SALES ORDER VALUE</ion-label>
+        </ion-card>
+      </ion-col> -->
+      </ion-row>
+
+    </section>
+    <section *ngIf="targetSalesDashboard">
+      <ion-row class="ion-no-padding">
+        <ion-col class="ion-no-padding">
+          <ion-card color="white">
+            <ion-item>
+              <ion-label position="stacked">Period<span style="color:red!important">*</span></ion-label>
+              <ion-select [(ngModel)]="selectedTargetSalesMonth" (ionChange)="onTargetSalesMonthChange(selectedTargetSalesMonth)" interface="popover"
+                multiple="false" placeholder="Select Period">
+                <ion-select-option *ngFor="let targetSalesMonth of targetSalesMonthList" [value]="targetSalesMonth">{{targetSalesMonth.period}}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+      
+      <ion-row>
+        <ion-col>
+        <ion-card color="white">
+          <ion-item>
+            <!-- <ion-label>Sales Target : {{selectedTargetSalesMonthData?.salestarget}}</ion-label> -->
+            <ion-label>Sales Target : {{salesTarget}}</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label>Sales Achievement : {{salesAchievement}}</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label>Variance Value : {{varianceValue}}</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label>Achievement Variance % : {{achievementVariance}}</ion-label>
+          </ion-item>
+        </ion-card>
+      </ion-col>  
+      </ion-row>
+
+    </section>
+
+  </ion-grid>
+
+
+</ion-content>

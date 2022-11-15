@@ -1,0 +1,129 @@
+<ion-header>
+  <ion-toolbar class="cssion-toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button style="color: white;"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Use Vetcoins</ion-title>
+    <ion-buttons (click)="Resetpage()" slot="end" style="font-size: 1.8rem;">
+      <ion-icon name="refresh"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="formvetbal">
+  <ion-card style="text-align: center;">
+    <ion-card-content>
+      <ion-row>
+        <ion-col>
+          <div class="ion-text-start">
+        <ion-label>
+          Customer Name
+        </ion-label>
+      </div>
+      </ion-col>
+        <ion-col>
+          <div class="ion-text-end">
+          <ion-label>
+            {{firmname}}
+          </ion-label>
+          </div>
+        </ion-col>
+      </ion-row>
+
+      
+
+      <ion-row>
+        <ion-col>
+          <div class="ion-text-start">
+        <ion-label>
+          Customer Category
+        </ion-label>
+      </div>
+      </ion-col>
+        <ion-col>
+          <div class="ion-text-end">
+          <ion-label>
+          {{category}}
+          </ion-label>
+        </div>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <div class="ion-text-start">
+        <ion-label>
+          Customer Balance VetCoins
+        </ion-label>
+      </div>
+      </ion-col>
+        <ion-col>
+          <div class="ion-text-end">
+          <ion-label>
+            {{amount}}
+          </ion-label>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+      <ion-col>
+        <div class="ion-text-start">
+        <ion-label>
+          My Redemption Limit
+        </ion-label>
+      </div>
+      </ion-col>
+        <ion-col>
+          <div class="ion-text-end">
+          <ion-label>
+            &#x20b9; {{redeemlimit}}
+          </ion-label>
+          </div>
+        </ion-col>
+      </ion-row>
+  <ion-radio-group value="vetfees" (ionChange)="radioGroupChange($event)">
+    <ion-item no-lines>
+      <ion-label>Purchase Product</ion-label>
+      <ion-radio slot="start" color="orangevet" value="purchaseproduct"></ion-radio>
+    </ion-item>
+
+    <ion-item no-lines>
+      <ion-label>Vet Fees</ion-label>
+      <ion-radio slot="start" color="orangevet" value="vetfees"></ion-radio>
+    </ion-item>
+  </ion-radio-group>
+
+
+
+
+
+
+
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked">Amount/VetCoins</ion-label>
+            <ion-input  type="number"  [formControl]="formvetbal.controls['Amount']"></ion-input>
+          </ion-item>
+          <div padding-left>
+            <ng-container *ngFor="let validation of validation_messages.Amount">
+              <div *ngIf="formvetbal.get('Amount').hasError(validation.type) && formvetbal.get('Amount').touched">
+                <p style="color: red;font-size: small;">{{validation.message}}</p>
+              </div>
+            </ng-container>
+          </div>
+
+        </ion-col>
+      </ion-row>
+
+      <div class="ion-padding">
+            <ion-button color="orangevet" expand="block" text-center (click)="onUseVetCoins()" [disabled]="!formvetbal.valid">Use VetCoins</ion-button>
+</div>
+          
+
+    </ion-card-content>
+  </ion-card>
+  </form>
+</ion-content>

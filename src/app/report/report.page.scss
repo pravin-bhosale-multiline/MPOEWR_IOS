@@ -1,0 +1,52 @@
+::ng-deep.ngx-datatable.bootstrap .datatable-body .datatable-body-row.active{
+    background-color: #F39E20 !important;
+}
+
+@media only screen and (min-width:481px) {
+    ::ng-deep.ngx-datatable.bootstrap .datatable-header .datatable-header-cell{
+
+        padding-left:0.75rem !important; 
+        padding-right: 0.25rem !important;
+        padding-top: 00.25rem !important;
+        padding-bottom: 00.25rem !important;
+            
+     }
+}
+@media (min-width:1281px) {  
+    
+    ::ng-deep.ngx-datatable.bootstrap .datatable-header .datatable-header-cell{
+
+    padding: 0.75rem !important;
+   // text-align: center !important;
+    
+ 
+ }}
+
+::ng-deep.ngx-datatable.bootstrap .datatable-header{
+  font-weight: bold !important;
+  background-color: #F39E20 !important;
+}
+
+
+@media screen and (max-width: 800px) {
+    .desktop-hidden {
+      display: initial;
+    }
+    .mobile-hidden {
+      display: none;
+    }
+  }
+  @media screen and (min-width: 800px) {
+    .desktop-hidden {
+      display: none;
+    }
+    .mobile-hidden {
+      display: initial;
+    }
+  }
+  @media only screen and (min-height: 768px) and (min-width: 768px){
+    .sc-ion-modal-ios-h{
+      --width: 900px !important;
+      --height: 626px !important;
+    }
+  }

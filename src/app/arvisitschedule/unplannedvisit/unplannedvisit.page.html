@@ -1,0 +1,93 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Unplanned Visit
+    </ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+<ion-content>
+  <form [formGroup]="formplan" (ngSubmit)="onSaveVisit(formplan.value)">
+  
+    <ion-grid >
+      <ion-row>
+        <ion-col>
+          <ion-row>
+            <ion-col size="12">
+              <ion-item>
+              <ion-label position="stacked">Plan Selection<span style="color:red!important">*</span></ion-label>
+              <ion-select formControlName="plansch" interface="popover" multiple="false"
+                placeholder="Select Plan">
+                <ion-select-option *ngFor="let sch of arschlist" [value]="sch">{{sch.schname}}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+            </ion-col>
+          </ion-row>
+         
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked">Customer Name<span style="color:red!important">*</span></ion-label>
+            <ionic-selectable  placeholder="Select Plan" 
+              formControlName="customer"
+              [items]="customerlist"
+              itemValueField="bpartnerid" 
+              itemTextField="bpartnername" 
+              [canSearch]="true" 
+              (onClose)="onCloseCust($event)" 
+              (onSearch)="custSearchChange($event)"
+              (onInfiniteScroll)="doInfiniteCust($event)">
+            </ionic-selectable>
+           
+          </ion-item>
+         
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="12">
+          <ion-item>
+          <ion-label position="stacked">Billing Address<span style="color:red!important">*</span></ion-label>
+          <ion-select formControlName="billtoaddress" interface="popover" multiple="false"
+            placeholder="Select Address">
+            <ion-select-option *ngFor="let billadd of billtoaddressList" [value]="billadd">{{billadd.bpartnerlocname}}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="12">
+          <ion-item>
+          <ion-label position="stacked">Visit Date<span style="color:red!important">*</span></ion-label>
+          <ion-datetime [disabled]="true" [max]="currentdate" [min]="currentdate" displayFormat="DD-MM-YYYY" formControlName="visitdate"></ion-datetime>
+        </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="12">
+          <ion-item>
+          <ion-label position="stacked">Target for the month<span style="color:red!important">*</span></ion-label>
+         <ion-input type="number" placeholder="Target for the month" formControlName="targetformonth"></ion-input>
+        </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+  
+
+</ion-content>
+<section class="full-width">
+  <ion-row>
+    <ion-col>
+      <ion-button expand="full" type="submit" color="primary" text-center [disabled]="!formplan.valid "
+      (click)="onSaveVisit(formplan.value)">Submit</ion-button>
+</ion-col>
+
+</ion-row>
+</section>

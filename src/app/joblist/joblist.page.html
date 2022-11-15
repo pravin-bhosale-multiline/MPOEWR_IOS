@@ -1,0 +1,60 @@
+<ion-header>
+  <ion-toolbar color="primary">
+      <ion-buttons slot="start">
+          <ion-back-button defaultHref="login"></ion-back-button>
+        </ion-buttons>
+    <ion-title>Job List</ion-title>
+    <ion-icon slot="end" style="font-size: 35px" name="refresh" (click)="doRefresh(null)"></ion-icon>
+    <ion-badge slot="end" style="font-size: 35px" color="danger">{{totalrow}}</ion-badge>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+      </ion-refresher>
+    <ion-list no-lines>
+        <ion-card>
+          <ion-item *ngFor="let job of joblist">
+              <ion-card-content>
+                <ion-grid fix>
+                  <ion-row>
+                    <ion-col size="6">
+                        <ion-label position="stacked">Assign Date  </ion-label>
+                        <ion-card-subtitle>{{job.assigndate | date: 'dd/MM/yyyy'}}</ion-card-subtitle>
+                    </ion-col>
+                    <ion-col size="6">
+                        <ion-label position="stacked">Job Type</ion-label>
+                        <ion-card-subtitle>{{job.mwmsJobtype$_identifier}}</ion-card-subtitle>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row>
+                    <ion-col size="12">
+                        <ion-label position="stacked">Task Descriptions  </ion-label>
+                        {{job.staskdescription}}
+                    </ion-col>
+                  </ion-row>
+                  <ion-row>
+                   <ion-col size="4">
+                        <ion-button (click)="onAccept(job.id)">
+                            Accept
+                          </ion-button>
+                    </ion-col>
+                    <ion-col size="4">
+                        <ion-button (click)="onReject(job.id)">
+                            Reject
+                        </ion-button>
+                    </ion-col>
+                    <ion-col size="4">
+                        <ion-button (click)="onTransfer(job.id)">
+                            transfer
+                        </ion-button>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+                
+              </ion-card-content>
+            </ion-item>
+      </ion-card>
+    </ion-list>
+</ion-content>

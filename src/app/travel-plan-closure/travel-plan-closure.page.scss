@@ -1,0 +1,71 @@
+.scroll-grid{
+    overflow-x: scroll !important;
+}
+.custom-ion-row
+{
+    display: table !important;       
+    white-space: nowrap !important;
+}
+
+ion-scroll[scrollX] {
+    white-space: nowrap;
+   // height: 120px;
+    overflow: visible;
+    overflow-y: auto;
+// width:100%;
+    .scroll-item {
+      display: inline-block;
+    }
+
+    .selectable-icon{
+      margin: 10px 20px 10px 20px;
+      color: red;
+      font-size: 100px;
+    }
+
+    ion-avatar img{
+      margin: 10px;
+    }
+  }
+
+  ion-scroll[scroll-avatar]{
+    height: 60px;
+  }
+
+  /* Hide ion-content scrollbar */
+  ::-webkit-scrollbar{
+    display:none;
+  }
+
+  h5{
+    font-style: oblique;
+    color: darkcyan;
+    font-size: large!important;
+    ion-icon{
+      color: lightcoral;
+    }
+
+  }
+  
+  .forecast_container{
+    overflow-x: scroll!important;
+    overflow-x: visible!important;
+    overflow-y: hidden;
+    word-wrap: break-word;
+    height:20vw;
+    font-size:0.8em;
+    font-weight:300;
+}
+.forecast_div{
+  overflow-x: scroll!important;
+  overflow-x: visible!important;
+  overflow-y: hidden;
+  word-wrap: break-word;
+  font-size:0.8em;
+  font-weight:300;
+  max-width: 175px;
+}
+.grid-header{
+font-weight: bold;
+max-width: 175px;
+}

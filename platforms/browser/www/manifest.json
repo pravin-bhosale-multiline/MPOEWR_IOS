@@ -1,0 +1,11 @@
+{
+  "background_color": "#FFF",
+  "display": "standalone",
+  "name": "M_POWER",
+  "short_name": "M_POWER",
+  "version": "multilinetech.OBPrism2",
+  "description": "Mobile App For ERP of erp.pispl.in",
+  "author": "Ionic Framework Team",
+  "icons": [],
+  "start_url": "index.html"
+}

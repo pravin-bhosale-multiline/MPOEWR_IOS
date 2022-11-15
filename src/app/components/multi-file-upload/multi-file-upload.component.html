@@ -1,0 +1,41 @@
+<!-- <div ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" (fileOver)="fileOverBase($event)" [uploader]="uploader" class="drop-zone">
+  Drop files here...accept="image/*,.pdf,application/pdf"
+</div> -->
+
+<div class="file-input-container">
+  <ion-row size="6" *ngIf="!isOnlyCamera">
+  <label style="background-color: #f39e20;border-radius: 7px; color: white;" class="bottom-button">
+    <input type="file" ng2FileSelect [uploader]="uploader" multiple (change)="onfileuploadchange()"/>
+    Gallery
+  </label>
+ </ion-row>
+<ion-row size="6" *ngIf='!msg.isplatformweb && msg.istakephoto'>
+    <label style="background-color: #f39e20;border-radius: 7px; color: white;" class="bottom-button" (click)="takePicture()">
+      Capture  </label>
+  </ion-row>
+</div>
+
+<!-- <h2>Files: {{ uploader?.queue?.length }}</h2> -->
+<br/>
+<br/>
+
+<label><span *ngIf='isextrafiles' style="color:red!important">Maximum {{maxfile!==undefined?maxfile:msg.maxfile }} files are allowed.</span></label>
+
+<ion-row>
+  <ion-col size='3' *ngFor="let item of uploader.queue;let i = index">
+   
+    <!-- <ion-icon name="trash" (click)="removefile(i)" style="font-size:x-large;
+    color: red;"></ion-icon> -->
+
+<div class="img-container">
+  <ion-icon *ngIf="item?.file?.type=='application/pdf'" style="height: 50px;width: 50px;background-color: coral;"  name="document"></ion-icon>
+  <img style="height: 50px;width: 50px;" *ngIf="item?.file?.type!='application/pdf'" [src]="" [ImagePreviewDirective] ="item.file" />
+
+  <ion-icon name="trash" (click)="removefile(i)"
+  class="topright"></ion-icon>
+</div>
+
+  </ion-col>
+</ion-row>
+
+

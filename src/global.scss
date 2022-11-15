@@ -1,0 +1,478 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import "~@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "~@ionic/angular/css/normalize.css";
+@import "~@ionic/angular/css/structure.css";
+@import "~@ionic/angular/css/typography.css";
+@import "~@ionic/angular/css/display.css";
+
+/* Optional CSS utils that can be commented out */
+@import "~@ionic/angular/css/padding.css";
+@import "~@ionic/angular/css/float-elements.css";
+@import "~@ionic/angular/css/text-alignment.css";
+@import "~@ionic/angular/css/text-transformation.css";
+@import "~@ionic/angular/css/flex-utils.css";
+
+ion-label {
+  white-space: normal !important;
+}
+/* NGX Datatable CSS */
+// @import "~assets/styles/ngx-datatable/_index.css";
+// @import "~assets/styles/ngx-datatable/_dark.css";
+// @import "~assets/styles/ngx-datatable/_material.css";
+// @import "~assets/styles/ngx-datatable/_bootstrap.css";
+
+@import "~assets/styles/ngx-datatable/themes/googleapis.css";
+
+@import "~assets/styles/ngx-datatable/themes/meterial.css";
+
+
+/* NGX Datatable CSS */
+@import '~assets/styles/ngx-datatable/_index.css';
+@import '~assets/styles/ngx-datatable/_dark.css';
+@import '~assets/styles/ngx-datatable/_material.css';
+@import '~assets/styles/ngx-datatable/_bootstrap.css';
+@import '~assets/styles/ngx-datatable/_icons.css';
+
+
+ion-label {
+  white-space: normal !important;
+}
+
+.alertmsg .alert-message {
+  text-align: left !important;
+  width: 100% !important;
+}
+
+ion-button {
+  text-transform: none !important;
+}
+.ionic-selectable-value-item {
+  white-space: normal !important;
+}
+.alert-radio-label .sc-ion-alert-md {
+  white-space: normal !important;
+}
+.alert-radio-label.sc-ion-alert-ios {
+  white-space: normal !important;
+}
+.sc-ion-label-ios-h{
+  white-space: normal !important;
+}
+ion-select .select-test {
+  white-space: normal !important;
+}
+
+.viewImagecss {
+  height: 200px;
+  width: 100%;
+}
+
+.cssion-toolbar {
+  --background: #f39e20;
+  color: white;
+}
+
+//Added By Nilesh
+
+ion-item {
+  max-width: 400px !important;
+}
+
+:root {
+  --ion-color-orangevet: #f39e20;
+  --ion-color-orangevet-rgb: 243, 158, 32;
+  --ion-color-orangevet-contrast: #ffff;
+  --ion-color-orangevet-contrast-rgb: 0, 0, 0;
+  --ion-color-orangevet-shade: #d68b1c;
+  --ion-color-orangevet-tint: #f4a836;
+
+  --ion-color-primary: #f39e20;
+  --ion-color-primary-rgb: 243, 158, 32;
+  --ion-color-primary-contrast: #ffff;
+  --ion-color-primary-contrast-rgb: 0, 0, 0;
+  --ion-color-primary-shade: #d68b1c;
+  --ion-color-primary-tint: #f4a836;
+
+  --ion-color-green: #388E3C;
+	--ion-color-green-rgb: 56,142,60;
+	--ion-color-green-contrast: #ffffff;
+	--ion-color-green-contrast-rgb: 255,255,255;
+	--ion-color-green-shade: #317d35;
+	--ion-color-green-tint: #4c9950;
+
+ 
+}
+
+.ion-color-green {
+	--ion-color-base: var(--ion-color-green);
+	--ion-color-base-rgb: var(--ion-color-green-rgb);
+	--ion-color-contrast: var(--ion-color-green-contrast);
+	--ion-color-contrast-rgb: var(--ion-color-green-contrast-rgb);
+	--ion-color-shade: var(--ion-color-green-shade);
+	--ion-color-tint: var(--ion-color-green-tint);
+}
+
+.ion-color-orangevet {
+  --ion-color-base: var(--ion-color-orangevet);
+  --ion-color-base-rgb: var(--ion-color-orangevet-rgb);
+  --ion-color-contrast: var(--ion-color-orangevet-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-orangevet-contrast-rgb);
+  --ion-color-shade: var(--ion-color-orangevet-shade);
+  --ion-color-tint: var(--ion-color-orangevet-tint);
+}
+
+.ion-color-primary {
+  --ion-color-base: var(--ion-color-primary);
+  --ion-color-base-rgb: var(--ion-color-primary-rgb);
+  --ion-color-contrast: var(--ion-color-primary-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-primary-contrast-rgb);
+  --ion-color-shade: var(--ion-color-primary-shade);
+  --ion-color-tint: var(--ion-color-primary-tint);
+}
+
+.md .toolbar-title {
+  text-overflow: inherit;
+  white-space: normal;
+  text-align: left;
+  font-size: 1.3em;
+}
+.text-align-center {
+  text-align: -webkit-center;
+}
+
+//for alert
+
+.wrapper {
+  text-align: left;
+  width: 100%;
+  font-family: "Helvetica";
+  font-size: 12px;
+  border: 1px solid #ccc;
+}
+
+.StepProgress {
+  position: relative;
+  padding-left: 45px;
+  list-style: none;
+
+  &::before {
+    display: inline-block;
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 15px;
+    width: 10px;
+    height: 100%;
+    border-left: 2px solid #ccc;
+  }
+
+  &-item {
+    position: relative;
+    counter-increment: list;
+
+    &:not(:last-child) {
+      padding-bottom: 18px;
+    }
+
+    &::before {
+      display: inline-block;
+      content: "";
+      position: absolute;
+      left: -30px;
+      height: 100%;
+      width: 10px;
+    }
+
+    &::after {
+      content: "";
+      display: inline-block;
+      position: absolute;
+      top: 0;
+      left: -37px;
+      width: 12px;
+      height: 12px;
+      border: 2px solid #ccc;
+      border-radius: 50%;
+      background-color: #fff;
+    }
+
+    &.is-done {
+      &::before {
+        border-left: 2px solid red;
+      }
+      &::after {
+        //content: "✔";
+        content: "\2713";
+        font-size: 10px;
+        color: #fff !important;
+        text-align: center;
+        border: 2px solid red;
+        background-color: red;
+      }
+    }
+
+    &.current {
+      &::before {
+        border-left: 2px solid red;
+      }
+
+      &::after {
+        content: counter(list);
+        padding-top: 1px;
+        width: 19px;
+        height: 18px;
+        top: -4px;
+        left: -40px;
+        font-size: 14px;
+        text-align: center;
+        color: red;
+        border: 2px solid red;
+        background-color: white;
+      }
+    }
+  }
+
+  strong {
+    display: block;
+  }
+}
+
+.StepComplete {
+  position: relative;
+  padding-left: 45px;
+  list-style: none;
+
+  &::before {
+    display: inline-block;
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 15px;
+    width: 10px;
+    height: 100%;
+    border-left: 2px solid #ccc;
+  }
+
+  &-item {
+    position: relative;
+    counter-increment: list;
+
+    &:not(:last-child) {
+      padding-bottom: 18px;
+    }
+
+    &::before {
+      display: inline-block;
+      content: "";
+      position: absolute;
+      left: -30px;
+      height: 100%;
+      width: 10px;
+    }
+
+    &::after {
+      content: "";
+      display: inline-block;
+      position: absolute;
+      top: 0;
+      left: -37px;
+      width: 12px;
+      height: 12px;
+      border: 2px solid #ccc;
+      border-radius: 50%;
+      background-color: #fff;
+    }
+
+    &.is-done {
+      &::before {
+        border-left: 2px solid green;
+      }
+      &::after {
+        // content: "✔";
+        content: "\2713";
+        font-size: 10px;
+        color: #fff !important;
+        text-align: center;
+        border: 2px solid green;
+        background-color: green;
+      }
+    }
+
+    &.current {
+      &::before {
+        border-left: 2px solid green;
+      }
+
+      &::after {
+        content: counter(list);
+        padding-top: 1px;
+        width: 19px;
+        height: 18px;
+        top: -4px;
+        left: -40px;
+        font-size: 14px;
+        text-align: center;
+        color: green;
+        border: 2px solid green;
+        background-color: white;
+      }
+    }
+  }
+
+  strong {
+    display: block;
+  }
+}
+
+.list-ios {
+  margin-bottom: 0px !important;
+}
+.height100 {
+  height: 100%;
+}
+.vertical-center {
+  align-items: center;
+  height: 100%;
+  text-align: center;
+}
+
+//for sscheme
+//new
+.w3-table,
+.w3-table-all {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  display: table;
+  font-size: 12px;
+}
+.w3-table-all {
+  //  border:1px solid #ccc
+  border: 1px solid black;
+}
+.w3-bordered tr,
+.w3-table-all tr {
+  // border-bottom:1px solid #ddd
+  border-bottom: 1px solid black;
+}
+.w3-striped tbody tr:nth-child(even) {
+  background-color: #f1f1f1;
+}
+.w3-table-all tr:nth-child(odd) {
+  background-color: #fff;
+}
+.w3-table-all tr:nth-child(even) {
+  background-color: #f1f1f1;
+}
+.w3-hoverable tbody tr:hover,
+.w3-ul.w3-hoverable li:hover {
+  background-color: #ccc;
+}
+.w3-centered tr th,
+.w3-centered tr td {
+  text-align: center;
+}
+.w3-table td,
+.w3-table th,
+.w3-table-all td,
+.w3-table-all th {
+  padding: 8px 8px;
+  display: table-cell;
+  text-align: left;
+  vertical-align: top;
+}
+.w3-table th:first-child,
+.w3-table td:first-child,
+.w3-table-all th:first-child,
+.w3-table-all td:first-child {
+  padding-left: 16px;
+}
+
+.w3-bordered tr,
+.w3-table-all tr {
+  border-bottom: 1px solid #ddd;
+}
+//end new
+
+//end scheme
+.asterisk_input::after
+{
+    content:" *";
+    color: red;
+}
+
+//from hitesh sir
+.alert-radio-label.sc-ion-alert-ios
+.alert-radio-label.sc-ion-alert-md {
+  white-space: inherit;
+  font-size: 13px;
+  -webkit-padding-start: 35px;
+  padding-inline-start: 35px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+.alert-tappable.sc-ion-alert-md {
+  height: 45px;
+}
+.native-input.sc-ion-input-md {
+  font-size: 80%;
+}
+.list-md {
+
+  padding-bottom: 5px;
+  padding-top: 0px;
+}
+.alert-button-inner.sc-ion-alert-md {
+  justify-content: flex-start;
+}
+.native-textarea.sc-ion-textarea-md {
+  font-size: 80%;
+}
+//end
+
+.bottom-border{
+  border-bottom-width: thin;
+  border-bottom-style: outset;
+}
+
+
+.mat-step-header .mat-step-icon-state-done, .mat-step-header .mat-step-icon-state-edit {
+  background-color: #f39e20 !important;
+ 
+}
+
+
+.custom-alert .modal-wrapper {
+  height: 250px !important;
+  width: 350px !important;
+  position: absolute; 
+  display: block;  
+}
+
+
+
+.select-text{
+  white-space: normal !important;
+}
+::ng-deep{
+  .select-text{
+    white-space:pre-line !important;
+  }
+}
+ion-label {
+  white-space: normal !important;
+  transform: none !important;
+}

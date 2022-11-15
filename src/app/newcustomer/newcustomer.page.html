@@ -1,0 +1,467 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start" *ngIf="!isNewRegistration">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      New Lead
+    </ion-title>
+    <ion-buttons *ngIf="!isNewRegistration" slot="end" style="font-size: 1.8rem;" routerDirection="root"
+      routerLink="/home">
+      <ion-icon name="home"></ion-icon>
+    </ion-buttons>
+    <ion-buttons (click)="Resetpage()" slot="end" style="font-size: 1.8rem;">
+      <ion-icon name="refresh"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+
+  <form [formGroup]="form" (ngSubmit)="onSaveDraft(form.value)">
+    <ion-grid>
+      <ion-card>
+        <ion-card-header style="background: #FFCC80;">
+          Customer :
+        </ion-card-header>
+        <ion-row>
+          <!-- Activity -->
+          <ion-col size="12" size-lg="4">
+            <ion-item>
+              <ion-label position="stacked">Activity<span style="color:red!important">*</span></ion-label>
+              <ion-select [formControl]="form.controls['selectedactivity']" interface="popover"
+                (ionChange)="onActChange()" multiple="false" placeholder="Select Activity">
+                <ion-select-option *ngFor="let activity of activitylist" [value]="activity.id">{{activity.name}}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+            <div padding-left>
+              <ng-container *ngFor="let validation of validation_messages.selectedactivity">
+                <div
+                  *ngIf="form.get('selectedactivity').hasError(validation.type) && form.get('selectedactivity').touched">
+                  <p style="color: red;font-size: small;">{{validation.message}}</p>
+                </div>
+              </ng-container>
+            </div>
+          </ion-col>
+          <!-- Customer Nature -->
+          <ion-col size="12" size-lg="4">
+            <ion-item>
+              <ion-label position="stacked">Customer Nature<span style="color:red!important">*</span></ion-label>
+              <ion-select #C [formControl]="form.controls['selectedcn']" interface="popover" placeholder="Select One"
+                (ionChange)='onChangecn()'>
+                <ion-select-option value="I">Individual</ion-select-option>
+                <ion-select-option value="F">Firm</ion-select-option>
+                <ion-select-option value="H">HUF</ion-select-option>
+              </ion-select>
+            </ion-item>
+            <div padding-left>
+              <ng-container *ngFor="let validation of validation_messages.selectedcn">
+                <div *ngIf="form.get('selectedcn').hasError(validation.type) && form.get('selectedcn').touched">
+                  <p style="color: red;font-size: small;">{{validation.message}}</p>
+                </div>
+              </ng-container>
+            </div>
+          </ion-col>
+          <!-- Firm Name -->
+          <ion-col size="12" size-lg="4">
+            <ion-item>
+              <ion-label position="floating">Firm Name<span style="color:red!important">{{firmnamereq}}</span>
+              </ion-label>
+              <ion-input [formControl]="form.controls['firmname']" type="text"></ion-input>
+            </ion-item>
+            <div padding-left>
+              <ng-container *ngFor="let validation of validation_messages.firmname">
+                <div *ngIf="form.get('firmname').hasError(validation.type) && form.get('firmname').touched">
+                  <p style="color: red;font-size: small;">{{validation.message}}</p>
+                </div>
+              </ng-container>
+            </div>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <!-- First Name -->
+          <ion-col size="12" size-lg="4">
+            <ion-item>
+              <ion-label position="floating">First Name<span style="color:red!important">{{firstnamereq}}</span>
+              </ion-label>
+              <ion-input [formControl]="form.controls['firstname']" type="text"></ion-input>
+            </ion-item>
+            <div padding-left>
+              <ng-container *ngFor="let validation of validation_messages.firstname">
+                <div *ngIf="form.get('firstname').hasError(validation.type) && form.get('firstname').touched">
+                  <p style="color: red;font-size: small;">{{validation.message}}</p>
+                </div>
+              </ng-container>
+            </div>
+          </ion-col>
+          <!-- Middle Name -->
+          <ion-col size="12" size-lg="4">
+            <ion-item>
+              <ion-label position="floating">Middle Name</ion-label>
+              <ion-input [formControl]="form.controls['middlename']" type="text"></ion-input>
+            </ion-item>
+          </ion-col>
+          <!-- Last Name -->
+          <ion-col size="12" size-lg="4">
+            <ion-item>
+              <ion-label position="floating">Last Name<span style="color:red!important">{{lastnamereq}}</span>
+              </ion-label>
+              <ion-input [formControl]="form.controls['lastname']" type="text"></ion-input>
+            </ion-item>
+            <div padding-left>
+              <ng-container *ngFor="let validation of validation_messages.lastname">
+                <div *ngIf="form.get('lastname').hasError(validation.type) && form.get('lastname').touched">
+                  <p style="color: red;font-size: small;">{{validation.message}}</p>
+                </div>
+              </ng-container>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-card>
+      <ion-card>
+        <ion-card-header style="background: #FFCC80;">
+          Address :
+        </ion-card-header>
+        <ion-row>
+          <!-- Address Line 1 -->
+          <ion-col size="12" size-lg="4">
+            <ion-item>
+              <ion-label position="floating">Address Line 1<span style="color:red!important">*</span></ion-label>
+              <ion-input [formControl]="form.controls['add1']" type="text"></ion-input>
+            </ion-item>
+            <div padding-left>
+              <ng-container *ngFor="let validation of validation_messages.add1">
+                <div *ngIf="form.get('add1').hasError(validation.type) && form.get('add1').touched">
+                  <p style="color: red;font-size: small;">{{validation.message}}</p>
+                </div>
+              </ng-container>
+            </div>
+          </ion-col>
+          <!-- Address Line 2 -->
+          <ion-col size="12" size-lg="4">
+            <ion-item>
+              <ion-label position="floating">Address Line 2</ion-label>
+              <ion-input [formControl]="form.controls['add2']" type="text"></ion-input>
+            </ion-item>
+          </ion-col>
+          <!-- Address Line 3 -->
+          <ion-col>
+            <ion-item>
+              <ion-label position="floating">Address Line 3</ion-label>
+              <ion-input [formControl]="form.controls['add3']" type="text"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="12" size-lg="4">
+            <ion-item>
+              <ion-row>
+                <ion-col>
+                  <ion-label position="floating">Pin Code<span style="color:red!important">*</span></ion-label>
+                </ion-col>
+              </ion-row>
+              <ion-input [formControl]="form.controls['pincode']" type="number" (change)='onChangepin()'></ion-input>
+            </ion-item>
+            <div padding-left>
+              <ng-container *ngFor="let validation of validation_messages.pincode">
+                <div *ngIf="form.get('pincode').hasError(validation.type) && form.get('pincode').touched">
+                  <p style="color: red;font-size: small;">{{validation.message}}</p>
+                </div>
+              </ng-container>
+            </div>
+            <div padding-left>
+              <ng-container>
+                <div>
+                  <p style="color: red;font-size: small;">{{invalidpincode}}</p>
+                </div>
+              </ng-container>
+            </div>
+          </ion-col>
+          <ion-col size="12" size-lg="4">
+            <ion-item>
+              <ion-label position="stacked">Area<span style="color:red!important">*</span></ion-label>
+              <ion-select #C [formControl]="form.controls['selectedarea']" interface="popover"
+                (ionChange)="onChangeArea()" multiple="false" placeholder="Select Area" required>
+                <ion-select-option *ngFor="let area of arealist" [value]="area">{{area.area}}</ion-select-option>
+              </ion-select>
+            </ion-item>
+            <div padding-left>
+              <ng-container *ngFor="let validation of validation_messages.selectedarea">
+                <div *ngIf="form.get('selectedarea').hasError(validation.type) && form.get('selectedarea').touched">
+                  <p style="color: red;font-size: small;">{{validation.message}}</p>
+                </div>
+              </ng-container>
+            </div>
+          </ion-col>
+          <ion-col size="12" size-lg="4">
+            <ion-item>
+              <ion-label position="floating">City</ion-label>
+              <ion-input type="text" value="{{city}}" disabled="true"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="12" size-lg="4">
+            <ion-item>
+              <ion-label position="floating">District</ion-label>
+              <ion-input type="text" value="{{district}}" disabled="true"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col size="12" size-lg="4">
+            <ion-item>
+              <ion-label position="floating">State</ion-label>
+              <ion-input type="text" value="{{state}}" disabled="true"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col size="12" size-lg="4">
+            <ion-item>
+              <ion-label position="floating">Country</ion-label>
+              <ion-input type="text" value="{{country}}" disabled="true"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="12" size-lg="4">
+            <ion-item>
+              <ion-label position="stacked">Sales Area<span style="color:red!important">*</span></ion-label>
+              <ionic-selectable placeholder="Select Sales Area" formControlName="selectedsalesarea"
+                [items]="salesarealist" itemValueField="id" itemTextField="_identifier" [canSearch]="true"
+                (onClose)="onClose($event)" (onSearch)="salseareasearchChange($event)">
+              </ionic-selectable>
+
+            </ion-item>
+            <div padding-left>
+              <ng-container *ngFor="let validation of validation_messages.selectedsalesarea">
+                <div
+                  *ngIf="form.get('selectedsalesarea').hasError(validation.type) && form.get('selectedsalesarea').touched">
+                  <p style="color: red;font-size: small;">{{validation.message}}</p>
+                </div>
+              </ng-container>
+            </div>
+          </ion-col>
+          <ion-col size="12" size-lg="4">
+            <ion-item>
+              <ion-label>Billing</ion-label>
+              <ion-checkbox slot="end" [formControl]="form.controls['isbill']"></ion-checkbox>
+            </ion-item>
+          </ion-col>
+          <ion-col size="12" size-lg="4">
+            <ion-item>
+              <ion-label>Shipping</ion-label>
+              <ion-checkbox slot="end" [formControl]="form.controls['isShip']" (ionChange)="onShippingChange($event)">
+              </ion-checkbox>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="showPreferredTransportControl">
+          <ion-col size="12" size-lg="4">
+            <ion-item>
+              <ion-label position="stacked">Customer Preferred Transport<span style="color:red!important">*</span>
+              </ion-label>
+              <ion-select  [(ngModel)]="selectedPreferredTransport" [formControl]="form.controls['preferredCustomerTransport']" interface="popover"
+                (ionChange)="onCusPreTransChange()" multiple="false" placeholder="Select Activity">
+                <ion-select-option *ngFor="let preferredTransport of preferredTransportList"
+                  [value]="preferredTransport">{{preferredTransport.name}}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+          <ion-col size="12" size-lg="4" *ngIf="showPreferredTransportNameControl">
+            <ion-item>
+              <ion-label position="floating">Preferred Transport Name<span style="color:red!important">*</span>
+              </ion-label>
+              <ion-input [formControl]="form.controls['preferredTransportName']" type="text"></ion-input>
+            </ion-item>
+            <div padding-left>
+              <ng-container *ngFor="let validation of validation_messages.preferredTransportNameMss">
+                <div
+                  *ngIf="form.get('preferredTransportName').hasError(validation.type) && form.get('preferredTransportName').touched">
+                  <p style="color: red;font-size: small;">{{validation.message}}</p>
+                </div>
+              </ng-container>
+            </div>
+          </ion-col>
+          <ion-col size="12" size-lg="4" *ngIf="showPreferredTransportNameControl">
+            <ion-item>
+              <ion-label position="floating">Preferred Transport Contact Number</ion-label>
+              <ion-input [formControl]="form.controls['preferredTransportContactNumberCtrl']" type="number"
+                (change)='onChangePreferredTransportContact()'></ion-input>
+            </ion-item>
+            <div padding-left>
+              <ng-container *ngFor="let validation of validation_messages.preferredTransportContactNumberCtrlMss">
+                <div
+                  *ngIf="form.get('preferredTransportContactNumberCtrl').hasError(validation.type) && form.get('preferredTransportContactNumberCtrl').touched">
+                  <p style="color: red;font-size: small;">{{validation.message}}</p>
+                </div>
+              </ng-container>
+            </div>
+          </ion-col>
+          <ion-col size="12" size-lg="4" *ngIf="showPreferredTransportNameControl">
+            <ion-item>
+              <ion-label position="floating">Preferred Transport Email ID</ion-label>
+              <ion-input [formControl]="form.controls['preferredTransportEmailIDCtrl']"
+              pattern="[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{3,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})">
+              </ion-input>
+            </ion-item>
+            <div padding-left>
+              <ng-container *ngFor="let validation of validation_messages.preferredTransportEmailIDCtrl">
+                <div
+                  *ngIf="form.get('preferredTransportEmailIDCtrl').hasError(validation.type) && form.get('preferredTransportEmailIDCtrl').touched">
+                  <p style="color: red;font-size: small;">{{validation.message}}</p>
+                </div>
+              </ng-container>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-card>
+      <ion-card>
+        <ion-card-header style="background: #FFCC80;">
+          Other Information:
+        </ion-card-header>
+        <ion-row>
+          <ion-col size="12" size-lg="4">
+            <ion-item>
+              <ion-label position="floating">Mobile No<span style="color:red!important">*</span></ion-label>
+              <ion-input [formControl]="form.controls['mobileno']" type="number" (change)='onChangemobileno()'
+                [disabled]="IsExisting"></ion-input>
+            </ion-item>
+            <div padding-left>
+              <ng-container *ngFor="let validation of validation_messages.mobileno">
+                <div *ngIf="form.get('mobileno').hasError(validation.type) && form.get('mobileno').touched">
+                  <p style="color: red;font-size: small;">{{validation.message}}</p>
+                </div>
+              </ng-container>
+            </div>
+          </ion-col>
+          <ion-col size="12" size-lg="4">
+            <ion-item>
+              <ion-label position="floating">Email</ion-label>
+              <ion-input [formControl]="form.controls['email']"
+                pattern="[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{3,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})">
+              </ion-input>
+            </ion-item>
+            <div padding-left>
+              <ng-container *ngFor="let validation of validation_messages.email">
+                <div *ngIf="form.get('email').hasError(validation.type) && form.get('email').touched">
+                  <p style="color: red;font-size: small;">{{validation.message}}</p>
+                </div>
+              </ng-container>
+            </div>
+          </ion-col>
+          <ion-col size="12" size-lg="4">
+            <ion-item>
+              <ion-label position="stacked">Business Partner Category<span style="color:red!important">*</span>
+              </ion-label>
+              <ion-select [formControl]="form.controls['selectedbpcat']" interface="popover" (ionChange)="onBpChange()"
+                multiple="false" placeholder="Select Activity">
+                <ion-select-option *ngFor="let bpcat of bpcatlist" [value]="bpcat.id">{{bpcat._identifier}}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+            <div padding-left>
+              <ng-container *ngFor="let validation of validation_messages.selectedbpcat">
+                <div *ngIf="form.get('selectedbpcat').hasError(validation.type) && form.get('selectedbpcat').touched">
+                  <p style="color: red;font-size: small;">{{validation.message}}</p>
+                </div>
+              </ng-container>
+            </div>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="12" size-lg="4">
+            <ion-item>
+              <ion-label position="stacked">Business Partner Level</ion-label>
+              <ion-select placeholder="Select One" [formControl]="form.controls['selectedbpl']" interface="popover"
+                (ionChange)="onBPLChange()">
+                <ion-select-option value="P">Primary</ion-select-option>
+                <ion-select-option value="S">Secondary</ion-select-option>
+              </ion-select>
+            </ion-item>
+            <div>
+              <span style="font-size: small;">(Required for convert to customer.)</span>
+            </div>
+          </ion-col>
+          <ion-col size="12" size-lg="4" *ngIf="!isBPLEnabled">
+            <ion-item>
+              <ion-label position="stacked">Tagged Business Partner</ion-label>
+              <ionic-selectable
+              placeholder="Select Business Partner"
+             
+              [formControl]="form.controls['selectedbprt']"
+                [items]="bplist"
+                itemValueField="id"
+                itemTextField="_identifier"
+                [canSearch]="true"
+                (onChange)="portChange($event)">
+              </ionic-selectable>
+            </ion-item>
+            </ion-col>
+            
+            
+        </ion-row>
+      </ion-card>
+      <ion-card>
+        <ion-card-header style="background: #FFCC80;">
+          Compliance:
+        </ion-card-header>
+        <ion-row style="background-color: #b8b3b3; white-space:normal; font-size: xx-small; text-align: center;"
+          class="row">
+          <ion-col size="4"> Compliance Type</ion-col>
+          <ion-col size="8">Number</ion-col>
+        </ion-row>
+        <ion-row *ngFor="let item of compliancedata; index as i" style="border: think solid black;font-size: small;">
+          <ion-col size="4" style="margin: auto;">
+            <ion-label>
+              {{ item.scompType }}
+            </ion-label>
+          </ion-col>
+          <ion-col size="8" *ngIf="item.Compliance_Type!='DL1VD' && item.Compliance_Type!='DL2VD'">
+            <ion-item>
+              <ion-input type="text" [(ngModel)]="item.num" [ngModelOptions]="{standalone: true}" placeholder="Enter"
+                style="border: think solid black;font-size: small;"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col size="8" *ngIf="item.Compliance_Type==='DL1VD' || item.Compliance_Type==='DL2VD'">
+            <ion-item style="border: think solid black;font-size: small;">
+              <ion-datetime [min]="today" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.num"
+                displayFormat="DD-MM-YYYY" max="2050-12-31" placeholder="Select Date"></ion-datetime>
+            </ion-item>
+          </ion-col>
+          <ion-col *ngIf="item.Compliance_Type!='DL1VD' && item.Compliance_Type!='DL2VD'">
+            <app-multi-file-upload [isOnlyCamera]="false" [maxfile]="10" [myform]="form"
+              [controlID]="item.Compliance_Type" [formControlName]="item.Compliance_Type"></app-multi-file-upload>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-label style="color: red;" class="ion-text-wrap">{{validationSummary}}</ion-label>
+          </ion-col>
+        </ion-row>
+      </ion-card>
+      
+    </ion-grid>
+  </form>
+  </ion-content>
+  <ion-footer>
+    <ion-row>
+        <ion-col  size="6" size-lg="6" *ngIf="!isNewRegistration">
+          <ion-button style="width: 100%;" (click)="onSaveDraft(form.value)" [disabled]="!form.valid">
+            <ion-label>Create Lead</ion-label>
+          </ion-button>
+        </ion-col>
+        <!-- <ion-col  size="6" size-lg="6">
+          <ion-button style="width: 100%;" (click)="testMethod(form)">
+            <ion-label>TEST Button</ion-label>
+          </ion-button>
+        </ion-col> -->
+        <ion-col size="6" size-lg="6">
+          <ion-button style="width: 100%;" (click)="onConvertintoCustomer(form.value)"
+            [disabled]="!form.valid || !form.get('selectedbpl').value">
+            <ion-label>Submit for KYC Approval</ion-label>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+  
+  </ion-footer>

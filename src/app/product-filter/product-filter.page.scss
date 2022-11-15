@@ -1,0 +1,48 @@
+
+.box{
+    height: 100% !important; 
+    display: flex; 
+    flex-flow: column;
+   
+} 
+.list-item{
+    margin-top: 15px !important;
+}
+.row-custom{
+    height:100% !important;
+}
+
+.no-scroll {
+    --overflow: hidden;
+}
+.footer-back-color{
+    background-color: white;
+}
+.footer-btn-color{
+    background-color: #F39E20 !important;
+}
+.custom-activated {
+    --ion-background-color : white !important;
+}
+.ion-item-custom{
+    --ion-background-color:#eeeeee !important;
+    padding: 0px !important;
+}
+.back-color{
+    background-color: #eeeeee !important;
+}
+
+.custom-ion-col{
+    padding-top:40px !important;
+    background-color: #eeeeee !important;
+    padding-right: 0px !important;
+    padding-left: 0px !important;
+}
+.custom-content {
+   --background: auto !important;
+}
+// @media only screen and (min-width: 768px) and (min-height: 768px){
+//    .main-side{
+//        margin-top: 30px;
+//    }
+//   }

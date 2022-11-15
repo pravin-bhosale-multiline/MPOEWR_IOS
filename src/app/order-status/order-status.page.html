@@ -1,0 +1,171 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Order Status
+    </ion-title>
+    <ion-buttons slot="end" style="font-size: 1.8rem;" routerDirection="root" routerLink="/home">
+      <ion-icon name="home"></ion-icon>
+    </ion-buttons>
+   
+
+    <ion-buttons (click)="Resetpage()" slot="end" style="font-size: 1.8rem;">
+      <ion-icon name="refresh"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid fixed>
+  <ion-card>
+    <ion-card-content>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked">Activity<span style="color:red!important">*</span></ion-label>
+            <ion-select name="selectedactivity" #C [(ngModel)]="selectedactivity" (ionChange)="exonActChange()" interface="popover"
+              multiple="false" placeholder="Select Activity">
+              <ion-select-option *ngFor="let activity of activitylist" [value]="activity.id">{{activity.name}}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked">Customer<span style="color:red!important">*</span></ion-label>
+            <ionic-selectable placeholder="Select Customer" [searchDebounce]="1000"
+            [(ngModel)]="exselectedBusinessPartner" 
+            [items]="exBusinessPartnerlist"
+            itemValueField="id" 
+            itemTextField="name" 
+            [canSearch]="true" 
+            (onChange)="refChange($event)"
+            (onSearch)="custsearchChange($event)" (onClose)="onCustomerClose($event)">
+            </ionic-selectable>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label>From Date</ion-label>
+            <ion-datetime placeholder="Select Date" [(ngModel)]="fromdate" (ionChange)="ondatechange()" displayFormat="DD.MM.YYYY" max="2050"></ion-datetime>
+            
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label>To Date</ion-label>
+            <ion-datetime placeholder="Select Date" [(ngModel)]="todate" (ionChange)="ondatechange()" displayFormat="DD.MM.YYYY" max="2050"></ion-datetime>
+      
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="12">
+          <ion-button (click)="onShow()">
+            <ion-label >Show</ion-label>
+            </ion-button>
+         </ion-col>
+    </ion-row>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-content>
+    <ion-row>
+      <ion-col>
+        <h5 ion-text class="text-primary">
+          <ion-icon name="navigate"></ion-icon>  Status:
+        </h5>
+      </ion-col>
+    </ion-row>
+
+
+
+    <ion-row>
+      <ion-col size="8">
+        <ion-button (click)="onPrevious()">
+          <ion-label slot="start">Previous</ion-label>
+          </ion-button>
+       </ion-col>
+       <ion-col size="4">
+        <ion-button (click)="onNext()" [disabled]="Islast">
+          <ion-label>Next</ion-label>
+          </ion-button>
+       </ion-col>
+
+
+  </ion-row>
+  <ion-row style="font-size: small;">
+    <ion-col size="5">
+      <ion-label style="white-space: normal;color:#EE9E1E;">&nbsp;&nbsp;Order</ion-label>
+    </ion-col>
+    <ion-col size="4">
+      <ion-label style="white-space: normal;color: #EE9E1E;">Date</ion-label>
+    </ion-col> 
+    <ion-col size="3">
+      <ion-label style="white-space: normal;color: #EE9E1E;">Detail</ion-label>
+    </ion-col>
+  </ion-row>
+
+    <ion-item *ngFor="let item of orderdata; index as i"  text-wrap style="font-size: small; max-width: 100% !important;">
+      <!-- <ion-content scrollX="true"> -->
+        <div style="width: 100%;" (click)="toggleOrder(item)">
+      <ion-row>
+        <ion-col size="5">
+          <ion-label style="white-space: normal;">
+        <ion-icon style="color: springgreen;" name="locate"></ion-icon>
+            Order : {{ item.DocumentNo }}
+          </ion-label>
+        </ion-col>
+        <ion-col size="4">
+          <ion-label style="white-space: normal;">
+        
+         {{ item.OrderDate }}
+          </ion-label>
+        </ion-col>
+        <ion-col size="3">
+          <!-- <ion-button (click)="OrderStatus(item)">
+            <ion-label slot="end">Status</ion-label>
+            </ion-button> -->
+            &nbsp;&nbsp;
+            <ion-icon name="arrow-forward" (click)="OrderStatus(item)"></ion-icon>
+
+
+        </ion-col>
+
+      </ion-row>
+      
+      <ion-row>
+        <ion-col nowrap>
+          <div *ngIf="item.show">
+            <ion-label style="font-size: small;">Order Quantity: {{item.OrderQuantity}}</ion-label>
+            <ion-label style="font-size: small;">Approve Quantity: {{item.ApprovedQty}}</ion-label>
+            <ion-label style="font-size: small;">Invoice Quantity: {{item.InvoicedQuantity}}</ion-label>
+            <ion-label style="font-size: small;">Dispatch Quantity: {{item.DispatchQuantity}}</ion-label>
+            <ion-label style="font-size: small;">Delivery Quantity: {{item.DeliverQuantity}}</ion-label>
+           
+          </div>
+        </ion-col>
+       
+      </ion-row>
+    </div>
+      <!-- </ion-content> -->
+    </ion-item>
+
+
+  </ion-card-content>
+</ion-card>
+</ion-grid>
+</ion-content>

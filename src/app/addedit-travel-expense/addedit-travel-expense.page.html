@@ -1,0 +1,156 @@
+<ion-header>
+  <ion-toolbar  color="primary">
+    <ion-title>Add Expense</ion-title>
+    <ion-buttons (click)="Resetpage()" slot="end" style="font-size: 1.8rem;">
+      <ion-icon name="refresh"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  
+  <form [formGroup]="travelExpenseFormedit" (ngSubmit)="onAdd(travelExpenseFormedit.value)">
+  <ion-card>
+    <ion-card-content>
+      <ion-row>
+        <ion-col>
+          <h5 ion-text class="text-primary">
+            <ion-icon name="wifi"></ion-icon> Expense Detail
+          </h5>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+
+      <ion-item>
+        <ion-label  position="stacked">From Date</ion-label>
+        <ion-datetime placeholder="Select Date" [formControl]="travelExpenseFormedit.controls['fromdate']" (ionChange)="ondatechange()" displayFormat="DD.MM.YYYY" max="2050"></ion-datetime>
+      </ion-item>
+
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col>
+      <ion-item>
+        <ion-label  position="stacked">To Date</ion-label>
+        <ion-datetime placeholder="Select Date" [formControl]="travelExpenseFormedit.controls['todate']" (ionChange)="ondatechange()" displayFormat="DD.MM.YYYY" max="2050"></ion-datetime>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col>
+      <ion-item>
+       
+        <ion-label position="stacked">Travel Expense</ion-label>
+
+        <ion-select [formControl]="travelExpenseFormedit.controls['selectableTravelExpenseUIControl']" 
+        interface="popover" multiple="false" placeholder="Select"
+        (ionChange)="onChangeExpense()">
+          <ion-select-option *ngFor="let exp of expenseMasterList" [value]="exp">{{exp.sname}}</ion-select-option>
+        </ion-select>
+      </ion-item>  
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col>
+      <ion-item>
+        <ion-label  position="stacked">Amount</ion-label>
+        <ion-input type="number" (change)='onChangeAmount()' [formControl]="travelExpenseFormedit.controls['txtAmount']"></ion-input>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col>
+      <ion-item>
+        <ion-label  position="stacked">Claimable Amount</ion-label>
+        <ion-input type="number" disabled="true" [formControl]="travelExpenseFormedit.controls['claimableamount']"></ion-input>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+
+  <ion-card>
+    <ion-card-content>
+      <ion-row>
+        <ion-col *ngIf="isdesktop===false">
+         <ion-button (click)="getSupportingImage()">Supporting</ion-button>
+        </ion-col>
+        <ion-col *ngIf="isdesktop===true">
+          <input type="file" name="file" accept="image/*" id='selectedFile' (change)="uploadImage($event)" class="inputfile"/>
+
+         </ion-col>
+        <ion-col>
+          <img (click)="ImageViewr(Supportingimg64)" [src]="'data:image/jpeg;base64,'+Supportingimg64" *ngIf="Supportingimg64" style="width: 50px; height: 50px;">
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+
+
+  
+    </ion-card-content>
+  </ion-card>
+</form>
+<ion-button expand="block" class="ion-margin-start ion-margin-end ion-margin-bottom" type="submit"
+  [disabled]="!travelExpenseFormedit.valid || IsSupportingimg64" (click)="onAdd(travelExpenseFormedit.value)">
+  Add
+</ion-button>
+<ion-card>
+  <ion-card-content>
+    <div style="overflow-x:auto">
+      <ion-grid>
+       <ion-row nowrap >
+        <ion-col nowrap>
+        <ion-row nowrap>
+          <ion-col size="1" class="grid-header"></ion-col>
+          <ion-col size="4" class="grid-header">From</ion-col>
+         <ion-col size="4" class="grid-header">To</ion-col>
+         <ion-col size="4" class="grid-header">Travel Expense</ion-col>
+         <ion-col size="4" class="grid-header">Amount</ion-col>
+         <ion-col size="5" class="grid-header">Claimable Amount</ion-col>
+         <ion-col size="5" class="grid-header">Supporting</ion-col>
+
+        </ion-row>
+      </ion-col>
+       </ion-row>
+      
+       <ion-row *ngFor="let data of expenseList; index as i"  nowrap>
+        <ion-col nowrap>
+       <ion-row nowrap>
+          
+          <ion-col size="1" style="width: 100%; text-align: right;">
+            <ion-icon name="trash" (click)="removerow(data)" style="font-size: x-large;
+            color: red;"></ion-icon>
+          </ion-col>
+        <ion-col size="4" class="forecast_div">{{data.fromdate}}</ion-col>
+        <ion-col size="4" class="forecast_div">{{data.todate}}</ion-col>
+        <ion-col size="4" class="forecast_div">{{data.travelexpense.sname}}</ion-col>
+        <ion-col  size="4"class="forecast_div">{{data.amount}}</ion-col>
+        <ion-col size="4" class="forecast_div">{{data.claimableamount}}</ion-col>
+        <ion-col size="3" style="text-align: -webkit-center;">
+          <img [src]="'data:image/jpeg;base64,'+data.Supporting" *ngIf="data.Supporting" style="width: 35px; height: 35px;">
+        </ion-col>
+        
+
+        </ion-row>
+       
+      </ion-col>
+        </ion-row>
+     
+
+      </ion-grid>     
+    </div>
+  </ion-card-content>
+</ion-card>
+
+
+  <ion-button expand="block" class="ion-margin-start ion-margin-end ion-margin-bottom" type="submit"
+  [disabled]="!IsexpenseListlength" (click)="onAddTravelExpense()">
+  Add Expenses
+</ion-button> 
+
+</ion-content>

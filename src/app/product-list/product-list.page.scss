@@ -1,0 +1,86 @@
+ion-input {
+    &.custom-class {
+      font-size: smaller;
+    }
+}
+
+ion-col{
+  ion-input{
+     border: solid 1px #757575;
+  }
+}
+.footer-btn-color{
+  background-color: #F39E20 !important;
+}
+.ion-color-vibrant {
+  --ion-color-base: #78909C;
+  --ion-color-base-rgb: 255,255,0;
+  --ion-color-contrast-rgb: 0,0,0;
+  --ion-color-shade: #78909C;
+  --ion-color-tint:#78909C;
+ 
+}
+.custom-add-btn{
+  height: 30px;
+}
+
+.amc-for-two-Year{
+  background-color:#FF5252;
+  padding: 5px;
+  border-radius: 5px;
+  color: white;
+  font-weight:bold;
+}
+ion-card{
+  margin-top:5px !important;
+  margin-bottom: 10px !important;
+}
+.added{
+  background-color:#4CAF50;
+  padding: 5px;
+  border-radius: 5px;
+  color: white;
+  font-weight:bold;
+}
+.add-to-cart{
+  background-color:#FF5252;
+  padding: 2px;
+  border-radius: 5px;
+  color: white;
+  font-weight:bold;
+}
+
+::ng-deep input[type=number]::-webkit-inner-spin-button,
+::ng-deep input[type=number]::-webkit-outer-spin-button {
+-webkit-appearance: none;
+-moz-appearance: none;
+appearance: none;
+margin: 0;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.custom-serarch{
+  height: 35px !important;
+  margin-top: 12px !important;
+}
+.sc-ion-searchbar-ios-h{
+  -webkit-padding-end: 0px !important; 
+   padding-inline-end: 0px !important;
+}
+.custom-serarch-device{
+  height: 35px !important;
+  margin-top: 12px !important;
+  --padding-start: 0.3em !important;
+  --padding-end: 0.3em !important;
+}

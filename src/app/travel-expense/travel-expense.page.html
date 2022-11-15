@@ -1,0 +1,179 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Travel Expense</ion-title>
+    <ion-buttons slot="end" style="font-size: 1.8rem;" routerDirection="root" routerLink="/home">
+      <ion-icon name="home"></ion-icon>
+    </ion-buttons>
+
+    <ion-buttons (click)="Resetpage()" slot="end" style="font-size: 1.8rem;">
+      <ion-icon name="refresh"></ion-icon>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+        <form [formGroup]="travelExpenseForm" (ngSubmit)="onSaveTravelExpense(travelExpenseForm.value)">
+          <ion-card>
+            <ion-card-content>
+              <h5 ion-text class="text-primary">
+                <ion-icon name="person"></ion-icon>
+              </h5>
+              <ion-row>
+                <ion-col>
+              <ion-item>
+                <ion-label  position="stacked">Sales Person</ion-label>
+                <ion-input type="text" [formControl]="travelExpenseForm.controls['salesperson']" [(ngModel)]="txtSalesPerson" disabled="true"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+  
+          <ion-row>
+            <ion-col>
+              <!-- <ion-item>
+                <ion-label position="fixed">Plan</ion-label>
+
+                <ionic-selectable placeholder="Select Plan"
+                                  [formControl]="travelExpenseForm.controls['selectedPlanListUIControl']"
+                                  [items]="planMasterList" 
+                                  itemValueField="id" 
+                                  itemTextField="name" 
+                                  [canSearch]="true"
+                                  (onSearch)="onPlanDropDownSearch($event)"
+                                  (onChange)="onPlanDropDownChange($event.component.value)"> 
+                </ionic-selectable>
+              </ion-item> -->
+
+              <ion-item>
+                <ion-label  position="stacked">Plan</ion-label>
+
+                <ion-select [formControl]="travelExpenseForm.controls['selectedPlanListUIControl']" interface="popover" multiple="false" (ionChange)="onChangeplan()" placeholder="Select Plan">
+                  <ion-select-option *ngFor="let plan of salespersoninfo" [value]="plan">{{plan.plan}}</ion-select-option>
+                </ion-select>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+  
+          <ion-row>
+            <ion-col>
+
+              <ion-item>
+                <ion-label  position="stacked">From Date</ion-label>
+                <ion-datetime placeholder="Select Date" disabled="true" [formControl]="travelExpenseForm.controls['fromdate']" (ionChange)="ondatechange()" displayFormat="DD.MM.YYYY" max="2050"></ion-datetime>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+  
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label  position="stacked">To Date</ion-label>
+                <ion-datetime placeholder="Select Date" disabled="true" [formControl]="travelExpenseForm.controls['todate']" (ionChange)="ondatechange()" displayFormat="DD.MM.YYYY" max="2050"></ion-datetime>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+  
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label  position="stacked">Home Lat</ion-label>
+                <ion-input type="text" [formControl]="travelExpenseForm.controls['homelat']" [(ngModel)]="latitude" disabled="true"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+  
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label  position="stacked">Home Long</ion-label>
+                <ion-input type="text" [formControl]="travelExpenseForm.controls['homelong']" [(ngModel)]="longitude"  disabled="true"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label>Outstation?</ion-label>
+                <ion-checkbox  slot="end" disabled="true" [checked]="outstation_chk_box" [formControl]="travelExpenseForm.controls['outstationChkCtrl']"></ion-checkbox>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+            </ion-card-content>
+          </ion-card>
+          <ion-card>
+            <ion-card-content>
+              <ion-row>
+                <ion-col size="8">
+                  <h5 ion-text class="text-primary">
+                    <ion-icon name="wifi"></ion-icon>Expense Detail
+                  </h5>
+                </ion-col>
+                <ion-col *ngIf="selectedplan?.isactual!='N'">
+                  <!-- <ion-col> -->
+                  <ion-fab-button size="small" float-right (click)="onAddExpense()">
+                    <ion-icon name="add"></ion-icon>
+                  </ion-fab-button>
+                </ion-col>
+              </ion-row>
+
+              <div style="overflow-x:auto">
+                <ion-grid>
+
+              
+
+
+                 <ion-row nowrap >
+                  <ion-col nowrap>
+                  <ion-row nowrap>
+                    <ion-col size="1" class="grid-header"></ion-col>
+                    <ion-col size="4" class="grid-header">From</ion-col>
+                   <ion-col size="4" class="grid-header">To</ion-col>
+                   <ion-col size="4" class="grid-header">Travel Expense</ion-col>
+                   <ion-col size="4" class="grid-header">Amount</ion-col>
+                   <ion-col size="5" class="grid-header">Claimable Amount</ion-col>
+                   <ion-col size="5" class="grid-header">Supporting</ion-col>
+          
+                  </ion-row>
+                </ion-col>
+                 </ion-row>
+                
+                 <ion-row *ngFor="let data of expenseList; index as i"  nowrap>
+                  <ion-col nowrap>
+                 <ion-row nowrap>
+                    
+                    <ion-col size="1" style="width: 100%; text-align: right;">
+                      <ion-icon name="trash" (click)="removerow(data)" style="font-size: x-large;
+                      color: red;"></ion-icon>
+                    </ion-col>
+                  <ion-col size="4" class="forecast_div">{{data.fromdate}}</ion-col>
+                  <ion-col size="4" class="forecast_div">{{data.todate}}</ion-col>
+                  <ion-col size="4" class="forecast_div">{{data.travelexpense?.sname}}</ion-col>
+                  <ion-col  size="4"class="forecast_div">{{data.amount}}</ion-col>
+                  <ion-col size="5" class="forecast_div">{{data.claimableamount}}</ion-col>
+                  <ion-col size="3" style="text-align: -webkit-center;">
+                    <img [src]="'data:image/jpeg;base64,'+data.Supporting" *ngIf="data.Supporting" style="width: 35px; height: 35px;">
+                  </ion-col>
+                  
+          
+                  </ion-row>
+                 
+                </ion-col>
+                  </ion-row>
+               
+          
+                </ion-grid>     
+              </div>
+            </ion-card-content>
+          </ion-card>
+
+      </form>
+          <ion-button expand="block" class="ion-margin-start ion-margin-end ion-margin-bottom" type="submit"
+            [disabled]="!travelExpenseForm.valid || !IsexpenseListlength" (click)="onSaveTravelExpense(travelExpenseForm.value)">
+            Save Expenses
+          </ion-button>    
+  
+     
+  
+</ion-content>

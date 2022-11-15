@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Login Option</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-row>
+   
+    <p style="text-align: center;">{{noaccessmsg}}</p>
+    <ion-col *ngIf='mmstOrdercaptureapp'>
+      <ion-card style="background-color: powderblue;" (click)="onclickLoginTypewms('wms')">
+        <ion-card-content>
+         
+              <ion-card-title style="text-align: center;">Order Punching</ion-card-title>
+            
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+      <ion-col *ngIf='mmstReward'>
+        <ion-card style="background-color: powderblue;" (click)="onclickLoginTypevet('vet')">
+          <ion-card-content>
+            <ion-card-title style="text-align: center;">Reward</ion-card-title>
+
+            
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+     
+  </ion-row>
+
+
+</ion-content>

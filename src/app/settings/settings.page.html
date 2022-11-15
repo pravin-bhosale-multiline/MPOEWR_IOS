@@ -1,0 +1,64 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Settings
+    </ion-title>
+    <ion-buttons slot="end" style="font-size: 1.8rem;" routerDirection="root" routerLink="/home">
+      <ion-icon name="home"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col text-center>
+        <img style="width: 400px;height: 400px;" src="./assets/settings.png">
+      </ion-col>
+    </ion-row>
+    
+    <ion-row>
+        <ion-col>
+          <ion-card class="server-card" *ngIf="showFingerprintButton">
+           <ion-item lines="none"> 
+              <ion-label>Enable Fingerprint</ion-label>
+                 <ion-toggle  mode="ios" [(ngModel)]="biometricstatus" [checked]="biometricstatus" (ionChange)="biometricStatusChange($event)"></ion-toggle>
+            </ion-item>
+          </ion-card>
+         
+          <ion-card class="server-card" *ngIf="showPinCodeControl"> 
+            <ion-item lines="none"> 
+               <ion-label>Use Device Authentication</ion-label>
+                  <ion-toggle  mode="ios" [(ngModel)]="biometricstatus" [checked]="biometricstatus" (ionChange)="deviceAuthenticationStatusChange($event)"></ion-toggle>
+             </ion-item>
+           </ion-card>
+           <ion-card class="server-card"> 
+            <ion-item lines="none"> 
+                <ion-button  style="width: -webkit-fill-available;"  (click)="onChangePassFromSetting()" color="bluegrey" size="large" expand="block">Change Password</ion-button>
+              </ion-item>
+           </ion-card>
+
+          <!-- <ion-card class="server-card">
+            <ion-item lines="none">
+              <ion-label>Change APP Server URL</ion-label>
+            </ion-item>
+            <ion-item class="server-item"> 
+              <ion-input id="txtServerUrl" name="username" type="text" placeholder="URL"  [(ngModel)] = "serverurl" maxlength = "80" required></ion-input>
+            </ion-item>
+            <ion-button strong="true" color="teal" expand="block">Apply</ion-button>
+          </ion-card>
+           -->
+          
+
+
+          
+        </ion-col>
+       
+     </ion-row>
+     
+
+  </ion-grid>
+</ion-content>

@@ -1,0 +1,120 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Lat-Long Finder</ion-title>
+    <ion-buttons slot="end" style="font-size: 1.8rem;" routerDirection="root" routerLink="/home">
+      <ion-icon name="home"></ion-icon>
+    </ion-buttons>
+    <ion-buttons (click)="Resetpage()" slot="end" style="font-size: 1.8rem;"><ion-icon name="refresh"></ion-icon> 
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+
+
+<ion-content>
+  <ion-grid>
+
+        <form [formGroup]="latLongForm" (ngSubmit)="saveForm(latLongForm.value)">
+          <ion-card>
+            <ion-row>
+              <ion-col>  
+            <ion-item>
+              <ion-label position="stacked">Customer<span style="color:red!important">*</span></ion-label>
+
+              <ionic-selectable placeholder="Select Customer"
+                                [formControl]="latLongForm.controls['selectedBusinessPartner']"
+                                [items]="BusinessPartnerlist" 
+                                itemValueField="leadid" 
+                                itemTextField="_identifier" 
+                                [canSearch]="true"
+                                (onClose)="onClose($event)"
+                                (onSearch)="onCustDropDownSearch($event)"
+                                
+                                (onChange)="onCustDropDownChange($event)"
+                                > 
+
+              </ionic-selectable>
+            </ion-item>
+            <div padding-left>
+              <ng-container *ngFor="let validation of validation_messages.selectedBusinessPartner">
+                <div *ngIf="latLongForm.get('selectedBusinessPartner').hasError(validation.type) && latLongForm.get('selectedBusinessPartner').touched">
+                  <p style="color: red;font-size: small;">{{validation.message}}</p>
+                </div>
+              </ng-container>
+            </div>
+            </ion-col>
+            </ion-row>
+<!-- (onChange)="onCustDropDownChange($event.component.value)" -->
+           
+              <ion-row>
+                <ion-col>
+            <ion-item >
+              <ion-label position="stacked">Shipping Address<span style="color:red!important">*</span></ion-label>
+              <ion-select disabled="false" 
+              (ionChange)="onAddChange()"
+              [formControl]="latLongForm.controls['selectedBPaddressshipping']" 
+              [(ngModel)]="selectedAddressDropDown" 
+              multiple="false" 
+              interface="popover" 
+              placeholder="Select Address">
+               <ion-select-option *ngFor="let sadd of BPaddressshipping" [value]="sadd">{{sadd.addressname}}</ion-select-option>                <!-- <ion-select-option>this is test data from testing purpose only we have to chnage this after testing is done.</ion-select-option> -->
+              </ion-select>
+              </ion-item>
+              <div padding-left>
+                <ng-container *ngFor="let validation of validation_messages.selectedBPaddressshipping">
+                  <div *ngIf="latLongForm.get('selectedBPaddressshipping').hasError(validation.type) && latLongForm.get('selectedBPaddressshipping').touched">
+                    <p style="color: red;font-size: small;">{{validation.message}}</p>
+                  </div>
+                </ng-container>
+              </div>
+              
+            </ion-col>
+          </ion-row>
+
+
+              <ion-item *ngIf="showTxtAddress">
+                <ion-textarea>{{txtselectedAddress}}</ion-textarea>
+              </ion-item>
+
+              <ion-item>
+                <ion-text>
+                    {{txtLatitude}}
+                </ion-text>
+              </ion-item>
+
+              <ion-item>
+                <ion-text>
+                    {{txtLongitude}}
+                </ion-text>
+              </ion-item>
+              
+          </ion-card>  
+          <ion-item *ngIf="showBtnConvertAddressToLatLong">
+            <ion-button (click)="convertAddressToLatLong()" color="bluegrey" size="large" expand="block" class="btn-lat-long" >
+              Convert To Lat Long
+              <ion-icon slot="start" name="compass"></ion-icon>
+            </ion-button>
+          </ion-item>
+          <ion-item *ngIf="showBtnCaptureLatLong">
+            <ion-button (click)="captureLatLong()" color="bluegrey" size="large" expand="block" class="btn-lat-long" >
+              Capture Lat Long
+              <ion-icon slot="start" name="compass"></ion-icon>
+            </ion-button>
+          </ion-item>
+          <ion-item>
+            <ion-button (click)="saveForm(latLongForm.value)" size="large" expand="block" class="btn-lat-long" [disabled]="!latLongForm.valid || !txtLongitude || !txtLatitude">
+               Save
+              <ion-icon slot="start" name="compass"></ion-icon>
+            </ion-button>
+
+           
+          </ion-item>
+        </form>
+  
+  </ion-grid>
+   
+
+</ion-content>

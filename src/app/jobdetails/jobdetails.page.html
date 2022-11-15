@@ -1,0 +1,99 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="job"></ion-back-button>
+          </ion-buttons>
+      <ion-title>Job Details</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+<ion-content>
+    <div class="ion-padding ion-text-center">
+        <div *ngIf="message" style="margin: 10px 0; padding:20px">{{message}}</div>
+        <button style="margin-bottom: 40px; padding: 20px; width: 100%; color: #ffffff;" 
+        [ngStyle]="{'background': status == 'disabled' ? 'darkred' : 'darkgreen'}" 
+        (click)="status == 'disabled' ? enable() : disable()">SCAN READER IS {{status == 'disabled' ? 'DISABLED' : 'ENABLED' }}</button>
+       </div>
+    <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-item >
+                <ion-label position="stacked">Product Movement Type</ion-label>
+              <ion-input autofocus="true" readonly type="text" [(ngModel)]="movementtye" tabindex="1" #tbpmt (keydown)="moveFocus(tbpmt,tbbss)" ></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col >
+            <ion-item>
+                <ion-label position="stacked">Batch No / Serial No / SKU Code</ion-label>
+              <ion-input  type="text" [(ngModel)]="scanbatchproductsku" id="batchid" tabindex="2" #tbbss (ionFocus)="onFocusBatch(tbbss,C)" (ionBlur)="moveFocus(tbbss,C)" ></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col >
+            <ion-item>
+              <ion-label color="primary" position="stacked">SKU Code</ion-label>
+              <ion-select #C [ngModel]="skucode" (ionChange)="onChangeProduct(C.value,tbqty)" multiple="false" placeholder="Select Product">
+                <ion-select-option *ngFor="let product of productlist" [value]="product">{{product.mmstMainprodcode}}</ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col >
+            <ion-item>
+                <ion-label position="stacked">SKU Name</ion-label>
+              <ion-input readonly type="text" [(ngModel)]="skuname" placeholder="Sku Name" #tbsn  ></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col >
+              <ion-item>
+                  <ion-label  position="stacked">Qty*</ion-label>
+                <ion-input  type="number" clearInput [(ngModel)]="qty" placeholder="" tabindex="3" #tbqty ></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row *ngIf="isfrombinview">
+              <ion-col >
+                <ion-item>
+                    <ion-label  position="stacked">Bin No*</ion-label>
+                  <!-- <ion-input  type="text" [(ngModel)]="binno" placeholder="Bin No." tabindex="4" #tbbn (keydown)="moveFocus(tbbn,tbtbn)" ></ion-input> -->
+                </ion-item>
+              </ion-col>
+            </ion-row>
+            <ion-row *ngIf="istobinview">
+                <ion-col >
+                  <ion-item >
+                      <ion-label value="Readonly" position="stacked">To Bin No*</ion-label>
+                    <ion-input type="text" [(ngModel)]="tobinno" placeholder="To Bin No." tabindex="5" #tbtbn (keydown)="moveFocus(tbtbn,tbtbn)"  ></ion-input>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+              <ion-row class="ion-text-right">
+                <ion-col size="4">
+                    <ion-button (click)="onNext(tbbss)">
+                        Next
+                    </ion-button>
+                </ion-col>
+                <ion-col size="4">
+                    <ion-button (click)="onComplete()">
+                        Complete
+                    </ion-button>
+                </ion-col>
+                <ion-col size="4">
+                  <ion-button (click)="onCancel()">
+                      Cancel
+                  </ion-button>
+              </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                    <ion-text color="danger">{{txterror}}</ion-text>
+                </ion-col>
+              </ion-row>
+      </ion-grid>
+</ion-content>

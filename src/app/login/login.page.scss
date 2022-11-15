@@ -1,0 +1,161 @@
+
+    .img-contaimer{
+        width: 100%;
+        height: auto;
+        padding: 0;
+        text-align: center;
+    }
+    .height-img {
+          height: auto;
+    }
+    .ion-color-vibrant {
+        --ion-color-base: #263247;
+        --ion-color-base-rgb: 255,255,0;
+        --ion-color-contrast-rgb: 0,0,0;
+        --ion-color-shade: #263247;
+        --ion-color-tint:#263247;
+       
+    }
+    // .item {
+    //     --border-width: 1px !important;
+    //     margin-bottom: 25px;
+    // }
+    .login-item{
+        --border-width: 1px !important;
+        margin-bottom: 25px;
+    }
+    .no-item{
+        --border-width: 0px !important;
+          margin-bottom: 0px;
+    }
+    .submit-btn{
+        margin-top: -25px !important;
+        max-width: 400px !important;
+    }
+    .re-db{
+        color:deepskyblue
+    }
+    .build{
+        background-color: white !important
+    }
+    .custom-loader-class{
+        --background:#F4B004;
+        --spinner-color:#F94701;
+    }
+    .scroll-content {
+        overflow-y: auto;
+    }
+    .ion-scroll.scroll-y .scroll-content::-webkit-scrollbar{
+        display: none;
+      }
+  .number-dial-card{
+    position: absolute;
+    width: -webkit-fill-available;
+    bottom: 15px;
+    font-size: 30px !important;
+    font-weight: bold;
+    --background :white;
+}
+    .sec-password-template{
+        background-color: #f5f5f2;
+    }
+    .digit{
+       // text-align: center !important ;
+       padding: 10%;
+    }
+    .row-digit {
+        border-bottom-style: solid !important;
+        border-color: #f5f5f2 !important;
+      //  min-height: 70px !important;
+    }
+    .col-right {
+        border-right-style: inset !important;
+    }
+    .col-all{
+       // margin-top: 3%;
+       text-align: center;
+    }
+    ion-content{
+   // --background: #f5f5f2;
+   background: rgba(0, 151, 19, 0.1); 
+        }
+
+    .login-form-section{
+       
+     // background-color: rgba(255,255,255,0.40);
+     // max-width: 400px;
+     // margin-top: 140px;
+     // margin-left: 80px;
+     // margin-bottom: 100px;
+     position: fixed;
+     top: 41%;
+     left: 50%;
+     width: 30em;
+    //   height: 26em; 
+     margin-top: -9em;
+     margin-left: -15em;
+
+    }   
+    .logingrid{
+      //  background-image:url("../../assets/ParekhImage.png");
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: top;
+        height: 100%;
+    } 
+    .rounded-div{
+        text-align: center;
+        padding: 14px;
+        border-style: solid;
+        border-radius: 90px;
+        border-color:  #10DC60;
+        background: white;
+    }
+    .rounded-div-selected{
+        text-align: center;
+        padding: 28px;
+        color: #cfd8dc;
+        background-color:#cfd8dc;
+        
+        border-radius: 90px;
+    }
+  
+    .rounded-div-profile{
+        text-align: center;
+        padding: 21px;
+        border-radius: 99px;
+        max-width: -webkit-max-content;
+        max-width: -moz-max-content;
+        max-width: max-content;
+        background: #f06292;
+        font-size: xx-large;
+        color: white;
+    }
+    .profile-name{
+        font-weight: bolder;
+        font-size: larger;
+        text-align: center;
+    }
+    .new-error-message{
+        margin-top: 5%;
+        margin-left: 25%
+    }
+    .reset-pin{
+        margin-top: 17%;
+    }
+
+    .auth-btn{
+        margin-bottom: 8px !important;
+    }
+
+    .auth-div{
+        text-align: -webkit-right !important
+    }
+    .reset-pin-css{
+        text-align: end !important;
+        margin-right: 5% !important;
+    }
+    .main-content{
+      --background:#f5f5f2;
+    }
+    

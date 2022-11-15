@@ -1,0 +1,155 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      <div style="white-space: normal;">
+        Scheme Information
+      </div>
+    </ion-title>
+    <ion-buttons slot="end" style="font-size: 1.8rem;" routerDirection="root" routerLink="/home">
+      <ion-icon name="home"></ion-icon>
+    </ion-buttons>
+
+
+    <ion-buttons (click)="Resetpage()" slot="end" style="font-size: 1.8rem;">
+      <ion-icon name="refresh"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+  <form [formGroup]="formscheme" (ngSubmit)="getscheme(formscheme.value)">
+    <ion-card>
+      <ion-card-content>
+        <ion-row>
+          <ion-col>
+            <h5 ion-text class="text-primary">
+              <ion-icon name="person"></ion-icon> Customer Detail :
+            </h5>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label position="stacked">Customer<span style="color:red!important">*</span></ion-label>
+              <ionic-selectable placeholder="Select Customer" [searchDebounce]="1000"
+                [formControl]="formscheme.controls['selectedBusinessPartner']" [items]="BusinessPartnerlist"
+                itemValueField="id" itemTextField="_identifier" [canSearch]="true" (onSearch)="custsearchChange($event)"
+                (onClose)="onCancel($event)" (onChange)="onchangecust()">
+              </ionic-selectable>
+              <!-- (onSearch)="custsearchChange($event)" -->
+            </ion-item>
+            <div padding-left>
+              <ng-container *ngFor="let validation of validation_messages.selectedBusinessPartner">
+                <div
+                  *ngIf="formscheme.get('selectedBusinessPartner').hasError(validation.type) && formscheme.get('selectedBusinessPartner').touched">
+                  <p style="color: red;font-size: small;">{{validation.message}}</p>
+                </div>
+              </ng-container>
+            </div>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label position="stacked">Product<span style="color:red!important">*</span></ion-label>
+              <ionic-selectable placeholder="Select Product" [formControl]="formscheme.controls['selectedddlproduct']"
+                [items]="ddlproduct" itemValueField="id" itemTextField="_identifier" [canSearch]="true"
+                (onClose)="onClose($event)" (onSearch)="productsearchChange($event)" (onChange)="onchangeprod()">
+              </ionic-selectable>
+            </ion-item>
+            <div padding-left>
+              <ng-container *ngFor="let validation of validation_messages.selectedddlproduct">
+                <div
+                  *ngIf="formscheme.get('selectedddlproduct').hasError(validation.type) && formscheme.get('selectedddlproduct').touched">
+                  <p style="color: red;font-size: small;">{{validation.message}}</p>
+                </div>
+              </ng-container>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
+  </form>
+  <ion-button expand="block" class="ion-margin-start ion-margin-end ion-margin-bottom btn-scheme" type="submit"
+    (click)="getscheme(formscheme.value)" [disabled]="!formscheme.valid">
+    Get Scheme
+  </ion-button>
+  <ion-card *ngIf='isgetscheme'>
+    <ion-card-content class="scheme-card">
+      <ion-card-header>
+        <p>{{selectedddlproduct?._identifier}}</p>
+      </ion-card-header>
+      <ion-row *ngFor="let data of schemedata; index as i" class="scheme-row">
+        <ion-col>
+          <ion-row (click)="hideshowdetail(i)">
+            <ion-col class="icon-col">
+              <ion-icon name="pricetags"></ion-icon>
+            </ion-col>
+            <ion-col>
+              <p style="font-weight: bold;">{{data.SchemeName}}</p>
+              <p>Type: {{data.Scheme_Type}}</p>
+              <p>{{data.From_To}}</p>
+            </ion-col>
+          </ion-row>
+          <div style="overflow-x:auto;white-space: nowrap;">
+            <table class="w3-table w3-bordered">
+              <tr *ngIf="selectedrow==i" nowrap style="background-color: #F1F1F1;">
+                <th *ngIf='data.Scheme_Type_id=="Per"'>Per Qty</th>
+                <th *ngIf='data.Scheme_Type_id=="Slab" || data.Scheme_Type_id=="NE"'>Quantity Range</th>
+                <th *ngIf='data.Scheme_Type_id=="OB"'>Weight Above</th>
+                <th *ngIf='data.Scheme_Type_id=="OB"'>Value Above</th>
+                <th *ngIf='data.Scheme_Type_id=="OB"'>Qty Above</th>
+                <th *ngIf='data.Scheme_Type_id=="OB"'>Payment Term</th>
+                <th *ngIf='data.Scheme_Type_id=="CD"'>Value Above</th>
+                <th *ngIf='data.Scheme_Type_id=="CD"'>Quantity Above</th>
+
+                <th *ngIf='data.Scheme_Type_id=="SP" || data.Scheme_Type_id=="Slab" || data.Scheme_Type_id=="NE"'>From Qty</th>
+                <th *ngIf='data.Scheme_Type_id=="SP" || data.Scheme_Type_id=="Slab" || data.Scheme_Type_id=="NE"'>To Qty</th>
+                <th *ngIf='data.Scheme_Type_id=="SP"'>Special Rate</th>
+
+                <th *ngIf='data.Scheme_Type_id=="Slab" || data.Scheme_Type_id=="NE" || data.Scheme_Type_id=="Per"'>Free
+                  Qty</th>
+                <th *ngIf='data.Scheme_Type_id=="Slab" || data.Scheme_Type_id=="NE" || data.Scheme_Type_id=="Per"  || data.Scheme_Type_id=="SP"'>
+                  Product</th>
+                <th *ngIf='data.Scheme_Type_id != "SP"'>Discount</th>
+                <th *ngIf='data.Scheme_Type_id=="Slab" || data.Scheme_Type_id=="NE" || data.Scheme_Type_id=="Per"'>
+                  Reward</th>
+              </tr>
+              <tr *ngFor="let schemeinfo of data.SchemeRecords; index as j">
+                <ng-container *ngIf="selectedrow==i">
+                  <td *ngIf='data.Scheme_Type_id=="Per"'>{{schemeinfo.PerQty}}</td>
+                  <td *ngIf='data.Scheme_Type_id=="Slab" || data.Scheme_Type_id=="NE"'>{{schemeinfo.fromqty}} To
+                    {{schemeinfo.toqty}}</td>
+                  <td *ngIf='data.Scheme_Type_id=="OB"'>{{schemeinfo.WeightAbove}}</td>
+                  <td *ngIf='data.Scheme_Type_id=="OB"'>{{schemeinfo.ValueAbove}}</td>
+                  <th *ngIf='data.Scheme_Type_id=="OB"'>{{schemeinfo.Qtyabove}}</th>
+                  <th *ngIf='data.Scheme_Type_id=="OB"'>{{schemeinfo.payment_term}}</th>
+                  <td *ngIf='data.Scheme_Type_id=="CD"'>{{schemeinfo.fromvalue}}</td>
+                  <td *ngIf='data.Scheme_Type_id=="CD"'>{{schemeinfo.tovalue}}</td>
+
+                  <td *ngIf='data.Scheme_Type_id=="SP" || data.Scheme_Type_id=="Slab" || data.Scheme_Type_id=="NE"'>{{schemeinfo.fromqty}}</td>
+                  <td *ngIf='data.Scheme_Type_id=="SP" || data.Scheme_Type_id=="Slab" || data.Scheme_Type_id=="NE"'>{{schemeinfo.toqty}}</td>
+                  <td *ngIf='data.Scheme_Type_id=="SP"'>{{schemeinfo.nspecialrate}}</td>
+
+
+                  <td *ngIf='data.Scheme_Type_id=="Slab" || data.Scheme_Type_id=="NE" || data.Scheme_Type_id=="Per"'>
+                    {{schemeinfo.FreeQuantity}}</td>
+                  <td *ngIf='data.Scheme_Type_id=="Slab" || data.Scheme_Type_id=="NE" || data.Scheme_Type_id=="Per" || data.Scheme_Type_id=="SP"'>
+                    {{schemeinfo.Product}}</td>
+                  <td *ngIf='data.Scheme_Type_id != "SP"'>{{schemeinfo.Discount}}</td>
+                  <td *ngIf='data.Scheme_Type_id=="Slab" || data.Scheme_Type_id=="NE" || data.Scheme_Type_id=="Per"'>
+                    {{schemeinfo.RewardPoints}}</td>
+                </ng-container>
+              </tr>
+            </table>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

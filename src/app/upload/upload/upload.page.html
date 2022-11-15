@@ -1,0 +1,108 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Upload
+    </ion-title>
+    <ion-buttons slot="end" style="font-size: 1.8rem;" routerDirection="root" routerLink="/home">
+      <ion-icon name="home"></ion-icon>
+    </ion-buttons>
+    <ion-buttons (click)="refreshPage()" slot="end" style="font-size: 1.8rem;">
+      <ion-icon name="refresh"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="uploadForm">
+  <ion-card> 
+    <!-- Interface Master Category -->
+  <ion-row>
+    <ion-col>
+      <ion-item>
+        <ion-label position="stacked">Interface Master Category<span style="color:red!important">*</span></ion-label>
+          <ion-select [(ngModel)]="selectedMasterCategory" (ionChange)="onMasterCategoryChange()" interface="popover" [formControl]="uploadForm.controls['interfaceMasterCategoryCtrl']"
+                      multiple="false" placeholder="Interface Master Category">
+          <ion-select-option *ngFor="let masterCategory of masterCategoryList" [value]="masterCategory">{{masterCategory.name}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+  <!-- Interface Master Sub Category -->
+  <ion-row>
+    <ion-col>
+      <ion-item>
+        <ion-label position="stacked">Interface Master Sub Category<span style="color:red!important">*</span></ion-label>
+          <ion-select [(ngModel)]="selectedMasterSubCategory" (ionChange)="onMasterSubCategoryChange()" interface="popover" [formControl]="uploadForm.controls['interfaceMasterSubCategoryCtrl']"
+                      multiple="false" placeholder="Select Master Sub Category">
+          <ion-select-option *ngFor="let masterSubCategory of masterSubCategoryList" [value]="masterSubCategory">{{masterSubCategory.name}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+  <!-- Interface Master Name -->
+  <ion-row>
+    <ion-col>
+      <ion-item>
+        <ion-label position="stacked">Interface Master Name<span style="color:red!important">*</span></ion-label>
+          <ion-select [(ngModel)]="selectedMasterName" (ionChange)="onMasterNameChange()" interface="popover" [formControl]="uploadForm.controls['interfaceMasterNameCtrl']"
+                      multiple="false" placeholder="Select Master Name">
+          <ion-select-option *ngFor="let masterName of masterNameList" [value]="masterName">{{masterName.name}}
+          </ion-select-option>
+          </ion-select>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+  <!-- Organization -->
+  <ion-row>
+    <ion-col>
+      <ion-item>
+        <ion-label position="stacked">Organization<span style="color:red!important">*</span></ion-label>
+        <ion-select [(ngModel)]="selectedOrganization" (ionChange)="onOrganizationChange(selectedOrganization)" interface="popover" [formControl]="uploadForm.controls['interfaceOrganizationCtrl']"
+                      multiple="false" placeholder="Select Organization">
+          <ion-select-option *ngFor="let organization of organizationList" [value]="organization">{{organization.name}}
+          </ion-select-option>
+          </ion-select>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col>
+      <ion-item>
+        <!-- <app-multi-file-upload></app-multi-file-upload> -->
+        <section *ngIf="isdesktop===true">
+          <ion-col size="2">
+             <input type="file" name="file" id='inputFileCtrl' (change)="uploadFileWeb($event)" #inputFileCtrl class="inputfile"/>
+           </ion-col>
+         </section>
+         <section *ngIf="isdesktop===false">
+           <ion-button color="light"(click)="uploadFileDevice()">Select File
+             <ion-icon color="primary" name="Photos" slot="icon-only"></ion-icon>
+           </ion-button>
+           <ion-label>{{fileName}}</ion-label>
+         </section>
+     
+      </ion-item>
+   </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col>
+      <ion-button size="default" class="submit-btn" [disabled]="!uploadForm.valid || !isFile" expand="block" color="primary" (click)="validate()">Validate
+      </ion-button>
+    </ion-col>
+    <ion-col>
+      <ion-button size="default" class="submit-btn"  [disabled]="!uploadForm.valid || !isFile" expand="block" color="primary" (click)="process()">Process
+      </ion-button>
+    </ion-col>
+    <ion-col>
+      <ion-button size="default" class="submit-btn"  [disabled]="!uploadForm.valid" expand="block" color="primary" (click)="format()">Format
+      </ion-button>
+    </ion-col>
+  </ion-row>
+</ion-card>  
+</form>
+</ion-content>

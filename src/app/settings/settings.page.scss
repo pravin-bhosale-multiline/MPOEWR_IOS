@@ -1,0 +1,17 @@
+ion-toggle {
+    //--background: #000;
+    --background-checked:#4db6ac;
+  
+    //--handle-background: #4db6ac;
+   // --handle-background-checked: #000;
+  }
+  .server-item {
+    --border-width: 1px !important;
+    margin-bottom: 25px;
+}
+.server-card{
+    padding: 2%;
+}
+ion-button {
+    --ion-color-contrast:white;
+  }

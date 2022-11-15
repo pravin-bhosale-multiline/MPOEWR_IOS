@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Report Category</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="profile"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+     
+          <ion-list>
+              <ion-item>
+                <ion-label color="primary" position="stacked">Report Category</ion-label>
+                <ion-select #C [ngModel]="selectedReportcat" (ionChange)="onChangeReportcat(C.value)" multiple="false" placeholder="Select Report Category" interface="popover">
+                  <ion-select-option *ngFor="let rptcat of reportcatlist" [value]="rptcat">{{rptcat._identifier}}</ion-select-option>
+                </ion-select>
+              </ion-item>
+              <ion-item>
+                  <ion-label color="primary" position="stacked">Sub Category</ion-label>
+                  <ion-select #F [ngModel]="selectedSubCat" (ionChange)="onChangeSubcat(F.value)" multiple="false" placeholder="Select Sub Category" interface="popover">
+                    <ion-select-option *ngFor="let sucat of reportsubcatlist" [value]="sucat">{{sucat._identifier}}</ion-select-option>
+                  </ion-select>
+                </ion-item>
+              <ion-item>
+                  <ion-label color="primary" position="stacked">Report</ion-label>
+                  <ion-select class="ion-text-wrap select-text" #W [ngModel]="selectedreport" (ionChange)="onChangeReport(W.value)" multiple="false" placeholder="Select Report" interface="popover">
+                    <ion-select-option *ngFor="let report of reportlist" [value]="report">{{report._identifier}}</ion-select-option>
+                  </ion-select>
+              </ion-item>
+            </ion-list>
+        
+        <ion-row>
+          <ion-col class="ion-text-right">
+                  <ion-button (click)="onClick()">
+                        Apply
+                    </ion-button>
+          </ion-col>
+        </ion-row>
+       
+</ion-content>
+

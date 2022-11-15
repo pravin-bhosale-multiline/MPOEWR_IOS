@@ -1,0 +1,228 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      AR Visit Schedule
+    </ion-title>
+    <ion-icon slot="end" style="font-size: xx-large;" name="add-circle-outline" (click)="doClickAddUnPlanned()" ></ion-icon>
+    </ion-toolbar>
+    <ion-card>
+    <ion-row>
+      <ion-col size="6">
+      
+          <ion-datetime  placeholder="From Date" [(ngModel)]="selectedfromdate" display-format="DD-MM-YYYY"></ion-datetime>
+       
+      </ion-col>
+      <ion-col size="6">
+        
+          <ion-datetime placeholder="To Date" [(ngModel)]="selectedtodate" [min]="selectedfromdate" display-format="DD-MM-YYYY"></ion-datetime>
+        
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12" style="padding-left: 20px;">
+ 
+          <ionic-selectable placeholder="Select Customer" [(ngModel)]="selectedcustomer" itemValueField="bpartnerid" itemTextField="bpartnername" [items]="customerlist"
+            [canSearch]="true" [hasInfiniteScroll]="true" (onSearch)="onSearchCustomer($event)" (onClose)="oncustomerClose($event)"
+            (onInfiniteScroll)="doInfiniteCust($event)" [isMultiple]="false">
+          </ionic-selectable>
+        
+      </ion-col>
+    </ion-row>
+      <ion-row>
+     <ion-col size="8">
+      
+        <ion-select interface="popover" [(ngModel)]="selectedstatus" placeholder="Select Status">
+          <ion-select-option value="ACP">Accept Or Reject</ion-select-option>
+          <ion-select-option value="SCP">Update Checklist</ion-select-option>
+          <ion-select-option value="VIP">Update Visit</ion-select-option>
+          <ion-select-option value="ONH">On Hold</ion-select-option>
+        </ion-select>
+      
+     </ion-col>
+      <ion-col size="2">
+        <ion-icon style="font-size: 35px;" (click)="onClickSearch($event)"  name="search"></ion-icon>
+      </ion-col>
+      <ion-col size="2">
+        <ion-icon style="font-size: 35px;" (click)="onClickClear($event)"  name="close-circle-outline"></ion-icon>
+      </ion-col>
+    </ion-row>
+  </ion-card>
+</ion-header>
+
+<ion-content>
+<ion-grid *ngFor="let plan of planlist">
+  <ion-row>
+    <div style="padding-left: 5px;">
+    <ion-checkbox (click)="selectMember(plan)" [(ngModel)]="plan.ischecked"  ></ion-checkbox>
+    </div>
+
+    <ion-col  size="2" >
+      <div style="padding-left: 5px;">
+      <ion-icon style="font-size: 24px; color: orange;"  [name]="!plan.isplusminus ? 'add' : 'remove'" (click)="onToggelGrid(plan)" ></ion-icon>
+    </div>
+    </ion-col>
+    <ion-col>
+      <div style="background-color: antiquewhite;">
+        {{plan.dateofvisit}} - {{plan.bpartnername}} - {{plan.status==='VIP'?'Update Visit'
+        :(plan.status==='SCP'?'Update Checklist':(plan.status==='ONH'?'On Hold':(plan.status==='ACP'?'Accept Or Reject':'')))}}
+    </div>
+    </ion-col>
+    
+      <ion-col size="1">
+        <!--  --> 
+
+        <div style="text-align: right;"  *ngIf="plan.status==='SCP' || plan.status==='VIP' || plan.status==='ONH'">
+        <ion-icon  style="font-size: x-large;"  name="arrow-dropright" (click)="openChecklist(plan)"></ion-icon>
+        </div>
+      </ion-col>
+      
+  </ion-row>
+  <div *ngIf="plan.isplusminus">
+  <ion-row >
+    <ion-col>
+      <ion-label style="font-size: smaller; font-weight: bold;"> Business Partner</ion-label>
+    </ion-col>
+    <ion-col>
+      <ion-label style="font-size: smaller;"> {{plan.bpartnername}}</ion-label>
+    </ion-col>
+  </ion-row>
+  <ion-row >
+    <ion-col>
+      <ion-label style="font-size: smaller; font-weight: bold;"> Date Of Visit</ion-label>
+    </ion-col>
+    <ion-col>
+      <ion-label style="font-size: smaller;"> {{plan.dateofvisit}}</ion-label>
+    </ion-col>
+  </ion-row>
+  <ion-row >
+    <ion-col>
+      <ion-label style="font-size: smaller; font-weight: bold;"> Collection Branch</ion-label>
+    </ion-col>
+    <ion-col>
+      <ion-label style="font-size: smaller;"> {{plan.collectionbranchname}}</ion-label>
+    </ion-col>
+  </ion-row>
+  <ion-row >
+    <ion-col>
+      <ion-label style="font-size: smaller; font-weight: bold;"> Collection Zone</ion-label>
+    </ion-col>
+    <ion-col>
+      <ion-label style="font-size: smaller;"> {{plan.collectionzone}}</ion-label>
+    </ion-col>
+  </ion-row>
+  <ion-row >
+    <ion-col>
+      <ion-label style="font-size: smaller; font-weight: bold;"> Activity</ion-label>
+    </ion-col>
+    <ion-col>
+      <ion-label style="font-size: smaller;"> {{plan.activityname}}</ion-label>
+    </ion-col>
+  </ion-row>
+  <ion-row >
+    <ion-col >
+      <ion-label style="font-size: smaller; font-weight: bold;"> Customer Contact No.</ion-label>
+    </ion-col>
+    <ion-col >
+      <ion-label style="font-size: smaller;"> {{plan.customercontact}}</ion-label>
+    </ion-col>
+  </ion-row>
+  <ion-row >
+    <ion-col size="6">
+      <ion-label style="font-size: smaller; font-weight: bold;">Address</ion-label>
+    </ion-col>
+    <ion-col size="6">
+      <ion-label style="font-size: smaller;"> {{plan.bpartnerlocationname}}</ion-label>
+    </ion-col>
+  </ion-row>
+  <ion-row >
+    <ion-col>
+      <ion-label style="font-size: smaller; font-weight: bold;" > </ion-label>
+    </ion-col>
+    <ion-col>
+      <ion-label style="font-size: smaller; font-weight: bold; background-color: antiquewhite;"> Plan Details</ion-label>
+    </ion-col>
+    <ion-col>
+      <ion-label style="font-size: smaller; font-weight: bold; background-color: antiquewhite;"> Live Value (As of Yesterday) </ion-label>
+    </ion-col>
+  </ion-row>
+  <ion-row >
+    <ion-col>
+      <ion-label style="font-size: smaller; font-weight: bold;" > OutStanding</ion-label>
+    </ion-col>
+    <ion-col>
+      <ion-label style="font-size: smaller;"> {{plan.outstanding}}</ion-label>
+    </ion-col>
+    <ion-col>
+      <ion-label style="font-size: smaller;"> {{plan.outstandingcurr}}</ion-label>
+    </ion-col>
+  </ion-row>
+  <ion-row >
+    <ion-col>
+      <ion-label style="font-size: smaller; font-weight: bold;"> Credit</ion-label>
+    </ion-col>
+    <ion-col>
+      <ion-label style="font-size: smaller;"> {{plan.credit}} </ion-label>
+    </ion-col>
+    <ion-col>
+      <ion-label style="font-size: smaller;"> {{plan.creditcurr}} </ion-label>
+    </ion-col>
+  </ion-row>
+  <ion-row >
+    <ion-col>
+      <ion-label style="font-size: smaller; font-weight: bold;"> Amt. Not Due</ion-label>
+    </ion-col>
+    <ion-col>
+      <ion-label style="font-size: smaller;"> {{plan.amtnotdue}} </ion-label>
+    </ion-col>
+    <ion-col>
+      <ion-label style="font-size: smaller;"> {{plan.amtnotduecurr}} </ion-label>
+    </ion-col>
+  </ion-row>
+  <ion-row >
+    <ion-col>
+      <ion-label style="font-size: smaller; font-weight: bold;"> Amt. Due</ion-label>
+    </ion-col>
+    <ion-col>
+      <ion-label style="font-size: smaller;"> {{plan.amtdue}} </ion-label>
+    </ion-col>
+    <ion-col>
+      <ion-label style="font-size: smaller;"> {{plan.amtduecurr}} </ion-label>
+    </ion-col>
+  </ion-row>
+  <ion-row >
+    <ion-col>
+      <ion-label style="font-size: smaller; font-weight: bold;">Target For Month</ion-label>
+    </ion-col>
+    <ion-col>
+      <ion-label style="font-size: smaller;">{{plan.targetformonth}}</ion-label>
+    </ion-col>
+  </ion-row>
+ </div>
+</ion-grid>
+<ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+  <ion-infinite-scroll-content  *ngIf="!isemptyList" loadingSpinner="bubbles" loadingText="Loading more data...">
+  </ion-infinite-scroll-content>
+</ion-infinite-scroll>
+</ion-content>
+<ion-footer>
+  <ion-row *ngIf="totalRows!==0">
+  <ion-item>
+    <ion-button  color="primary" text-center
+      (click)="AcceptPlan()">Accept</ion-button>
+    <!-- <ion-button color="primary" text-center [disabled]="!formprod.valid || !Iscartproduct" (click)="onSaveTemplate(formprod.value)">Save Template</ion-button> -->
+  </ion-item>
+  <ion-item  >
+    <ion-button  color="primary" text-center
+      (click)="presentAlertRejectedReason()">Reject</ion-button>
+    <!-- <ion-button color="primary" text-center [disabled]="!formprod.valid || !Iscartproduct" (click)="onSaveTemplate(formprod.value)">Save Template</ion-button> -->
+  </ion-item>
+  <ion-item  >
+    <ion-button  color="primary" text-center
+      (click)="presentCrossAssignment()">Cross Assignment</ion-button>
+    <!-- <ion-button color="primary" text-center [disabled]="!formprod.valid || !Iscartproduct" (click)="onSaveTemplate(formprod.value)">Save Template</ion-button> -->
+  </ion-item>
+</ion-row>
+</ion-footer>

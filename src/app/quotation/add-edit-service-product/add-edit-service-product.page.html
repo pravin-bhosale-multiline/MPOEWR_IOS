@@ -1,0 +1,65 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Add Serial No</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="addEditServiceProductForm" (ngSubmit)="onSaveCart()">
+  <ion-card>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label position="stacked">Serial No</ion-label>
+              <ionic-selectable placeholder="Select Serial No" [searchDebounce]="1000"
+              [formControl]="addEditServiceProductForm.controls['serialNoCtrl']"
+              [items]="serialNoList" 
+              itemValueField="m_attributesetinstance_id" 
+              itemTextField="serialno" 
+              [canSearch]="true"
+              [shouldStoreItemValue]="false"
+              (onChange)="onSerialNoChange($event)"
+              (onClose)="onSerialNoClose($event)"
+              (onSearch)="onSerialNoSearch($event)">
+              </ionic-selectable>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-item>
+            <ion-label position="floating">Quantity</ion-label>
+            <ion-input type="number" [formControl]="addEditServiceProductForm.controls['quantityCtrl']"></ion-input>       
+          </ion-item>
+        </ion-row>
+        <ion-row>
+          <ion-item float-right lines="none">
+            <ion-button color="primary" text-center [disabled]="!addEditServiceProductForm.valid" (click)="addToCart()">Add to cart</ion-button>
+            <ion-button color="primary" text-center [disabled]="!btnSaveDisabled" (click)="onSaveCart()">Save</ion-button>
+          </ion-item>
+        </ion-row>
+        </ion-grid>
+    </ion-card-content>
+  </ion-card>
+   
+   <ion-card>
+    <ion-card-header>
+      <ion-item color="medium" lines="none">
+        <ion-label>Serial No</ion-label>
+        <ion-icon slot="start"  name="cart">
+        </ion-icon>
+      </ion-item>
+    </ion-card-header>
+      <ion-card-content>
+        <ion-item *ngFor="let item of tempCartProduct; index as i">
+          <ion-icon name="trash" (click)="removeProduct(item)" slot="end"></ion-icon>
+          <ion-label>{{item.serialno}}</ion-label>
+        </ion-item>
+      </ion-card-content>
+   </ion-card>
+  </form>
+</ion-content>

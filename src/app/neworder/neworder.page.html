@@ -1,0 +1,481 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      New Order
+    </ion-title>
+    <ion-buttons slot="end" style="font-size: 1.8rem;" routerDirection="root" routerLink="/home">
+      <ion-icon name="home"></ion-icon>
+    </ion-buttons>
+    <ion-buttons (click)="Resetpage()" slot="end" style="font-size: 1.8rem;">
+      <ion-icon name="refresh"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <form [formGroup]="formprod" (ngSubmit)="onSaveOrder(formprod.value)">
+    <ion-grid fixed>
+      <div>
+        <ion-card>
+          <ion-card-content>
+            <ion-row>
+              <ion-col>
+                <h5 ion-text class="text-primary">
+                  <ion-icon name="person"></ion-icon> Customer Detail :
+                </h5>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                <ion-item>
+                  <ion-label position="stacked">Customer<span style="color:red!important">*</span></ion-label>
+                  <ionic-selectable [searchDebounce]="1000" placeholder="Select Customer" disable="true"
+                    [formControl]="formprod.controls['selectedBusinessPartner']" [items]="BusinessPartnerlist"
+                    itemValueField="id" itemTextField="_identifier" [canSearch]="true" (onChange)="oncustchange($event)"
+                    (onClose)="onClose($event)" (onSearch)="custsearchChange($event)">
+                  </ionic-selectable>
+                  <!-- (onSearch)="custsearchChange($event)" -->
+                </ion-item>
+                <div padding-left>
+                  <ng-container *ngFor="let validation of validation_messages.selectedBusinessPartner">
+                    <div
+                      *ngIf="formprod.get('selectedBusinessPartner').hasError(validation.type) && formprod.get('selectedBusinessPartner').touched">
+                      <p style="color: red;font-size: small;">{{validation.message}}</p>
+                    </div>
+                  </ng-container>
+                </div>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                <ion-item>
+                  <ion-label position="stacked">Order Type<span style="color:red!important">*</span></ion-label>
+                  <ion-select placeholder="Select One" [disabled]="Iscartproduct"
+                    [formControl]="formprod.controls['selectedordertype']" interface="popover"
+                    (ionChange)="onOrderTypeChange()">
+                    <!-- <ion-select-option value="SL">Saleable</ion-select-option>
+                    <ion-select-option value="NE">Near Expiry</ion-select-option>
+                    <ion-select-option value="ST" *ngIf="mmstOrderusrtype!='CEB'">Sample Order - Sales Team
+                    </ion-select-option>
+                    <ion-select-option value="SOC" *ngIf="mmstOrderusrtype!='CEB'">Sample Order-Customer
+                    </ion-select-option> -->
+                    <ion-select-option *ngFor="let orderType of orderTypeList" [value]="orderType.code">{{orderType.name}}
+                    </ion-select-option>
+                 
+                  </ion-select>
+                </ion-item>
+                <div padding-left>
+                  <ng-container *ngFor="let validation of validation_messages.selectedordertype">
+                    <div
+                      *ngIf="formprod.get('selectedordertype').hasError(validation.type) && formprod.get('selectedordertype').touched">
+                      <p style="color: red;font-size: small;">{{validation.message}}</p>
+                    </div>
+                  </ng-container>
+                </div>
+              </ion-col>
+            </ion-row>
+            <!-- Primary Customer Drop Down -->
+            <ion-row *ngIf="!isPrimaryCustomer">
+              <ion-col>
+                <ion-item>
+                  <ion-label position="stacked">Primary Customer</ion-label>
+                  <ionic-selectable #portComponent placeholder="Select Primary Customer" [canSearch]="true" disable="true" 
+                    [formControl]="formprod.controls['selectedPrimaryBusinessPartner']" [items]="primaryBusinessPartnerList"
+                    itemValueField="bpid" itemTextField="name" (onChange)="onPrimaryCustomerChange($event)"
+                    (onClose)="onPrimaryCustomerClose($event)" (onSearch)="onPrimaryCustSearch($event)">
+                  </ionic-selectable>
+                </ion-item>
+        
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                <ion-item>
+                  <ion-label position="floating">Activity</ion-label>
+                  <ion-input type="text" value="{{activity}}" disabled="true"></ion-input>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+            <ion-row *ngIf="showcrlimit">
+              <ion-col>
+                <ion-item>
+                  <ion-label position="floating">Credit Limit</ion-label>
+                  <ion-input type="text" [formControl]="formprod.controls['CreditLimit']" disabled="true"></ion-input>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+            <ion-row *ngIf="Showoverdue">
+              <ion-col>
+                <ion-item>
+                  <ion-label position="floating">Overdue Invoice</ion-label>
+                  <ion-input type="text" [formControl]="formprod.controls['OverdueInvoice']" disabled="true">
+                  </ion-input>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+            <ion-row *ngIf="Showoverdue">
+              <ion-col>
+                <ion-item>
+                  <ion-label position="floating">Overdue amount</ion-label>
+                  <ion-input type="text" [formControl]="formprod.controls['Overdueamount']" disabled="true"></ion-input>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+            <ion-row *ngIf="Showoverdue">
+              <ion-col>
+                <ion-item>
+                  <ion-label position="floating">Ageing from Oldest Invoice</ion-label>
+                  <ion-input type="text" [formControl]="formprod.controls['duedatedays']" disabled="true"></ion-input>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+        <ion-card>
+          <ion-card-content>
+            <ion-row>
+              <ion-col>
+                <h5 ion-text class="text-primary">
+                  <ion-icon name="locate"></ion-icon> Shipping Information:
+                </h5>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                <ion-item>
+                  <ion-label position="stacked">Shipping Address<span style="color:red!important">*</span></ion-label>
+                  <ion-select [disabled]="Iscartproduct" #C
+                    [formControl]="formprod.controls['selectedBPaddressshipping']" interface="popover" multiple="false"
+                    placeholder="Select Address">
+                    <ion-select-option *ngFor="let sadd of BPaddressshipping" [value]="sadd.id">{{sadd.name}}
+                    </ion-select-option>
+                  </ion-select>
+                </ion-item>
+                <div padding-left>
+                  <ng-container *ngFor="let validation of validation_messages.selectedBPaddressshipping">
+                    <div
+                      *ngIf="formprod.get('selectedBPaddressshipping').hasError(validation.type) && formprod.get('selectedBPaddressshipping').touched">
+                      <p style="color: red;font-size: small;">{{validation.message}}</p>
+                    </div>
+                  </ng-container>
+                </div>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                <ion-item>
+                  <ion-label position="stacked">Billing Address<span style="color:red!important">*</span></ion-label>
+                  <ion-select [disabled]="Iscartproduct" #C
+                    [formControl]="formprod.controls['selectedBPaddressbilling']" interface="popover" multiple="false"
+                    placeholder="Select Address">
+                    <ion-select-option *ngFor="let badd of BPaddressbilling" [value]="badd.id">{{badd.name}}
+                    </ion-select-option>
+                  </ion-select>
+                </ion-item>
+                <div padding-left>
+                  <ng-container *ngFor="let validation of validation_messages.selectedBPaddressbilling">
+                    <div
+                      *ngIf="formprod.get('selectedBPaddressbilling').hasError(validation.type) && formprod.get('selectedBPaddressbilling').touched">
+                      <p style="color: red;font-size: small;">{{validation.message}}</p>
+                    </div>
+                  </ng-container>
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+        <ion-card>
+          <ion-card-content>
+            <ion-row>
+              <ion-col>
+                <h5 ion-text class="text-primary">
+                  <ion-icon name="bookmarks"></ion-icon> Order Detail:
+                </h5>
+              </ion-col>
+            </ion-row>
+            <ion-row *ngIf="!loginauth.selectedactivity.iscashdiscovertraddisc">
+              <ion-col>
+                <ion-item>
+                  <ion-label position="stacked">Create from Template</ion-label>
+                  <ion-select #C [formControl]="formprod.controls['selectedBPtemplate']" interface="popover"
+                    multiple="false" aria-placeholder="Select Template" (ionChange)="onTemplateChange()"
+                    [disabled]="Isshowtemplate">
+                    <ion-select-option *ngFor="let sadd of BPtemplate" [value]="sadd.id">{{sadd.sname}}
+                    </ion-select-option>
+                  </ion-select>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+            <ion-row *ngIf="!!selectedBusinessPartner && selectedBusinessPartner.special_order == 'Y' ">
+              <ion-col> 
+                <ion-item>
+                  <ion-label>Special Order</ion-label>
+                  <ion-checkbox [disabled]="Iscartproduct" slot="end" [(ngModel)]="sp_order_chk_box" [formControl]="formprod.controls['specialOrderCtrl'] "></ion-checkbox>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+            <ion-row *ngIf="is_advance_payment == true">
+              <ion-col> 
+                <ion-item>
+                  <ion-label>Advance Payment</ion-label>
+                  <ion-checkbox [disabled]="Iscartproduct || loginauth.selectedactivity.iscashdiscovertraddisc" slot="end" [(ngModel)]="advance_payment_chk_status" [formControl]="formprod.controls['isAdvancePaymentChk']" (ionChange)="onChangeAdvancechk()"></ion-checkbox>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                <ion-item>
+                  <ion-label position="floating">PO Number</ion-label>
+                  <ion-input [formControl]="formprod.controls['ponumber']" type="text"></ion-input>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+            <ion-card>
+              <ion-row>
+                <ion-col *ngIf="isdesktop===false" size="12">
+                  <ion-row>
+                    <ion-col>
+                      <ion-button (click)="getpoImage()">Customer PO</ion-button>
+                    </ion-col>
+                    <div class="pdf-help-text-device"><ion-label><small>Images and PDF supported Maximum file size 3 MB limit.</small></ion-label></div>
+                  </ion-row>
+                  <ion-row>
+                    <ion-col size="4">
+                      <img src="./assets/transparent-pdf1.png" *ngIf="fileType=='pdf'"
+                        style="width: 50px; height: 50px;">
+                    </ion-col>
+                    <ion-col size="8">
+                      <small>
+                        <ion-label>{{fileName}}</ion-label>
+                      </small>
+                    </ion-col>
+                  </ion-row>
+                </ion-col>
+                <ion-col *ngIf="isdesktop===true">
+                  <ion-item>
+                  <div style="padding:10px">
+                    <input type="file" name="file" accept="image/*,application/pdf" id='selectedFile'
+                    (change)="uploadImage($event)" class="inputfile" />
+                    <label class="myFakeUploadButton" for="selectedFile">Customer PO</label>
+                    
+                  </div>
+                
+                </ion-item>
+                <div class="pdf-help-text"><ion-label>Images and PDF supported Maximum file size 3 MB limit.</ion-label></div>
+               
+                </ion-col>
+                <ion-col>
+                  <img (click)="ImageViewr(POimg64)" [src]="'data:image/jpeg;base64,'+POimg64"
+                    *ngIf="POimg64 && fileType!='pdf'" style="width: 50px; height: 50px;">
+                  <img src="./assets/transparent-pdf1.png" *ngIf="POimg64 && fileType=='pdf' && isdesktop===true" 
+                    style="width: 50px; height: 50px;">
+                    <small  *ngIf="isdesktop===true">
+                      <ion-label>{{fileName}}</ion-label>
+                    </small>
+                </ion-col>
+              </ion-row>
+            
+
+            </ion-card>
+          </ion-card-content>
+        </ion-card>
+        <ion-card *ngIf="checkboxtab">
+          <ion-card-content>
+            <ion-row>
+              <ion-col size="8">
+                <h5 ion-text class="text-primary">
+                  <ion-icon name="bookmark"></ion-icon> Redeem Reward:
+                </h5>
+              </ion-col>
+              <ion-col size="4">
+                <h5 ion-text class="text-primary" style="text-align: right;">
+                  <ion-checkbox slot="end" [(ngModel)]="showhideRedeemReward" [ngModelOptions]="{standalone: true}"
+                    [disabled]="autocalculation"></ion-checkbox>
+                </h5>
+              </ion-col>
+            </ion-row>
+            <ion-row *ngIf="showhideRedeemReward">
+              <ion-col>
+                <ion-item>
+                  <ion-label position="floating">Points avaliable for Redeem</ion-label>
+                  <ion-input type="text" [formControl]="formprod.controls['avaliableRedeem']" disabled="true">
+                  </ion-input>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+            <ion-row *ngIf="showhideRedeemReward">
+              <ion-col>
+                <ion-item>
+                  <ion-label position="floating">Total Points to be Redeem</ion-label>
+                  <ion-input type="text" [formControl]="formprod.controls['tobeRedeem']" [disabled]="autocalculation"
+                    (change)='onChangetobeRedeem()'></ion-input>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+        <ion-card>
+          <ion-card-content>
+            <ion-row *ngIf="showExpectedDeliveryDateCtrl">
+              <ion-col>
+                <ion-item>
+                  <ion-label position="floating">Expected Delivery Date</ion-label>
+                  <ion-datetime [formControl]="formprod.controls['expecteddeliverydate']" displayFormat="DD-MM-YYYY"
+                    [disabled]="expireDateEdit" [min]="today" max="2050-12-31" placeholder="Select Date"></ion-datetime>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                <ion-item>
+                  <ion-label position="floating">Order Instructions</ion-label>
+                  <ion-textarea type="text" [formControl]="formprod.controls['orderdescription']"></ion-textarea>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </ion-grid>
+  </form>
+  <ion-card>
+    <ion-card-content>
+      <ion-row>
+        <ion-col>
+          <h5 ion-text class="text-primary">
+            <ion-icon name="cart"></ion-icon> Products:
+          </h5>
+        </ion-col>
+        <ion-col>
+          <ion-fab-button size="small" float-right (click)="onAddProduct()">
+            <ion-icon name="add"></ion-icon>
+          </ion-fab-button>
+        </ion-col>
+      </ion-row>
+      <ion-item *ngFor="let item of cartproduct; index as i" text-wrap style="font-size: small;">
+        <!-- <ion-content scrollX="true"> -->
+        <div style="width: 100%;" (click)="toggle(item)">
+          <ion-row>
+            <ion-col size="8">
+              <ion-label style="white-space: normal">
+                <ion-icon *ngIf="!item.MainProductQty" style="color: springgreen;" name="pricetags"></ion-icon>
+                {{ item.product }}
+              </ion-label>
+            </ion-col>
+            <ion-col size="2" style="width: 100%; text-align: right;" *ngIf="item.MainProductQty">
+              <ion-icon name="create" (click)="editProduct(item)" style="font-size: x-large;color: green;"></ion-icon>
+            </ion-col>
+
+            <ion-col size="2" style="width: 100%; text-align: right;" *ngIf="item.MainProductQty">
+              <ion-icon name="trash" (click)="removeProduct(item)" style="font-size: x-large;color: red;"></ion-icon>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-label color="green" style="font-size: small;font-weight: bold;" *ngIf="item.MainProductQty!=='0' && item.MainProductQty!==''">Qty: {{
+                item.MainProductQty }}</ion-label>
+                <ion-label color="green" style="font-size: small;font-weight: bold;" *ngIf="!!item.enteredfreeqty && item.enteredfreeqty!=='0' && item.enteredfreeqty!==''">Entered Free Qty: {{
+                  item.enteredfreeqty }}</ion-label>
+                <ion-label color="green" style="font-size: small;font-weight: bold;" *ngIf="item.MainProductQty!=='0' && item.MainProductQty!==''">{{item.value}}: {{ item.Rate
+                  |number:'1.2-2'}}</ion-label>
+                <ion-label color="green" style="font-size: small;font-weight: bold;" *ngIf="item.freeqty">Free Qty: {{ item.freeqty }}</ion-label>  
+            </ion-col>
+            <ion-col>
+              <ion-label color="green" style="font-size: small;font-weight: bold;"  *ngIf="item.MainProductQty!=='0' && item.MainProductQty!==''">Net Value: {{item.MainProductQty * item.Rate | number:'1.2-2' }}</ion-label>
+              <ion-label color="green" style="font-size: small;font-weight: bold;" *ngIf="item.MainProductQty!=='0' && item.MainProductQty!==''">Gross Value: {{item.TotalAmount | number:'1.2-2'}}</ion-label>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col nowrap>
+              <div *ngIf="item.show">
+                
+                <ion-label style="font-size: small;" *ngIf="item.MainProductQty!=='0' && item.MainProductQty!==''">UOM: {{ item.UOM }}</ion-label>
+                <ion-label style="font-size: small;" *ngIf="item.MainProductQty!=='0' && item.MainProductQty!==''y">{{item.value}}: {{ item.Rate
+                  |number:'1.2-2'}}</ion-label>
+
+                <ion-label style="font-size: small;" *ngIf="loginauth?.Discount_Method=='DOR' && item.DiscountPer ">Rate after Discount:
+                  {{(item.Rate - ((item.Rate/100)*item.DiscountPer)) | roundPipe}} <span
+                    *ngIf="item.DiscountPer">({{item.DiscountPer | number:'1.2-2'}}%)</span></ion-label>
+
+                <ion-label  *ngIf="item.Scheme" style="font-size: small;">Scheme Information: {{ item.Scheme }}</ion-label>
+                
+                <ion-label style="font-size: small;" *ngIf="!item.MainProductQty">Free Qty: {{ item.freeqty |
+                  number:'1.2-2'}}</ion-label>
+                
+                <ion-label style="font-size: small;" *ngIf="item.MainProductQty!=='0' && item.MainProductQty!=='' && loginauth?.Discount_Method!='DOR' && item.discount">
+                  Trade Discount: {{ item.discount | number:'1.2-2'}} <span *ngIf="item.DiscountPer">({{item.DiscountPer
+                    | number:'1.2-2'}}%)</span></ion-label>
+                <ion-label style="font-size: small;" *ngIf="!!item.cashdiscount">Cash Discount: {{ (item.cashdiscount*item.MainProductQty*item.Rate/100) |
+                      number:'1.2-2'}}<span >({{item.cashdiscount
+                        | number:'1.2-2'}}%)</span></ion-label>
+                <ion-label style="font-size: small;" *ngIf="item.MainProductQty!=='0' && item.MainProductQty!=='' && item.rewardpoint">{{item.reward}}: {{ item.rewardpoint }}
+                </ion-label>
+                <!-- <ion-label style="font-size: small;" *ngIf="item.MainProductQty">Amount: {{ item.Amount | number:'1.2-2'}}</ion-label> -->
+               
+                <ion-label style="font-size: small;" *ngIf="item.MainProductQty!=='0' && item.MainProductQty!==''">Tax Information: {{ item.Tax }}
+                </ion-label>
+              
+                <ion-label style="font-size: small;" *ngIf="item.MainProductQty!=='0' && item.MainProductQty!==''">Tax Value: {{ item.GstAmount |
+                  number:'1.2-2'}}</ion-label>
+
+                <ion-label style="font-size: small;" *ngIf="item.MainProductQty!=='0' && item.MainProductQty!==''">Gross Value: {{
+                  item.TotalAmount | number:'1.2-2'}}</ion-label>
+              </div>
+            </ion-col>
+          </ion-row>
+        </div>
+        <!-- </ion-content> -->
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-card-content>
+      <ion-row>
+        <ion-col>
+          <h5 ion-text class="text-primary">
+            <span style="color: lightcoral;">&#x20b9;</span> Order Summary:
+          </h5>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-label style="font-size: small;">Total Amount: <br> {{sumamount | number:'1.2-2'}}</ion-label>
+        </ion-col>
+        <ion-col *ngIf="sumdiscount">
+          <ion-label style="font-size: small;">Total Discount:<br> {{sumdiscount | number:'1.2-2'}}</ion-label>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-label style="font-size: small;">Total Tax:<br> {{sumGstAmount | number:'1.2-2'}}</ion-label>
+        </ion-col>
+        <!-- <ion-col *ngIf="checkredeem">
+          <ion-label style="font-size: small;">Redeem Points Used:<br> {{tobeRedeem | number:'1.2-2'}}</ion-label>
+        </ion-col> -->
+        <ion-col>
+          <ion-label style="font-size: small;">Final Amount:<br> {{sumtotalamount | number:'1.2-2'}}</ion-label>
+        </ion-col>
+      </ion-row>
+
+    </ion-card-content>
+  </ion-card>
+  <ion-row *ngIf="!loginauth.selectedactivity.iscashdiscovertraddisc">
+    <ion-col>
+      <ion-item float-right lines="none">
+        <ion-button color="primary" text-center [disabled]="!formprod.valid || !Iscartproduct"
+          (click)="saveTemplate(formprod.value)">Save Template</ion-button>
+        <!-- <ion-button color="primary" text-center [disabled]="!formprod.valid || !Iscartproduct" (click)="onSaveTemplate(formprod.value)">Save Template</ion-button> -->
+      </ion-item>
+    </ion-col>
+  </ion-row>
+  <ion-item *ngIf="loginauth.isDraftOrder" float-right lines="none">
+    <ion-button color="primary" text-center [disabled]="!formprod.valid || !Iscartproduct"
+      (click)="onSaveOrder(formprod.value)">Save as Draft Order</ion-button>
+  </ion-item>
+  <ion-item float-right lines="none">
+    <ion-button color="primary" text-center [disabled]="!formprod.valid || !Iscartproduct"
+      (click)="onCompleteOrder(formprod.value)">Order Complete</ion-button>
+  </ion-item>
+</ion-content>

@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Selection</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="section"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  
+  <ion-item>
+    <ion-label  color="primary" position="stacked" >{{txtCaption}}</ion-label>
+    <ionic-selectable #id1 [(ngModel)]="selecteddata" itemValueField="name" itemTextField="name" [items]="filterdata"
+      [canSearch]="true" [hasInfiniteScroll]="true" (onSearch)="onSearchChange($event)" (onClose)="onSubmitSingleSelection()"
+      (onInfiniteScroll)="doInfinite($event)" [isMultiple]="ismultiselect">
+    </ionic-selectable>
+  </ion-item>
+  <ion-button size="small" shape="round" fill="outline" (click)="onSubmitSingleSelection()">
+    Submit
+  </ion-button>
+  
+</ion-content>

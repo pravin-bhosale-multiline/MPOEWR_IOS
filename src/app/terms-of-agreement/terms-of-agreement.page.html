@@ -1,0 +1,99 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Terms of Agreement</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [ngClass]="{'agreement-content' : msg.isplatformweb}">
+<!-- <div class="terms-content">
+  <p style="font-size: small;">{{text}}</p>
+</div> -->
+
+<ion-card>
+  <ion-card-content>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-label position="stacked">Organization Activity<span style="color:red!important">*</span></ion-label>
+          <ion-select [(ngModel)]="selectedactivity" (ionChange)="exonActChange()" interface="popover"
+            multiple="false" placeholder="Select Activity">
+            <ion-select-option *ngFor="let activity of activitylist" [value]="activity">{{activity.name}}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+      
+    </ion-row>
+    <div *ngIf="iscustomeremp">
+    <div *ngIf="type==='URL'">
+      <ion-row *ngIf="!isalreadyaccepted" >
+        <ion-col style="font-size: small;text-align: left;" >
+          I agree to the <a (click)="inapp()">Terms of Service</a>  
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col *ngIf="!isalreadyaccepted" size="6">
+
+        <ion-button color="primary" style="width: 98%;" (click)="onclick('Decline')">Decline</ion-button>
+
+        </ion-col>
+        <ion-col size="6">
+        <ion-button color="primary" style="width: 98%;" [disabled]="!isActivitySelected" (click)="onclick('Accept')">{{txt}}</ion-button>
+
+        </ion-col>
+
+
+    </ion-row>
+    </div>
+    
+    <div *ngIf="type==='PDF'">
+      <ion-row *ngIf="termslist.length>0">
+        <ion-col style="font-size: small;text-align: left;" >
+         List Of Agreements:          
+        </ion-col>
+      </ion-row>
+    <ion-row *ngFor="let terms of termslist">
+      <ion-col style="font-size: small;text-align: center;" size="4">
+        <a (click)="inapp(terms.fileid)">{{terms.name}}</a>
+       </ion-col>
+       <ion-col style="font-size: small;text-align: center;">
+        <ion-button size="small" [disabled]="terms.accept" (click)="onclickacceptPdf(terms)">{{!terms.accept?"Accept":"Accepted"}}</ion-button>
+       </ion-col>
+      <ion-col style="font-size: small;text-align: center;">
+        <ion-button size="small" [disabled]="terms.accept" (click)="onclickRejectPdf(terms)">{{!terms.reject?"Decline":"Declined"}}</ion-button>
+       </ion-col>
+    </ion-row>
+    <ion-row *ngIf="isallaccepted || termslist.length===0">
+      
+      <ion-col size="6">
+      <ion-button color="primary" style="width: 98%;"  (click)="onclickNext()">NEXT</ion-button>
+
+      </ion-col>
+  </ion-row>
+  </div>
+  <div *ngIf="type!=='PDF' && type!=='URL'">
+    <ion-row >
+      
+      <ion-col size="6">
+      <ion-button color="primary" [disabled]="!isActivitySelected" style="width: 98%;"  (click)="onclickNext()">NEXT</ion-button>
+
+      </ion-col>
+  </ion-row>
+  </div>
+</div>
+<div *ngIf="!iscustomeremp">
+  <ion-row >
+      
+    <ion-col size="6">
+    <ion-button color="primary" [disabled]="!isActivitySelected" style="width: 98%;"  (click)="onclickNext()">NEXT</ion-button>
+
+    </ion-col>
+</ion-row>
+</div>
+    </ion-card-content>
+  </ion-card>
+
+      
+
+
+</ion-content>

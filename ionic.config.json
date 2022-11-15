@@ -1,0 +1,10 @@
+{
+  "name": "OBprism2",
+  "integrations": {
+    "cordova": {},
+    "capacitor": {
+      "enabled": false
+    }
+  },
+  "type": "angular"
+}

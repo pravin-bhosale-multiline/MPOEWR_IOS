@@ -1,0 +1,443 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button *ngIf="!existingMPRStatus"></ion-menu-button>
+      <ion-back-button *ngIf="existingMPRStatus"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      MPR Form
+    </ion-title>
+    <ion-buttons slot="end" style="font-size: 1.8rem;" routerDirection="root" routerLink="/home">
+      <ion-icon name="home"></ion-icon>
+    </ion-buttons>
+    <ion-buttons (click)="refreshPage()" slot="end" style="font-size: 1.8rem;">
+      <ion-icon name="refresh"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="MPRForm">
+    <ion-grid>
+      <ion-card>
+        <!-- Organization -->
+        
+        <ion-row>
+          <ion-col size="12" size-lg="3">
+            <ion-item>
+              <ion-label position="stacked">Organization<span style="color:red!important">*</span></ion-label>
+                <ion-select placeholder="Select Organization" [formControl]="MPRForm.controls['organizationDropDown']" 
+                  interface="popover" [(ngModel)]="selectedOrganization" (ionChange)="onOrganizationChange()">
+                  <ion-select-option *ngFor="let organization of organizationList" [value]="organization">{{organization.name}}</ion-select-option>
+                </ion-select>
+            </ion-item>
+            <div padding-left class="custom-error">
+              <ng-container *ngFor="let validation of validation_messages.organizationDropDownErrorMessage">
+                <div *ngIf="MPRForm.get('organizationDropDown').hasError(validation.type) && MPRForm.get('organizationDropDown').touched">
+                  <p style="color: red;font-size: small;">{{validation.message}}</p>
+                </div>
+              </ng-container>
+            </div>
+          </ion-col>
+        <!-- Activity -->
+          <ion-col size="12" size-lg="3">
+            <ion-item>
+              <ion-label position="stacked">Activity</ion-label>
+              <ion-input [value]="activityLbl" disabled="true"></ion-input>
+            </ion-item>
+          </ion-col>
+        <!-- Tagged HR Branch -->
+          <ion-col size="12" size-lg="3">
+            <ion-item>
+              <ion-label position="stacked">Tagged HR Branch</ion-label>
+              <ion-input [value]="taggedHRBranchLbl" disabled="true"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <!-- Document Status -->
+        <ion-row>
+          <ion-col size="12" size-lg="3">
+            <ion-item>
+              <ion-label position="stacked">Reason for MPR<span style="color:red!important">*</span></ion-label>
+                <ion-select placeholder="Select Reason for MPR" [formControl]="MPRForm.controls['reasonForMPRDropDown']" interface="popover"
+                  (ionChange)="onReasonForMPRChange()">
+                  <ion-select-option *ngFor="let reason of reasonForMPRList" [value]="reason">{{reason.name}}</ion-select-option>
+                </ion-select>
+            </ion-item>
+            <div padding-left class="custom-error">
+              <ng-container *ngFor="let validation of validation_messages.reasonForMPRDropDownErrorMessage">
+                <div *ngIf="MPRForm.get('reasonForMPRDropDown').hasError(validation.type) && MPRForm.get('reasonForMPRDropDown').touched">
+                  <p style="color: red;font-size: small;">{{validation.message}}</p>
+                </div>
+              </ng-container>
+            </div>
+          </ion-col>
+          <!-- Reason for MPR -->
+          <ion-col size="12" size-lg="3">
+            <ion-item>
+              <ion-label position="stacked">JOB Title<span style="color:red!important">*</span></ion-label>
+                  <ion-select placeholder="Select JOB Title" [formControl]="MPRForm.controls['jobTitleDropDown']" interface="popover"
+                    (ionChange)="onJobTitleChange()" [(ngModel)]="selectedJOBTitle">
+                    <ion-select-option *ngFor="let  jobTitle of jobTitleList" [value]="jobTitle">{{jobTitle.JobTitle}}</ion-select-option>
+                  </ion-select>
+            </ion-item>
+            <div padding-left class="custom-error">
+              <ng-container *ngFor="let validation of validation_messages.jobTitleDropDownErrorMessage">
+                <div *ngIf="MPRForm.get('jobTitleDropDown').hasError(validation.type) && MPRForm.get('jobTitleDropDown').touched">
+                  <p style="color: red;font-size: small;">{{validation.message}}</p>
+                </div>
+              </ng-container>
+            </div>
+          </ion-col>
+          <!-- JOB Title -->
+          <ion-col size="12" size-lg="3">
+            <ion-item>
+              <ion-label position="stacked">Grade<span style="color:red!important">*</span></ion-label>
+                <ion-select placeholder="Select Grade" [formControl]="MPRForm.controls['gradeDropDown']" interface="popover"
+                  (ionChange)="onGradeChange()" [(ngModel)]="selectedGrade">
+                  <ion-select-option *ngFor="let grade of gradeList" [value]="grade">{{grade.gradename}}</ion-select-option>
+                </ion-select>
+            </ion-item>
+            <div padding-left class="custom-error">
+              <ng-container *ngFor="let validation of validation_messages.gradeDropDownErrorMessage">
+                <div *ngIf="MPRForm.get('gradeDropDown').hasError(validation.type) && MPRForm.get('gradeDropDown').touched">
+                  <p style="color: red;font-size: small;">{{validation.message}}</p>
+                </div>
+              </ng-container>
+            </div>
+          </ion-col>
+        </ion-row>
+        <!-- Grade -->
+        
+        <ion-row>
+          <ion-col size="12" size-lg="3">
+            <ion-item>
+              <ion-label position="stacked">Designation / Role<span style="color:red!important">*</span></ion-label>
+                  <ion-select placeholder="Select Designation / Role" [formControl]="MPRForm.controls['designationOrRoleDropDown']" interface="popover"
+                    (ionChange)="onDesignationOrRoleChange()" [(ngModel)]="selectedDesignation">
+                    <ion-select-option *ngFor="let designationOrRole of designationOrRoleList" [value]="designationOrRole">{{designationOrRole.rolename}}</ion-select-option>
+                  </ion-select>
+            </ion-item>
+            <div padding-left class="custom-error">
+              <ng-container *ngFor="let validation of validation_messages.designationOrRoleDropDownErrorMessage">
+                <div
+                  *ngIf="MPRForm.get('designationOrRoleDropDown').hasError(validation.type) && MPRForm.get('designationOrRoleDropDown').touched">
+                  <p style="color: red;font-size: small;">{{validation.message}}</p>
+                </div>
+              </ng-container>
+            </div>
+          </ion-col>
+          <!-- Designation / Role -->
+          <ion-col size="12" size-lg="3">
+            <ion-item>
+              <ion-label position="stacked">Department<span style="color:red!important">*</span></ion-label>
+                  <ion-select placeholder="Select Department" [formControl]="MPRForm.controls['departmentDropDown']" interface="popover"
+                    (ionChange)="onDepartmentChange()" [(ngModel)]="selectedDepartment">
+                    <ion-select-option *ngFor="let department of departmentList" [value]="department">{{department.departmentname}}</ion-select-option>
+                  </ion-select>
+            </ion-item>
+            <div padding-left class="custom-error">
+              <ng-container *ngFor="let validation of validation_messages.departmentDropDownErrorMessage">
+                <div *ngIf="MPRForm.get('departmentDropDown').hasError(validation.type) && MPRForm.get('departmentDropDown').touched">
+                  <p style="color: red;font-size: small;">{{validation.message}}</p>
+                </div>
+              </ng-container>
+            </div>
+          </ion-col>
+          <!-- Department -->
+          <ion-col size="12" size-lg="3">
+            <ion-item>
+              <ion-label position="stacked">Location<span style="color:red!important">*</span></ion-label>
+                <ion-select id="demo" class="ion-text-wrap select-text demo" placeholder="Select Location" [formControl]="MPRForm.controls['locationDropDown']" interface="popover"
+                  (ionChange)="onLocationChange()" [(ngModel)]="selectedLocation">
+                  <ion-select-option *ngFor="let location of locationList" [value]="location">{{location.locationname}}</ion-select-option>
+                </ion-select>
+            </ion-item>
+            <div padding-left class="custom-error">
+              <ng-container *ngFor="let validation of validation_messages.locationDropDownErrorMessage">
+                <div *ngIf="MPRForm.get('locationDropDown').hasError(validation.type) && MPRForm.get('locationDropDown').touched">
+                  <p style="color: red;font-size: small;">{{validation.message}}</p>
+                </div>
+              </ng-container>
+            </div>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="12" size-lg="3">
+            <ion-item>
+              <ion-label position="stacked" class="asterisk_input">Number of Position</ion-label>
+              <ion-input type="text" [formControl]="MPRForm.controls['numberOfPositionTxt']"></ion-input>
+            </ion-item>
+            <div padding-left class="custom-error">
+              <ng-container *ngFor="let validation of validation_messages.numberOfPositionTxtErrorMessage">
+                <div *ngIf="MPRForm.get('numberOfPositionTxt').hasError(validation.type) && MPRForm.get('numberOfPositionTxt').touched">
+                  <p style="color: red;font-size: small;">{{validation.message}}</p>
+                </div>
+              </ng-container>
+            </div>
+          </ion-col>
+          <ion-col size="12" size-lg="3">
+            <ion-item>
+              <ion-label position="stacked">Position Closed</ion-label>
+              <ion-input type="text" [formControl]="MPRForm.controls['positionClosedTxt']" disabled="true"></ion-input>
+            </ion-item>
+            <div padding-left class="custom-error">
+              <ng-container *ngFor="let validation of validation_messages.positionClosedTxtErrorMessage">
+                <div *ngIf="MPRForm.get('positionClosedTxt').hasError(validation.type) && MPRForm.get('positionClosedTxt').touched">
+                  <p style="color: red;font-size: small;">{{validation.message}}</p>
+                </div>
+              </ng-container>
+            </div>
+          </ion-col>
+          <ion-col size="12" size-lg="3">
+            <ion-label class="asterisk_input item-custom-label">Work Experience</ion-label>
+            <ion-item>
+              <ion-range min="0" max="50" dual-knobs="true" class="custom-range"  (ionChange)="onWorkExperienceChange(workExperienceModel)" [(ngModel)]="workExperienceModel"  [ngModelOptions]="{standalone: true}" pin="true">
+              <ion-label slot="start">{{workExperienceModel_lower}}</ion-label>
+              <ion-label slot="end">{{workExperienceModel_upper}}</ion-label>
+            </ion-range>
+          </ion-item>
+          </ion-col>  
+        </ion-row>
+        <ion-row>
+          <ion-col size="12" size-lg="3">
+            <ion-label class="asterisk_input item-custom-label">CTC Range (Per Annum)</ion-label>
+            <ion-item>
+                <ion-range min="0" max="100" dual-knobs="true" class="custom-range" (ionChange)="onCTCRangeChange(CTCRangeModel)" [(ngModel)]="CTCRangeModel"  [ngModelOptions]="{standalone: true}" pin="true">
+                <ion-label slot="start">{{CTCRangeModel_lower}}</ion-label>
+                <ion-label slot="end">{{CTCRangeModel_upper}}{{maxCTCLbl}}</ion-label>
+              </ion-range>
+            </ion-item>
+          </ion-col>
+          <ion-col size="12" size-lg="3">
+            <ion-label class="asterisk_input item-custom-label">Age Range</ion-label>
+            <ion-item>
+                <ion-range min="0" max="100" dual-knobs="true" class="custom-range" (ionChange)="onAgeRangeChange(AgeRangeModel)" [(ngModel)]="AgeRangeModel"  [ngModelOptions]="{standalone: true}" pin="true">
+                <ion-label slot="start">{{AgeRangeModel_lower}}</ion-label>
+                <ion-label slot="end">{{AgeRangeModel_upper}}</ion-label>
+              </ion-range>
+            </ion-item>
+          </ion-col>
+          <ion-col size="12" size-lg="3">
+            <ion-item>
+              <ion-label position="stacked">Job Listing<span style="color:red!important">*</span></ion-label>
+                  <ion-select placeholder="Select Job Listing" [formControl]="MPRForm.controls['jobListingDropDown']" interface="popover"
+                    (ionChange)="onLocationChange()" [(ngModel)]="selectedJobListing">
+                    <ion-select-option *ngFor="let jobListing of jobListingList" [value]="jobListing">{{jobListing.name}}</ion-select-option>
+                  </ion-select>
+            </ion-item>
+            <div padding-left class="custom-error">
+              <ng-container *ngFor="let validation of validation_messages.jobListingDropDownErrorMessage">
+                <div *ngIf="MPRForm.get('jobListingDropDown').hasError(validation.type) && MPRForm.get('jobListingDropDown').touched">
+                  <p style="color: red;font-size: small;">{{validation.message}}</p>
+                </div>
+              </ng-container>
+            </div>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label>On Company Roll</ion-label>
+              <ion-toggle slot="end" [formControl]="MPRForm.controls['onCompanyRollChk']"></ion-toggle>
+           </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-card>
+      
+      <ion-card>
+        <ion-row>
+          <ion-col size="9">
+            <ion-item>
+              <ion-label position="stacked">Qualification<span style="color:red!important">*</span></ion-label>
+                <ion-select placeholder="Select Qualification" [formControl]="MPRForm.controls['qualificationDropDown']" interface="popover"
+                  (ionChange)="onQualificationChange()" [(ngModel)]="selectedQualification">
+                  <ion-select-option *ngFor="let qualification of qualificationList" [value]="qualification">{{qualification.name}}</ion-select-option>
+                </ion-select>
+            </ion-item>
+            <div padding-left class="custom-error">
+              <ng-container *ngFor="let validation of validation_messages.qualificationDropDownErrorMessage">
+                <div *ngIf="MPRForm.get('qualificationDropDown').hasError(validation.type) && MPRForm.get('qualificationDropDown').touched">
+                  <p style="color: red;font-size: small;">{{validation.message}}</p>
+                </div>
+              </ng-container>
+            </div>
+          </ion-col>
+          <ion-col size="3" class="add-qualification_btn">
+            <button mat-raised-button color="add-button-color" (click)="onAddQualification()" class="add-button-color" [disabled]="MPRForm.controls['qualificationDropDown'].hasError('required')">Add</button>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-card>
+              <ion-list>
+                <ion-item lines="none" style="--background:darkgray !important;max-width: 100% !important;">
+                  <ion-label>Qualification</ion-label>
+                </ion-item>  
+                <ion-item lines="none" [color]="even? 'drak-gray' : 'white'" *ngFor="let selectedQualification of selectedQualificationList;let even = even" 
+                          style="max-width: 100% !important;">
+                  <ion-label>{{selectedQualification.name}}</ion-label>
+                  <button mat-icon-button (click)="removeSelectedQualification(selectedQualification)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </ion-item>
+              </ion-list>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-card>
+      
+      <ion-card>
+        <ion-row>
+          <ion-col>
+            <ion-item style="max-width: 100% !important;">
+              <ion-label position="stacked" class="asterisk_input">Job Description</ion-label>
+              <ion-textarea type="text" auto-grow="true" [formControl]="MPRForm.controls['jobDescriptionTxt']"></ion-textarea>
+            </ion-item>
+            <div padding-left class="custom-error">
+              <ng-container *ngFor="let validation of validation_messages.jobDescriptionTxtErrorMessage">
+                <div *ngIf="MPRForm.get('jobDescriptionTxt').hasError(validation.type) && MPRForm.get('jobDescriptionTxt').touched">
+                  <p style="color: red;font-size: small;">{{validation.message}}</p>
+                </div>
+              </ng-container>
+            </div>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col class="add-resource-btn">
+            <button mat-raised-button color="add-button-color" (click)="onSaveJD()" class="add-button-color" [disabled]="disable_save_jd_btn">Save</button>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-card>
+              <ion-list>
+                <ion-item lines="none" style="--background:darkgray !important;max-width: 100% !important;">
+                  <ion-label>Job Descriptions</ion-label>
+                </ion-item>  
+                <ion-item lines="none" [color]="even? 'drak-gray' : 'white'" *ngFor="let jobDescription of jobDescriptionList;let even = even" 
+                          style="max-width: 100% !important;">
+                  <ion-label>{{jobDescription.job_description}}</ion-label>
+                  <button mat-icon-button (click)="editSelectedJobDescription(jobDescription)">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                </ion-item>
+              </ion-list>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-card>
+      
+      <ion-card>
+        <ion-row>
+          <!-- Resource Requirement * -->
+          <ion-col size="12" size-lg="3">
+            <ion-item>
+              <ion-label position="stacked">Resource Requirement<span style="color:red!important">*</span></ion-label>
+                <ion-select placeholder="Select Resource Requirement" [formControl]="MPRForm.controls['resourceRequirementDropDown']" interface="popover"
+                  (ionChange)="onLocationChange()">
+                  <ion-select-option *ngFor="let resourceRequirement of resourceRequirementMasterList" [value]="resourceRequirement">{{resourceRequirement.name}}</ion-select-option>
+                </ion-select>
+            </ion-item>
+            <div padding-left class="custom-error">
+              <ng-container *ngFor="let validation of validation_messages.resourceRequirementDropDownErrorMessage">
+                <div *ngIf="MPRForm.get('resourceRequirementDropDown').hasError(validation.type) && MPRForm.get('resourceRequirementDropDown').touched">
+                  <p style="color: red;font-size: small;">{{validation.message}}</p>
+                </div>
+              </ng-container>
+            </div>
+          </ion-col>
+          <!-- Resource Department  -->
+          <ion-col size="12" size-lg="3">
+            <ion-item>
+              <ion-label position="stacked">Department<span style="color:red!important">*</span></ion-label>
+                <ion-select placeholder="Select Department" [formControl]="MPRForm.controls['resourceDepartmentDropDown']" interface="popover"
+                  (ionChange)="onLocationChange()">
+                  <ion-select-option *ngFor="let resourceDepartment of resourceDepartmentMasterList" [value]="resourceDepartment">{{resourceDepartment.name}}</ion-select-option>
+                </ion-select>
+            </ion-item>
+            <div padding-left class="custom-error">
+              <ng-container *ngFor="let validation of validation_messages.resourceDepartmentDropDownErrorMessage">
+                <div *ngIf="MPRForm.get('resourceDepartmentDropDown').hasError(validation.type) && MPRForm.get('resourceDepartmentDropDown').touched">
+                  <p style="color: red;font-size: small;">{{validation.message}}</p>
+                </div>
+              </ng-container>
+            </div>
+          </ion-col>
+          <!-- Required  -->
+          <ion-col size="12" size-lg="3" class="resource-required">
+            <ion-item>
+              <ion-label>Required</ion-label>
+              <ion-toggle slot="end" [formControl]="MPRForm.controls['resourceRequiredChk']"></ion-toggle>
+            </ion-item>
+            <div padding-left class="custom-error">
+              <ng-container *ngFor="let validation of validation_messages.resourceRequiredChkErrorMessage">
+                <div *ngIf="MPRForm.get('resourceRequiredChk').hasError(validation.type) && MPRForm.get('resourceRequiredChk').touched">
+                  <p style="color: red;font-size: small;">{{validation.message}}</p>
+                </div>
+              </ng-container>
+            </div>
+          </ion-col>
+          <ion-col size="12" size-lg="3" class="add-resource-btn">
+            <button mat-raised-button color="add-button-color" (click)="onAddResourceRequirement()" class="add-button-color" [disabled]="MPRForm.controls['resourceRequirementDropDown'].hasError('required') || MPRForm.controls['resourceDepartmentDropDown'].hasError('required')">Add</button>
+          </ion-col>
+        </ion-row>
+        
+        <ion-row>
+          <ion-col>
+          <ion-card>
+          <ion-row>
+            <ion-col no-padding class="ion-no-margin">
+              <ion-item lines="none" style="--background:darkgray !important;max-width: 100% !important;">
+                <ion-label>Requirement</ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col no-padding class="ion-no-margin">
+              <ion-item lines="none" style="--background:darkgray !important;max-width: 100% !important;"><ion-label>Department</ion-label></ion-item> 
+            </ion-col>
+            <ion-col no-padding class="ion-no-margin">
+              <ion-item lines="none" style="--background:darkgray !important;max-width: 100% !important;"><ion-label>Required</ion-label></ion-item> 
+            </ion-col>
+          </ion-row>
+          
+          <ion-row>
+            <ion-col>
+              <ion-list>
+                 <ion-item lines="none" [color]="even? 'drak-gray' : 'white'" *ngFor="let resourceRequirement of resource_requirement_List;let even = even" 
+                          style="max-width: 100% !important;">
+                  <ion-label class="font-for-mobile">{{resourceRequirement.Resource_requirement.name}}</ion-label>
+                  <ion-label class="font-for-mobile">{{resourceRequirement.Department.name}}</ion-label>
+                  <!-- <ion-label class="font-for-mobile">{{resourceRequirement.Required.isrequired ? "YES":"NO"}}</ion-label> -->
+                  <button mat-icon-button (click)="removeResourceRequirement(resourceRequirement)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                 </ion-item>
+              </ion-list>
+            </ion-col>
+          </ion-row>
+        </ion-card>
+      </ion-col>
+        </ion-row>
+        
+      </ion-card>
+    </ion-grid>
+  </form>
+</ion-content>
+<ion-footer class="footer-back-color">
+  <ion-row *ngIf="!existingMPRStatus">
+    <ion-button style="width: 100%;" no-margin (click)="onMPRFormSubmit(MPRForm,'NOT')"  color="primary"  size="large" expand="full" fill="outline" 
+        class="footer-btn-color" [disabled]="!MPRForm.valid">
+        <ion-label style="color: white;">Complete</ion-label>
+    </ion-button>
+  </ion-row>
+  <ion-row *ngIf="existingMPRStatus">
+    <ion-col>
+      <ion-button no-margin class="footer-btn-color" color="primary" size="large" expand="full" fill="outline" (click)="onMPRFormSubmit(MPRForm,'true')"> <ion-label style="color: white;">Approved</ion-label></ion-button>
+    </ion-col>
+    <ion-col>
+      <ion-button no-margin class="footer-btn-color"  color="primary" size="large" expand="full" fill="outline" (click)="onMPRFormSubmit(MPRForm,'false')"> <ion-label style="color: white;">DisApproved</ion-label>
+      </ion-button>
+    </ion-col>
+  </ion-row>
+  
+</ion-footer>

@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>{{txtTitle}}</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="reportcategory"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-text color="danger">{{txterror}}</ion-text>
+  <ion-text color="warning">{{txtmessage}}</ion-text>
+</ion-header>
+
+<ion-content>
+  <div [innerHTML]="innerhtml"></div>
+  <ion-row>
+    <ion-col class="ion-text-right">
+      <ion-button expand="full" (click)="onClickEmail()">
+          Email
+      </ion-button>
+    </ion-col>
+    <ion-col class="ion-text-left">
+      <ion-button expand="full" (click)="onClickExcelPDF()">
+          {{btnName}}
+      </ion-button>
+    </ion-col>
+    <ion-col *ngIf="isview" class="ion-text-right">
+      <ion-button expand="full" (click)="onClickView()">
+          View
+      </ion-button>
+    </ion-col>
+  </ion-row>
+  <ion-card *ngIf="onclick">
+    <ngx-datatable
+        class="bootstrap resizeable" style="height: 820px; overflow-y:visible"
+        [rows]="rows"
+        [loadingIndicator]="loadingIndicator"
+        [columns]="columns"
+        [columnMode]="ColumnMode.force"
+        [headerHeight]="headerHeight"
+        [rowHeight]="rowHeight"
+        [footerHeight]="50"
+        [columnMode]="'froce'"
+        [scrollbarH]="true"
+        [scrollbarV]="true"
+        [selectionType]="SelectionType.single"
+        [reorderable]="reorderable"
+        (scroll)="onScroll($event.offsetY)"
+        [swapColumns]="true">
+      </ngx-datatable>
+  </ion-card>
+</ion-content>

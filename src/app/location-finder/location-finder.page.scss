@@ -1,0 +1,15 @@
+.btn-lat-long{
+   width: -webkit-fill-available !important;
+   background-color: vibrant !important;
+  // --background: black !important;
+}
+
+ion-select{
+   max-width: 100% !important;
+   
+}
+/* Set the text color */
+ion-select::part(text) {
+   color: #545ca7 !important;
+   font-size: 54px !important;
+ }

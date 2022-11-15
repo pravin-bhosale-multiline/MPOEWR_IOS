@@ -1,0 +1,104 @@
+.box{
+    height: 100% !important; 
+    display: flex; 
+    flex-flow: column;
+    
+    padding: 0px !important;
+}
+
+
+.list-item{
+    margin-top: 25px !important;
+}
+
+
+
+ion-content {
+    --overflow: hidden;
+}
+
+div[scrollx=true],div[scrolly=true] {
+    position: relative;
+    overflow: hidden;
+}
+
+div[scrollx=true] {
+   overflow-x: auto;
+}
+
+div[scrolly=true] {
+   overflow-y: auto;
+}
+
+.row-custom{
+    height: -webkit-fill-available !important;
+}
+.custom-activated {
+    --ion-background-color : white !important;
+}
+.ion-item-custom{
+    --ion-background-color:#eeeeee !important;
+    padding: 0px !important;
+}
+.back-color{
+    background-color: #eeeeee !important;
+}
+
+.custom-ion-col{
+    padding: 0px !important;
+}
+.footer-back-color{
+    background-color: white;
+}
+.footer-btn-color{
+    background-color: #F39E20 !important;
+}
+::ng-deep.ngx-datatable.bootstrap .datatable-body .datatable-body-row.active{
+    background-color: #F39E20 !important;
+}
+
+@media only screen and (min-width:481px) {
+    ::ng-deep.ngx-datatable.bootstrap .datatable-header .datatable-header-cell{
+
+        padding-left:0.75rem !important; 
+        padding-right: 0.25rem !important;
+        padding-top: 00.25rem !important;
+        padding-bottom: 00.25rem !important;
+            
+     }
+}
+@media (min-width:1281px) {  
+    
+    ::ng-deep.ngx-datatable.bootstrap .datatable-header .datatable-header-cell{
+
+    padding: 0.75rem !important;
+   // text-align: center !important;
+    
+ 
+ }}
+
+::ng-deep.ngx-datatable.bootstrap .datatable-header{
+  font-weight: bold !important;
+  background-color: #F39E20 !important;
+}
+
+
+@media screen and (max-width: 800px) {
+    .desktop-hidden {
+      display: initial;
+    }
+    .mobile-hidden {
+      display: none;
+    }
+  }
+  @media screen and (min-width: 800px) {
+    .desktop-hidden {
+      display: none;
+    }
+    .mobile-hidden {
+      display: initial;
+    }
+  }
+
+
+

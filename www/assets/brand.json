@@ -1,0 +1,32 @@
+[
+    {
+        "name": "Brand",
+        "id":4,
+        "subData": [
+            {
+                "sub_id":"41",
+                "name": "NOKIA"
+            },
+            {
+                "sub_id":"42",
+                "name": "REALME"
+            },
+            {
+                "sub_id":"43",
+                "name": "MOTOROLA"
+            },
+            {
+                "sub_id":"44",
+                "name": "SAMSUNG"
+            },
+            {
+                "sub_id":"45",
+                "name": "VIVO"
+            },
+            {
+                "sub_id":"46",
+                "name": "OPPO"
+            }
+        ]
+    }
+]

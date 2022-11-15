@@ -1,0 +1,105 @@
+<ion-header>
+  <ion-toolbar  color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+     Existing Lead
+    </ion-title>
+    <ion-buttons slot="end" style="font-size: 1.8rem;" routerDirection="root" routerLink="/home">
+      <ion-icon name="home"></ion-icon>
+    </ion-buttons>
+    <ion-buttons (click)="RefreshPage()" slot="end" style="font-size: 1.8rem;"><ion-icon name="refresh"></ion-icon> 
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+
+
+
+<ion-content>
+  
+
+  <ion-grid fixed>
+
+   
+
+    <div>
+      <ion-card>
+        <ion-card-content>
+
+      <ion-row>
+        <ion-col>
+            <ion-item >
+              <ion-label  position="stacked">Organization Activity</ion-label>
+              <ion-select name="selectedactivity" #C [(ngModel)]="selectedactivity" interface="popover"  (ionChange)="exonActChange()" multiple="false" placeholder="Select Activity">
+                <ion-select-option *ngFor="let activity of activitylist" [value]="activity.id">{{activity.name}}</ion-select-option>
+              </ion-select>
+              </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <!-- <ion-row>
+        <ion-col>
+          <ion-item >
+            <ion-label  position="stacked">Customer</ion-label>
+            <ion-select #C [(ngModel)]="selectedcustomer" multiple="false" placeholder="Select Customer" (ionChange)="onChangeCustomer()">
+              <ion-select-option *ngFor="let customer of orgAllcustomer" [value]="customer.id">{{ customer.scusNature==='F'?customer.sfirmName:customer.sfname +' ' +customer.slname}}  </ion-select-option>
+            </ion-select>
+            </ion-item>
+        </ion-col>
+    </ion-row> -->
+
+    <ion-row>
+      <ion-col>
+    <ion-item>
+      <ion-label position="stacked">Customer</ion-label>
+      <ionic-selectable placeholder="Select Customer" [searchDebounce]="1000"
+      [(ngModel)]="selectedcustomer"
+        [items]="orgAllcustomer"
+        itemValueField="id"
+        itemTextField="sfname" 
+        [canSearch]="true"
+        (onChange)="refChange($event)"
+        (onClose)="onClose($event)"
+        (onSearch)="custsearch($event)">
+      </ionic-selectable>
+    </ion-item>
+  </ion-col>
+</ion-row>
+
+    <ion-row>
+      <ion-col>
+        <ion-item>
+            <ion-label position="stacked">Disapprove Remarks</ion-label>
+<br>            <!-- <ion-textarea value="{{Remarks}}" disabled="true"></ion-textarea> -->
+            <div style="overflow:auto;">
+              {{Remarks}}
+            </div>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    
+
+    <ion-row>
+      <ion-col>
+          
+            <ion-button (click)="onEdit()" [disabled]="!selectedcustomer || !selectedactivity">
+                Edit
+              </ion-button>
+         
+      </ion-col>
+
+      <ion-col>
+    
+          <ion-button (click)="onCancel()">
+              Cancel
+            </ion-button>
+       
+    </ion-col>
+  </ion-row>
+</ion-card-content>
+</ion-card>
+    </div>
+    </ion-grid>
+</ion-content>

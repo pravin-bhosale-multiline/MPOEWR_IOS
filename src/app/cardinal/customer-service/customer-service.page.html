@@ -1,0 +1,415 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Customer Service
+    </ion-title>
+    <ion-buttons slot="end" style="font-size: 1.8rem;" routerDirection="root" routerLink="/home">
+      <ion-icon name="home"></ion-icon>
+    </ion-buttons>
+    <ion-buttons (click)="RefreshPage()" slot="end" style="font-size: 1.8rem;">
+      <ion-icon name="refresh"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <mat-vertical-stepper [linear]="isLinear" #stepper>
+    <mat-step [stepControl]="firstFormGroup">
+      <form [formGroup]="firstFormGroup" class="example-form">
+        <ng-template matStepLabel>Details</ng-template>
+        <!--Complaint Date -->
+        <mat-form-field class="example-full-width">
+          <mat-label class="asterisk_input">Complaint Date</mat-label>
+          <input type="text" matInput formControlName="complaintDateCtrl">
+        </mat-form-field>
+        <!-- Document Type -->
+        <mat-form-field class="example-full-width">
+          <mat-label class="asterisk_input">Document Type</mat-label>
+          <mat-select [(ngModel)]="docTypeSelected" formControlName="documentTypeCtrl"
+            (selectionChange)="docTypeSelectedChange(docTypeSelected.name)">
+            <mat-option *ngFor="let doc of docTypeList" [value]="doc">
+              {{doc.name}}
+            </mat-option>
+          </mat-select>
+          <div padding-left>
+            <ng-container *ngFor="let validation of validation_messages.documentType">
+              <div *ngIf="firstFormGroup.get('name').hasError(validation.type) && firstStepValid">
+                <p style="color: red;font-size: small;">{{validation.message}}</p>
+              </div>
+            </ng-container>
+          </div>
+        </mat-form-field>
+        <!-- Name of Complainer -->
+        <mat-form-field class="example-full-width">
+          <mat-label class="asterisk_input">Name of Complainer</mat-label>
+          <input matInput formControlName="name">
+          <div padding-left>
+            <ng-container *ngFor="let validation of validation_messages.name">
+              <div *ngIf="firstFormGroup.get('name').hasError(validation.type) && firstStepValid">
+                <p style="color: red;font-size: small;">{{validation.message}}</p>
+              </div>
+            </ng-container>
+          </div>
+        </mat-form-field>
+        <!-- Designation of Complainer -->
+        <mat-form-field class="example-full-width">
+          <mat-label class="asterisk_input">Designation of Complainer</mat-label>
+          <mat-select [(ngModel)]="designationOfComplainerSelected" formControlName="designationOfComplainerCtrl"
+            (selectionChange)="designationOfComplainerChange(designationOfComplainerSelected)">
+            <mat-option *ngFor="let designationObject of designationOfComplainerList" [value]="designationObject">
+              {{designationObject.name}}
+            </mat-option>
+          </mat-select>
+          <div padding-left>
+            <ng-container *ngFor="let validation of validation_messages.designation">
+              <div
+                *ngIf="firstFormGroup.get('designationOfComplainerCtrl').hasError(validation.type) && firstStepValid">
+                <p style="color: red;font-size: small;">{{validation.message}}</p>
+              </div>
+            </ng-container>
+          </div>
+        </mat-form-field>
+        <!-- Contact No -->
+        <mat-form-field class="example-full-width">
+          <mat-label class="asterisk_input">Contact No.</mat-label>
+          <input type="number" matInput formControlName="mobileno">
+          <div padding-left>
+            <ng-container *ngFor="let validation of validation_messages.mobileno">
+              <div *ngIf="firstFormGroup.get('mobileno').hasError(validation.type) && firstStepValid">
+                <p style="color: red;font-size: small;">{{validation.message}}</p>
+              </div>
+            </ng-container>
+          </div>
+        </mat-form-field>
+        <!-- Email ID -->
+        <mat-form-field class="example-full-width">
+          <mat-label class="asterisk_input">Email ID</mat-label>
+          <input type="email" matInput formControlName="email">
+          <div padding-left>
+            <ng-container *ngFor="let validation of validation_messages.email">
+              <div *ngIf="firstFormGroup.get('email').hasError(validation.type) && firstStepValid">
+                <p style="color: red;font-size: small;">{{validation.message}}</p>
+              </div>
+            </ng-container>
+          </div>
+        </mat-form-field>
+        <!-- Event Date -->
+        <div class="example-full-width bottom-border">
+          <ion-label style="color: darkgray;">Event Date</ion-label>
+          <section class="cus">
+           <ion-datetime  style="--padding-start:0px" displayFormat="DD-MM-YYYY" [(ngModel)]="today" formControlName="eventDateCtrl" [max]="maxDate | date:'yyyy-MM-dd'">
+          </ion-datetime>
+          <ion-icon name="calendar"></ion-icon> 
+        </section>
+        </div>
+        <!-- Complaint Description -->
+        <mat-form-field class="example-full-width">
+          <mat-label class="asterisk_input">Complaint Description</mat-label>
+          <textarea matInput formControlName="complaintDescriptionCtrl"></textarea>
+          <div padding-left>
+            <ng-container *ngFor="let validation of validation_messages.complaintDescriptionCtrl">
+              <div *ngIf="firstFormGroup.get('complaintDescriptionCtrl').hasError(validation.type) && firstStepValid">
+                <p style="color: red;font-size: small;">{{validation.message}}</p>
+              </div>
+            </ng-container>
+          </div>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperNext (click)="matSettper($event,firstFormGroup)">Next</button>
+        </div>
+      </form>
+    </mat-step>
+
+    <mat-step [stepControl]="productCompliantFormGroup" label="Product Compliant" *ngIf="isProductCompliant"
+      [optional]="isOptional">
+      <form [formGroup]="productCompliantFormGroup" class="example-form">
+        <mat-form-field class="example-full-width">
+          <mat-label>Lot No.</mat-label>
+          <input matInput formControlName="lotNoProductCompliantCtrl">
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext (click)="matSettperProductCom($event)">Next</button>
+        </div>
+      </form>
+    </mat-step>
+
+    <mat-step [stepControl]="consumablesFormGroup" label="Consumables" *ngIf="isConsumables">
+      <form [formGroup]="consumablesFormGroup" class="example-form">
+        <mat-form-field class="example-full-width">
+          <mat-label>Lot No.</mat-label>
+          <input matInput formControlName="lotNoConsumablesCtrl">
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext (click)="matSettperConsumables($event)">Next</button>
+        </div>
+      </form>
+    </mat-step>
+
+    <mat-step [stepControl]="equipmentFormGroup" label="Equiment Detail" *ngIf="isEquipment">
+      <form [formGroup]="equipmentFormGroup">
+        <!-- Serial No -->
+        <mat-form-field class="example-full-width">
+          <mat-label class="asterisk_input">Serial No.</mat-label>
+          <input matInput formControlName="serialNo" (change)='onCheckInstallationBase()'>
+          <div padding-left>
+            <ng-container *ngFor="let validation of validation_messages.serialNo">
+              <div *ngIf="equipmentFormGroup.get('serialNo').hasError(validation.type) && secondStepValid">
+                <p style="color: red;font-size: small;">{{validation.message}}</p>
+              </div>
+            </ng-container>
+          </div>
+        </mat-form-field>
+        <!-- Sr. No. of Equipment -->
+        <!-- <mat-form-field class="example-full-width">
+          <mat-label>Sr. No. of Equipment</mat-label>
+          <input matInput formControlName="SrNoEquipmentCtrl">
+        </mat-form-field> -->
+        <!-- Contract Type -->
+        <mat-form-field class="example-full-width">
+          <mat-label class="asterisk_input">Contract Type</mat-label>
+          <mat-select [(ngModel)]="contractTypeSelected" formControlName="contractType"
+            (selectionChange)="contractTypeSelectedChange(contractTypeSelected)">
+            <mat-option *ngFor="let contract of contractTypeList" [value]="contract">
+              {{contract.name}}
+            </mat-option>
+          </mat-select>
+          <div padding-left>
+            <ng-container *ngFor="let validation of validation_messages.contractType">
+              <div *ngIf="equipmentFormGroup.get('contractType').hasError(validation.type) && firstStepValid">
+                <p style="color: red;font-size: small;">{{validation.message}}</p>
+              </div>
+            </ng-container>
+          </div>
+        </mat-form-field>
+        <!-- Invoice No -->
+        <mat-form-field class="example-full-width">
+          <mat-label>Invoice No.</mat-label>
+          <input matInput formControlName="invoiceNoCtrl">
+        </mat-form-field>
+        <!-- Invoice Date -->
+        <div class="example-full-width bottom-border">
+          <ion-label style="color: darkgray;">Invoice Date</ion-label>
+          <section class="cus">
+           <ion-datetime  style="--padding-start:0px" displayFormat="DD-MM-YYYY"  formControlName="invoiceDateCtrl" [max]="maxDate | date:'yyyy-MM-dd'">
+          </ion-datetime>
+          <ion-icon name="calendar"></ion-icon> 
+        </section>
+        </div>
+        
+        
+        <!-- <mat-form-field class="example-full-width">
+          <mat-label>Invoice Date</mat-label>
+          <input matInput type="date" [disabled]='true' formControlName="invoiceDateCtrl" matInput [max]="maxDate | date:'yyyy-MM-dd'">
+        </mat-form-field> -->
+        <!-- Error Code -->
+        <mat-form-field class="example-full-width">
+          <mat-label class="asterisk_input">Error Code</mat-label>
+          <mat-select [(ngModel)]="errorCodeSelected" formControlName="errorCode"
+            (selectionChange)="errorCodeSelectedSelectedChange(errorCodeSelected)">
+            <mat-option *ngFor="let errorCode of errorCodeList" [value]="errorCode">
+              {{errorCode.name}}
+            </mat-option>
+          </mat-select>
+          <div padding-left>
+            <ng-container *ngFor="let validation of validation_messages.errorCodeCtrlErrorMessage">
+              <div *ngIf="equipmentFormGroup.get('errorCode').hasError(validation.type) && firstStepValid">
+                <p style="color: red;font-size: small;">{{validation.message}}</p>
+              </div>
+            </ng-container>
+          </div>
+        </mat-form-field>
+        <!-- Dealer Name -->
+        <mat-form-field class="example-full-width">
+          <mat-label>Dealer Name</mat-label>
+          <input matInput formControlName="dealerNameCtrl">
+        </mat-form-field>
+        <!-- Installation Date -->
+        <div class="example-full-width bottom-border">
+          <ion-label style="color: darkgray;">Installation Date</ion-label>
+          <section class="cus">
+           <ion-datetime  style="--padding-start:0px" displayFormat="DD-MM-YYYY"  formControlName="installationDateCtrl" [max]="maxDate | date:'yyyy-MM-dd'">
+          </ion-datetime>
+          <ion-icon name="calendar"></ion-icon> 
+        </section>
+        </div>
+
+        <!-- <mat-form-field class="example-full-width">
+          <mat-label>Installation Date</mat-label>
+          <input type="date" matInput formControlName="installationDateCtrl" matInput
+            [max]="maxDate | date:'yyyy-MM-dd'">
+        </mat-form-field> -->
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext (click)="matSettperSecond($event)">Next</button>
+        </div>
+      </form>
+    </mat-step>
+
+    <mat-step [stepControl]="thirdFormGroup" label="SKU Detail">
+      <form [formGroup]="thirdFormGroup">
+        <!-- SKU Code -->
+        <mat-form-field class="example-full-width">
+          <mat-label class="asterisk_input">SKU Code</mat-label>
+          <input matInput formControlName="SKUCode">
+          <div padding-left>
+            <ng-container *ngFor="let validation of validation_messages.SKUCode">
+              <div *ngIf="thirdFormGroup.get('SKUCode').hasError(validation.type) && thirdStepValid">
+                <p style="color: red;font-size: small;">{{validation.message}}</p>
+              </div>
+            </ng-container>
+          </div>
+        </mat-form-field>
+        <!-- SKU Name / Description -->
+        <mat-form-field class="example-full-width">
+          <mat-label>SKU Name / Description</mat-label>
+          <input matInput formControlName="skuName">
+        </mat-form-field>
+        <!-- Brand Name -->
+        <mat-form-field class="example-full-width">
+          <mat-label class="asterisk_input">Brand Name</mat-label>
+          <input matInput formControlName="brandName">
+          <div padding-left>
+            <ng-container *ngFor="let validation of validation_messages.brandName">
+              <div *ngIf="thirdFormGroup.get('brandName').hasError(validation.type) && thirdStepValid">
+                <p style="color: red;font-size: small;">{{validation.message}}</p>
+              </div>
+            </ng-container>
+          </div>
+        </mat-form-field>
+        <!-- Product to be returned -->
+        <mat-form-field class="example-full-width">
+          <mat-label>Product to be returned</mat-label>
+          <mat-select [(ngModel)]="ProductReturnedSelected" [ngModelOptions]="{standalone: true}"
+            (selectionChange)="ProductReturnedSelectedChange(ProductReturnedSelected)">
+            <mat-option value="Y">Yes</mat-option>
+            <mat-option value="N">No</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext (click)="matSettperThird($event)">Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <!-- Customer Detail Tab -->
+    <mat-step [stepControl]="fourthFormGroup" label="Customer Detail">
+      <form [formGroup]="fourthFormGroup">
+        <!-- Customer Name -->
+        <mat-form-field class="example-full-width">
+          <mat-label class="asterisk_input">Customer Name</mat-label>
+          <input matInput formControlName="customerName">
+          <div padding-left>
+            <ng-container *ngFor="let validation of validation_messages.customerName">
+              <div *ngIf="fourthFormGroup.get('customerName').hasError(validation.type) && fourthStepValid">
+                <p style="color: red;font-size: small;">{{validation.message}}</p>
+              </div>
+            </ng-container>
+          </div>
+        </mat-form-field>
+        <!-- Customer Address 1 -->
+        <mat-form-field class="example-full-width">
+          <mat-label class="asterisk_input">Customer Address 1</mat-label>
+          <input matInput formControlName="customerAddress1">
+          <div padding-left>
+            <ng-container *ngFor="let validation of validation_messages.customerAddress1">
+              <div *ngIf="fourthFormGroup.get('customerAddress1').hasError(validation.type) && fourthStepValid">
+                <p style="color: red;font-size: small;">{{validation.message}}</p>
+              </div>
+            </ng-container>
+          </div>
+        </mat-form-field>
+        <!-- Customer Address 2 -->
+        <mat-form-field class="example-full-width">
+          <mat-label>Customer Address 2</mat-label>
+          <input matInput formControlName="customerAddress2">
+        </mat-form-field>
+        <!-- Customer Address 3 -->
+        <mat-form-field class="example-full-width">
+          <mat-label>Customer Address 3</mat-label>
+          <input matInput formControlName="customerAddress3">
+        </mat-form-field>
+        <!-- Pin Code -->
+        <mat-form-field class="example-full-width">
+          <mat-label class="asterisk_input">Pin Code</mat-label>
+          <input type="number" matInput formControlName="pinCodeCtrl" (change)='onChangePinCode()'>
+          <div padding-left>
+            <ng-container *ngFor="let validation of validation_messages.pinCode">
+              <div *ngIf="fourthFormGroup.get('pinCodeCtrl').hasError(validation.type) && fourthStepValid">
+                <p style="color: red;font-size: small;">{{validation.message}}</p>
+              </div>
+            </ng-container>
+          </div>
+        </mat-form-field>
+        <!-- Area -->
+        <mat-form-field class="example-full-width">
+          <mat-label class="asterisk_input">Area</mat-label>
+          <mat-select formControlName="area" (selectionChange)="onAreaSelectedChange()" [(ngModel)]="areaSelected">
+            <mat-option *ngFor="let area of areaList" [value]="area">
+              {{area.area}}
+            </mat-option>
+          </mat-select>
+          <div padding-left>
+            <ng-container *ngFor="let validation of validation_messages.area">
+              <div *ngIf="fourthFormGroup.get('area').hasError(validation.type) && fourthStepValid">
+                <p style="color: red;font-size: small;">{{validation.message}}</p>
+              </div>
+            </ng-container>
+          </div>
+        </mat-form-field>
+        <!-- City -->
+        <mat-form-field class="example-full-width">
+          <mat-label class="asterisk_input">City</mat-label>
+          <input matInput formControlName="city" [(ngModel)]="city">
+          <div padding-left>
+            <ng-container *ngFor="let validation of validation_messages.city">
+              <div *ngIf="fourthFormGroup.get('city').hasError(validation.type) && fourthStepValid">
+                <p style="color: red;font-size: small;">{{validation.message}}</p>
+              </div>
+            </ng-container>
+          </div>
+        </mat-form-field>
+        <!-- State -->
+        <mat-form-field class="example-full-width">
+          <mat-label class="asterisk_input">State</mat-label>
+          <input matInput formControlName="state" [(ngModel)]="state">
+          <div padding-left>
+            <ng-container *ngFor="let validation of validation_messages.state">
+              <div *ngIf="fourthFormGroup.get('state').hasError(validation.type) && fourthStepValid">
+                <p style="color: red;font-size: small;">{{validation.message}}</p>
+              </div>
+            </ng-container>
+          </div>
+        </mat-form-field>
+        <!-- Country -->
+        <mat-form-field class="example-full-width">
+          <mat-label class="asterisk_input">Country</mat-label>
+          <input matInput formControlName="country" [(ngModel)]="country">
+          <div padding-left>
+            <ng-container *ngFor="let validation of validation_messages.country">
+              <div *ngIf="fourthFormGroup.get('country').hasError(validation.type) && fourthStepValid">
+                <p style="color: red;font-size: small;">{{validation.message}}</p>
+              </div>
+            </ng-container>
+          </div>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+        </div>
+        <div>
+          <ion-row>
+            <ion-col no-padding>
+              <ion-button size="default" [disabled]="!fourthFormGroup.valid && fourthFormGroup.disabled === false"
+                class="submit-btn" expand="block" color="primary" (click)="submit()">Assign to COP
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </div>
+      </form>
+    </mat-step>
+  </mat-vertical-stepper>
+</ion-content>

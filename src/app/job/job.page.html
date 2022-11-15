@@ -1,0 +1,57 @@
+<ion-header>
+  <ion-toolbar color="primary">
+      <ion-buttons slot="start">
+          <ion-back-button defaultHref="joblist"></ion-back-button>
+        </ion-buttons>
+    <ion-title>Job</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+<ion-card>
+  <ion-item  *ngFor="let joba of jobassignment">
+    <ion-card-content>
+    <ion-grid fix>
+        <ion-row>
+          <ion-col size="12">
+              <ion-label position="stacked">Branch</ion-label>
+              <ion-card-subtitle>{{joba.organization$_identifier}}</ion-card-subtitle>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="12">
+              <ion-col size="6">
+                  <ion-label position="stacked">Vendor/Customer/Sending Branch</ion-label>
+                  <ion-card-subtitle>{{joba.bpartner$_identifier}}</ion-card-subtitle>
+              </ion-col>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col size="6">
+                <ion-label position="stacked">Document No.</ion-label>
+                <ion-card-subtitle>{{joba.documentno}}</ion-card-subtitle>
+            </ion-col>
+            <ion-col size="6">
+                <ion-label position="stacked">Doument Date</ion-label>
+                <ion-card-subtitle>{{joba.documentdate| date: 'dd/MM/yyyy'}}</ion-card-subtitle>
+                
+            </ion-col>
+        </ion-row>
+        <ion-row class="ion-text-right">
+          <ion-col size="6">
+              <ion-button (click)="onScan(joba)">
+                  Start Scanning
+              </ion-button>
+          </ion-col>
+          <ion-col size="6">
+              <ion-button (click)="onCancel()">
+                  Cancel
+              </ion-button>
+          </ion-col>
+        </ion-row>
+
+      </ion-grid>
+    </ion-card-content>
+    </ion-item>
+</ion-card>
+</ion-content>

@@ -1,0 +1,37 @@
+#myFixZone {
+    height: 100px;
+}
+
+.container {
+    width: 100%;
+    padding: 10px;
+    background-color:wheat;
+    overflow: hidden; 
+    white-space: nowrap;
+    ::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .scroll {
+      overflow: auto;
+    }
+  }
+
+  .selector {
+    
+    line-height: 1.0;
+    letter-spacing: 0.5px;
+    
+    width: 100% !important;
+    max-width: 100% !important;
+    justify-content: center;
+    border: solid 2px  rgb(82, 79, 79); 
+    border-radius: 10px;
+    //background-color: #ffffff;
+    text-align: left;
+  }
+
+  .rotate-90 {
+    display: inline-block; 
+    transform: rotate(90deg);
+  }

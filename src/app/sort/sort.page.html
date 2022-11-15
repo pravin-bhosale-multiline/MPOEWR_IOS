@@ -1,0 +1,79 @@
+<!-- <ion-header>
+  <ion-toolbar>
+   
+    <ion-buttons slot="start">
+      <ion-back-button  defaultHref="order-approval"></ion-back-button>
+    </ion-buttons>
+    <ion-title slot="start">Sort</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="clearFilter()"> Clear Filters</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid class="box">
+    <ion-row class="row-custom">
+      <ion-col size="4" class="back-color custom-ion-col">
+        <ion-list *ngFor="let filterItem of filterList;let i = index" class="back-color">
+          <ion-item lines="none" class="list-item" (click)="menuItemClick(i)" [ngClass]="{'custom-activated': (active == i),'ion-item-custom':(active != i)}">
+            <ion-label color="primary">
+              {{ filterItem.name }}
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+      <ion-col>
+        <div>
+          <ion-item>
+            <ion-label>Start Date</ion-label>
+            <ion-datetime displayFormat="DDD. MMM DD, YY" placeholder="Select Date" [(ngModel)]="startDate"></ion-datetime>
+
+          </ion-item>
+          <ion-item>
+            <ion-label>End Date</ion-label>
+            <ion-datetime displayFormat="DDD. MMM DD, YY"  placeholder="Select Date" [(ngModel)]="endDate"></ion-datetime>
+          </ion-item>
+        </div>
+      </ion-col>
+    </ion-row>    
+  </ion-grid>  
+</ion-content>
+<ion-footer class="footer-back-color">
+  <ion-button  (click)="applyFilter()"  color="primary"  size="large" expand="full" fill="outline" class="footer-btn-color">
+    <ion-label style="color: white;">
+      Apply
+    </ion-label>
+  </ion-button>
+</ion-footer> -->
+
+
+<ion-header #header>
+  <ion-toolbar>
+    <ion-title>Details</ion-title>
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content scrollEvents="true" appHideHeader [header]="header">
+  <ngx-datatable  #datatable style="height: 600px; overflow-y:visible" class="bootstrap resizeable"  (cdkObserveContent)="adjustColumnMinWidth()"
+                 [rows]="rows"
+                 [columns]="column_data"
+                 [columnMode]="'froce'"
+                 [headerHeight]="50"
+                 [footerHeight]="50"
+                 [rowHeight]="40"
+                 [selectionType]="SelectionType.single"
+                 [scrollbarH]="true"
+                 [scrollbarV]="true"
+                 [reorderable]="true"
+                 [loadingIndicator]="true"
+                 [swapColumns]="true">
+    
+  </ngx-datatable>
+ 
+</ion-content>

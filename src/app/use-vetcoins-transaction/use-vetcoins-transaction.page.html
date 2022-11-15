@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar class="cssion-toolbar">
+    <ion-buttons slot="start">
+      <ion-menu-button style="color: white;"></ion-menu-button>
+    </ion-buttons>
+    <ion-title style="font-size:large">
+     VetCoins Balance   &#x20b9; {{balamount}}
+    </ion-title>
+    <ion-buttons (click)="Resetpage()" slot="end" style="font-size: 1.8rem;">
+      <ion-icon name="refresh"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+  
+
+</ion-header>
+
+
+<ion-content>
+
+ 
+    
+  <ion-row style="border-bottom: 1px solid grey !important;">
+    <ion-col size="4" style="text-align: center;">Date</ion-col>
+    <ion-col size="4">Descriptions</ion-col>
+    <ion-col size="2">Credit</ion-col>
+    <ion-col size="2">Debit</ion-col>
+  </ion-row>
+  
+
+  
+      
+<ion-row  *ngFor="let item of transactiondata; index as i"   ng-class="{$even ? odd : even}">
+
+  <ion-card style="width: 100%;">
+    <ion-card-content size="12"> 
+  <!-- <ion-item style="font-size: small;"> -->
+    <ion-row style="font-size: small;">
+  <ion-col size="4" style="text-align: left;"> {{item.date | date: 'dd/MM/yyyy'}}</ion-col>
+  <ion-col size="4" style="text-align: left;" >{{item.descriptions}}</ion-col>
+  <ion-col size="2" style="text-align: right;font-size: smaller;">{{item.credit}}</ion-col>
+  <ion-col size="2" style="text-align: right;font-size: smaller;">{{item.debit}}</ion-col>
+<!-- </ion-item> -->
+</ion-row>
+ </ion-card-content>
+</ion-card>
+</ion-row>
+ 
+</ion-content>

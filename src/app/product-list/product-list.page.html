@@ -1,0 +1,110 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Product</ion-title>
+    <!-- <ion-buttons slot="start">
+      <ion-button (click)="dismiss()">Cancel</ion-button>
+    </ion-buttons> -->
+  </ion-toolbar>
+  <ion-searchbar animated [debounce]="1000" showCancelButton="focus" [disabled]="editMode" (ionChange)="onChangeProductSearch($event)"></ion-searchbar>
+  
+  <!-- <ion-row>
+    <ion-col size='10' no-padding no-margin>
+      <ion-searchbar animated  [debounce]="1000" [disabled]="editMode" (ionChange)="onChangeProductSearch($event)"></ion-searchbar>
+    </ion-col>
+    <ion-col size='2' no-padding no-margin>
+     <ion-button *ngIf="msg.isplatformweb" class="custom-serarch">Search</ion-button>
+     <ion-button *ngIf="!msg.isplatformweb" class="custom-serarch-device"><small>Search</small></ion-button>
+    </ion-col>
+  </ion-row> -->
+ 
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="productListForm" novalidate style="width: -webkit-fill-available;">
+    <section formArrayName="items">
+      <ion-list  *ngFor="let product of productList;let i = index " [formGroupName]="i" class="back-color" >
+       <ion-card>  
+        <ion-grid style="padding-left: 10px;"> 
+            <ion-row>
+              <ion-col size="9">
+                <ion-label>
+                    <small>{{product._identifier}}</small>
+                  </ion-label>
+                  {{this.productListForm.get('items.i')}}
+              </ion-col>
+              <ion-col size="3">
+               <button [ngClass]="{'added': product.hasOwnProperty('isSelected') == true,'add-to-cart': product.hasOwnProperty('isSelected') == false}" (click)="onAddToCart(product,i)">
+                <small>{{ product.hasOwnProperty('isSelected') ? 'Added' : 'Add To Cart' }}</small> 
+                </button>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                <ion-row>
+                  <ion-col text-center>
+                    <small><ion-label class="asterisk_input">Quantity</ion-label></small>
+                  </ion-col>
+                </ion-row>
+                <ion-row text-center>
+                  <ion-input type="text" (keypress)="numberOnly($event)" class="custom-class" placeholder="Enter Qty" formControlName="key" min="0">
+                  </ion-input>
+                 
+                </ion-row>
+              </ion-col>
+              <ion-col *ngIf="product.isreeproduct && special_order_product==='Y' && issplorderonfreeqty">
+                <ion-row>
+                  <ion-col text-center>
+                    <small><ion-label >Free Qty</ion-label></small>
+                  </ion-col>
+                </ion-row>
+                <ion-row text-center>
+                  <ion-input type="text" (keypress)="numberOnly($event)" class="custom-class" placeholder="Enter Free Qty" formControlName="freeqty" min="0">
+                  </ion-input>
+                 
+                </ion-row>
+              </ion-col>
+              <ion-col>
+                <ion-row>
+                  <ion-col text-center>
+                    <small><ion-label>Min Order Qty</ion-label></small>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col text-center>
+                    <small>{{product.minorderqty}}</small>
+                  </ion-col>
+                </ion-row>
+              </ion-col>
+              <ion-col>
+                <ion-row>
+                  <ion-col text-center>
+                    <small><ion-label>Pack Size</ion-label></small>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col text-center>
+                    <small>{{product.shipperqty}}</small>
+                  </ion-col>
+                </ion-row>
+              </ion-col>
+              
+            </ion-row>
+            <!-- <ion-row>
+              <ion-col>
+              {{productListForm.get('items')['controls'][i].valid}}
+                <ion-button class="custom-add-btn"  color="vibrant" expand="block" (click)="onAddToCart(product,i)">Add to cart</ion-button>
+              </ion-col>
+            </ion-row> -->
+          </ion-grid>
+        </ion-card> 
+      </ion-list>
+    </section>     
+  </form>
+</ion-content>
+<ion-footer class="footer-back-color">
+  <ion-button  (click)="onClose()"  color="primary"  size="large" expand="full" fill="outline" class="footer-btn-color">
+    <ion-label style="color: white;">
+      Close
+    </ion-label>
+  </ion-button>
+</ion-footer>

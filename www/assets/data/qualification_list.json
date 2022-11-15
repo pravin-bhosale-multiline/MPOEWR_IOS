@@ -1,0 +1,46 @@
+[
+    {
+        "id": 1,
+        "name": "SSC"
+    },
+    {
+        "id": 2,
+        "name": "HSC"
+    },
+    {
+        "id": 3,
+        "name": "Mechanical Engineer"
+    },
+    {
+        "id": 4,
+        "name": "Piping Designer"
+    },
+    {
+        "id": 5,
+        "name": "Mechanical Design Engineer"
+    },
+    {
+        "id": 6,
+        "name": "Electrical Design Engineer"
+    },
+    {
+        "id": 7,
+        "name": "State Govt: Security/Support Staff at government organizations and airports"
+    },
+    {
+        "id": 8,
+        "name": "Project Managers"
+    },
+    {
+        "id": 9,
+        "name": "Assistant Engineer"
+    },
+    {
+        "id": 10,
+        "name": "Lab Assistants"
+    },
+    {
+        "id": 11,
+        "name": "Script development"
+    }
+]

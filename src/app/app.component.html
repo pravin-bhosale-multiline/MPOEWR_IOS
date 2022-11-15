@@ -1,0 +1,84 @@
+<ion-app>
+  <ion-split-pane contentId="main-content" >
+    <ion-menu contentId="main-content" type="overlay">
+     
+      <ion-content>
+        <ion-list style="background-color: #F39E20; padding:20px 0px 0px 0px">
+
+          <ion-row>
+            <ion-col size="3">
+              <img *ngIf="loginauth.logoimgeBase64==''" src='./assets/icon/ic_launcher.png' class="custom-avatar"/>
+
+              <img [src]="loginauth.logoimgeBase64" class="custom-avatar"/>
+          </ion-col>
+          <ion-col size="9" *ngIf="loginauth.defaultprofile">
+            <ion-list-header style="color:#FFF; margin-top: 10px;">Welcome</ion-list-header>
+            <ion-note style="color:#FFF; width: 100%; font-size: small;">{{loginauth.defaultprofile[0].name}} </ion-note>
+          </ion-col>
+          </ion-row>    
+
+        
+          <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages">
+            <ion-item lines="none" [routerDirection]="'root'"  [routerLink]="[p.url]" *ngIf="loginauth.logintype==='wms' && 
+            p.isNewLead===true && p.isExistingLead===true  && 
+            p.isBusinessPartnerAddress===true && p.isNewOrder===true && p.isDraftOrder===true && p.isOrderStatus===true &&
+            p.isLatLongFinder===true && p.isTravelPlan===true && p.isActualTravelPlan===true &&
+            p.isTravelExpense===true && p.isTravelPlanClosure===true && p.isApprovalAccess===true &&
+            p.isschemeinfo===true && p.isCustomerServiceAccess===true && p.isComplaintReportingAccess===true && 
+            p.isCompliantAcceptanceAccess===true && p.isFieldVisitAccess===true && p.isQuotationAccess===true && 
+            p.isQuotationApproval===true && p.isConsolidationOrder===true && p.isUpload===true && p.isReport===true && p.isarvisitschedule===true">
+             
+            <ion-icon slot="start" [name]="p.icon" style="color:#F39E20;"></ion-icon>
+              <ion-label>
+                {{p.title}}
+              </ion-label>
+            </ion-item>
+           
+          </ion-menu-toggle>
+
+          <!-- <ion-menu-toggle auto-hide="false" *ngFor="let p of checkcust">
+            <ion-item lines="none" [routerDirection]="'root'" [routerLink]="[p.url]" *ngIf="loginauth.logintype==='wms' && 
+            loginauth.defaultprofile[0].mmstOrderusrtype==='CEB' && 
+            p.isNewLead===true && p.isDraftOrder===true && p.isschemeinfo===true && p.isNewOrder === true &&
+            p.isOrderStatus===true && p.isLatLongFinder===true && p.isTravelPlan===true &&
+            p.isActualTravelPlan===true && p.isTravelExpense===true && p.isTravelPlanClosure===true &&
+            p.isApprovalAccess===true && p.isDraftOrder===true && p.isCustomerServiceAccess===true && 
+            p.isComplaintReportingAccess===true && p.isCompliantAcceptanceAccess===true && p.isFieldVisitAccess===true && 
+            p.isQuotationAccess===true && p.isQuotationApproval===true && p.isConsolidationOrder===true && p.isUpload===true  && 
+            p.isReport===true">
+              <ion-icon slot="start" [name]="p.icon" style="color: #F39E20;"></ion-icon>
+              <ion-label>
+                {{p.title}}
+              </ion-label>
+            </ion-item>
+          
+          </ion-menu-toggle> -->
+
+          <ion-menu-toggle auto-hide="false" *ngFor="let p of vetappPages">
+            <ion-item [routerDirection]="'root'" [routerLink]="[p.url]" *ngIf="loginauth.logintype==='vet' && 
+             p.approvalaccess===true  && p.isschemeinfo===true">
+              <ion-icon slot="start" [name]="p.icon" style="color: #F39E20;"></ion-icon>
+              <ion-label>
+                {{p.title}}
+              </ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+
+
+        </ion-list>
+      </ion-content>
+      <ion-footer class="ion-no-border">
+        <ion-item lines="none" *ngIf="!iswebplatform">
+          <ion-icon slot="start" name="moon" style="color: #F39E20;"></ion-icon>
+          <ion-label>Toggle Dark Theme</ion-label>
+          <ion-toggle slot="end" [ngModel]="darkMode" (ionChange)="themeMode()"></ion-toggle>
+                  </ion-item>
+
+        <ion-toolbar >
+          <ion-title style="font-size: xx-small;padding: inherit;" color="primary"> VERSION {{VERSION_NO}}</ion-title>
+        </ion-toolbar>
+      </ion-footer>
+     </ion-menu>
+    <ion-router-outlet id="main-content"></ion-router-outlet>
+  </ion-split-pane>
+</ion-app>

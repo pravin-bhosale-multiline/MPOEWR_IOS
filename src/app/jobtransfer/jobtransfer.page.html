@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Job Transfer</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="joblist"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+      <ion-grid fix>
+          <ion-row >
+              <ion-col >
+                <ion-item >
+                    <ion-label color="primary" position="stacked">Transfer To.</ion-label>
+                    <ion-select #C [ngModel]="selectedUser" (ionChange)="onChange(C.value)" multiple="false" placeholder="Select User">
+                      <ion-select-option *ngFor="let users of userlist" [value]="users">{{users.user$_identifier}}</ion-select-option>
+                    </ion-select>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+                <ion-row>
+                <ion-col >
+                  <ion-item>
+                      <ion-label  position="stacked">Reason</ion-label>
+                      <ion-input  type="text" [(ngModel)]="sreason" placeholder="Reason" ></ion-input>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+                <ion-row>
+                <ion-col >
+                  <ion-item>
+                      <ion-button (click)="onGo()">
+                          Go
+                      </ion-button>
+                  </ion-item>
+              </ion-col>
+              </ion-row>
+              <ion-row>
+              <ion-col>
+                  <ion-text color="danger">{{txterror}}</ion-text>
+              </ion-col>
+            </ion-row>
+      </ion-grid>
+ </ion-card>
+</ion-content>

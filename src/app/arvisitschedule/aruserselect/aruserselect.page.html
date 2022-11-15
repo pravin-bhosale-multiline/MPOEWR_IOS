@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar  color="primary">
+    <ion-title>Cross Assignment</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-item>
+    <ion-label position="stacked">Select AR User&nbsp;<span style="color:red!important">*</span></ion-label>
+    <ionic-selectable [(ngModel)]="selecteduser" closeButtonSlot="end" placeholder="Select AR User" headerColor="primary"
+     [shouldFocusSearchbar]="true"
+    [items]="aruserlist"
+    itemValueField="userid" 
+    itemTextField="username" 
+    [canSearch]="true"
+    (onClose)="onARUserClose($event)"
+    [hasInfiniteScroll]="true"
+    (onInfiniteScroll)="doInfiniteARUser($event)"
+    (onSearch)="onARUsersearchChange($event)">
+    </ionic-selectable>
+  </ion-item>
+  <!-- <ion-button (click)="onClickAssignPlan()" expand="block" color="primary" fill="outline">
+    Assign Plan
+  </ion-button> -->
+</ion-content>
+<section class="full-width">
+  <ion-row>
+    <ion-col>
+  <ion-button color="primary" expand="full" (click)="onClickAssignPlan()">Assign Plan</ion-button>
+</ion-col>
+<ion-col>
+  <ion-button color="primary" expand="full" (click)="onClose()">CLOSE</ion-button>
+</ion-col>
+</ion-row>
+</section>

@@ -1,0 +1,54 @@
+{
+  "_args": [
+    [
+      "cordova-honeywell-scanner-simplified@1.4.3",
+      "E:\\Projects\\obprism2-master"
+    ]
+  ],
+  "_from": "cordova-honeywell-scanner-simplified@1.4.3",
+  "_id": "cordova-honeywell-scanner-simplified@1.4.3",
+  "_inBundle": false,
+  "_integrity": "sha512-fSYjXw6CWWy8Y6bkkqYSQp3wL4nv6DAgKfhyJE5KPCqPkSN+BTZWwYC+54TsRFwr/k2T9l9M0R5wH5a5Ltgu7g==",
+  "_location": "/cordova-honeywell-scanner-simplified",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "cordova-honeywell-scanner-simplified@1.4.3",
+    "name": "cordova-honeywell-scanner-simplified",
+    "escapedName": "cordova-honeywell-scanner-simplified",
+    "rawSpec": "1.4.3",
+    "saveSpec": null,
+    "fetchSpec": "1.4.3"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/cordova-honeywell-scanner-simplified/-/cordova-honeywell-scanner-simplified-1.4.3.tgz",
+  "_spec": "1.4.3",
+  "_where": "E:\\Projects\\obprism2-master",
+  "author": {
+    "name": "Doru Moraru",
+    "url": "http://doru-moraru.com"
+  },
+  "bugs": {
+    "url": "https://github.com/dorumrr/npmjs-cordova-honeywell-scanner-simplified/issues"
+  },
+  "deprecated": false,
+  "description": "Ionic/Cordova Honeywell Scanner Simplified Plugin for the built-in barcodes scanner.",
+  "homepage": "https://github.com/dorumrr/npmjs-cordova-honeywell-scanner-simplified",
+  "keywords": [
+    "ionic",
+    "cordova",
+    "honeywell",
+    "barcodes"
+  ],
+  "license": "MIT",
+  "main": "www/honeywell.js",
+  "name": "cordova-honeywell-scanner-simplified",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dorumrr/npmjs-cordova-honeywell-scanner-simplified.git"
+  },
+  "version": "1.4.3"
+}

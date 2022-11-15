@@ -1,0 +1,61 @@
+{
+  "_from": "cordova-plugin-pincheck",
+  "_id": "cordova-plugin-pincheck@0.0.6",
+  "_inBundle": false,
+  "_integrity": "sha1-12Ab3JLN9RJxcKNKtDKPBGTgQTU=",
+  "_location": "/cordova-plugin-pincheck",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "cordova-plugin-pincheck",
+    "name": "cordova-plugin-pincheck",
+    "escapedName": "cordova-plugin-pincheck",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/cordova-plugin-pincheck/-/cordova-plugin-pincheck-0.0.6.tgz",
+  "_shasum": "d7601bdc92cdf5127170a34ab4328f0464e04135",
+  "_spec": "cordova-plugin-pincheck",
+  "_where": "/home/pravinb/Documents/WorkSpace/Ionic/PrismBackUp",
+  "author": {
+    "name": "Lim Shang Yi"
+  },
+  "bugs": {
+    "url": "https://github.com/shangyilim/cordova-plugin-pincheck/issues"
+  },
+  "bundleDependencies": false,
+  "cordova": {
+    "id": "cordova-plugin-pincheck",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "deprecated": false,
+  "description": "Checks whether the device has pin passcode setup on device",
+  "homepage": "https://github.com/shangyilim/cordova-plugin-pincheck#readme",
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios",
+    "pin",
+    "pin check",
+    "passcode",
+    "pass code",
+    "keyguard",
+    "key guard"
+  ],
+  "license": "MIT",
+  "name": "cordova-plugin-pincheck",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shangyilim/cordova-plugin-pincheck.git"
+  },
+  "version": "0.0.6"
+}

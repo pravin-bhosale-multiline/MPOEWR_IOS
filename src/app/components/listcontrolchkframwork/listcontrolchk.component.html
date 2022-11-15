@@ -1,0 +1,17 @@
+
+  <div [id]="question.questionid"  style=" margin-top: 10px;margin-bottom: 10px;" > 
+    <!-- <ion-label id="labellist" class="labelclass sc-ion-label-md-h sc-ion-label-md-s ion-color ion-color-primary md label-stacked hydrated" 
+    style="margin-left: 15px;font-size: 12px;"> {{question.queno}}. {{question.question}} </ion-label> -->
+      <ion-item >
+      <ion-checkbox id="child" (ionChange)="selectAllMember($event)" [checked]="isall" [(ngModel)]="isall" style="margin-right: 10px;"></ion-checkbox>
+    </ion-item>
+   
+    <ion-content  style="height: 200px;width: 90%;" scrollY="true" >    
+      <ion-item  *ngFor="let item of listofitem">
+        <ion-checkbox id="child" (ionChange)="selectMember(item,$event)" [checked]="item.ischecked" [(ngModel)]="item.ischecked"  style="margin-right: 10px;"></ion-checkbox>
+        <ion-text >{{item.name}}</ion-text>
+      </ion-item>
+      
+    </ion-content>
+  
+  </div>

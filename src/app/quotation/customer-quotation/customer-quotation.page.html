@@ -1,0 +1,182 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Customer Quotation
+    </ion-title>
+    <ion-buttons slot="end" style="font-size: 1.8rem;" routerDirection="root" routerLink="/home">
+      <ion-icon name="home"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+  <form [formGroup]="customerQuotationForm">
+  
+    <!-- Customer -->
+    <ion-card>
+      <ion-card-content>
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label position="stacked">Customer<span style="color:red!important">*</span></ion-label>
+              <ionic-selectable placeholder="Select Customer" [searchDebounce]="1000" disable="true" [formControl]="customerQuotationForm.controls['customerCtrl']"
+                  [items]="businessPartnerList"  
+                  itemValueField="id" 
+                  itemTextField="_identifier" 
+                  [canSearch]="true"
+                  [shouldStoreItemValue]="false"
+                  (onChange)="onCustomerChange($event)"
+                  (onClose)="onCustomerClose($event)"
+                  (onSearch)="onCustomerSearchChange($event)">
+                </ionic-selectable>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <!-- Shipping Information -->
+        <ion-row>
+        <ion-col>
+          <h5 ion-text class="text-primary">
+            <ion-icon name="locate"></ion-icon> Shipping Information:
+          </h5>
+        </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+              <ion-item >
+                <ion-label position="stacked">Shipping Address<span style="color:red!important">*</span></ion-label>
+                <ion-select  [formControl]="customerQuotationForm.controls['selectedBPaddressShippingCtrl']" interface="popover" multiple="false" placeholder="Select Address">
+                  <ion-select-option *ngFor="let custShippingAddress of custShippingAddressList" [value]="custShippingAddress">{{custShippingAddress.name}}</ion-select-option>
+                </ion-select>
+                </ion-item>
+                <div padding-left>
+                  <ng-container *ngFor="let validation of validation_messages.custAddShippingCtrlErrorMessage">
+                    <div *ngIf="customerQuotationForm.get('selectedBPaddressShippingCtrl').hasError(validation.type) && customerQuotationForm.get('selectedBPaddressShippingCtrl').touched">
+                      <p style="color: red;font-size: small;">{{validation.message}}</p>
+                    </div>
+                  </ng-container>
+                </div>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+              <ion-item >
+                <ion-label position="stacked">Billing Address<span style="color:red!important">*</span></ion-label>
+                <ion-select  [formControl]="customerQuotationForm.controls['selectedBPAddressBillingCtrl']" interface="popover" multiple="false" placeholder="Select Address">
+                  <ion-select-option *ngFor="let badd of custBillingAddressList" [value]="badd">{{badd.name}}</ion-select-option>
+                </ion-select>
+                </ion-item>
+                <div padding-left>
+                  <ng-container *ngFor="let validation of validation_messages.custAddBillingCtrlErrorMessage">
+                    <div *ngIf="customerQuotationForm.get('selectedBPAddressBillingCtrl').hasError(validation.type) && customerQuotationForm.get('selectedBPAddressBillingCtrl').touched">
+                      <p style="color: red;font-size: small;">{{validation.message}}</p>
+                    </div>
+                  </ng-container>
+                </div>
+          </ion-col>
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
+    <ion-card>
+      <ion-card-content>
+        <ion-row>
+          <ion-col>
+           <ion-item>
+            <div class="margin-custom">
+              <ion-label style="color: darkgray;">Order Date</ion-label>
+              <section class="cus">
+               <ion-datetime  disabled style="--padding-start:0px" displayFormat="DD-MM-YYYY" [(ngModel)]="today" formControlName="orderDateCtrl">
+              </ion-datetime>
+            </section>
+            </div>
+          </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label position="stacked">Service Product <span style="color:red!important">*</span></ion-label>
+              <ionic-selectable placeholder="Select Product" [searchDebounce]="1000" [formControl]="customerQuotationForm.controls['serviceProductCtrl']"
+                                [items]="serviceProductList" 
+                                itemValueField="id" 
+                                itemTextField="name" 
+                                [canSearch]="true"
+                                
+                                [shouldStoreItemValue]="false"
+                                (onClose)="onServiceProductClose($event)"
+                                (onChange)="onServiceProductChange($event)"
+                                (onSearch)="onServiceProductSearch($event)">
+              </ionic-selectable>
+            </ion-item>
+          </ion-col>
+        </ion-row> 
+        <ion-row *ngIf="showComplainNumber">
+           <ion-col>
+            <ion-item>
+              <ion-label position="floating">Complaint No.</ion-label>
+              <ion-input type="text" [formControl]="customerQuotationForm.controls['complaintNoCtrl']"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        
+      </ion-card-content>
+    </ion-card> 
+    <ion-card>
+      <ion-card-content>
+        <ion-row>
+          <ion-col>
+            <h5 ion-text class="text-primary">
+              <ion-icon name="cart"></ion-icon>Serial No
+            </h5>
+          </ion-col>
+          <ion-col>
+            <ion-fab-button size="small" float-right (click)="addSerialNo()">
+              <ion-icon name="add"></ion-icon>
+            </ion-fab-button>
+          </ion-col>
+        </ion-row>
+        <ion-item *ngFor="let item of selectedSerialNumberProductList; index as i"  text-wrap style="font-size: small;">
+        
+            <div style="width: 100%;" (click)="toggle(item)">
+                <ion-row>
+                  <ion-col size="8">
+                    <ion-label style="white-space: normal">
+                     <ion-icon *ngIf="!item.MainProductQty" style="color: springgreen;" name="pricetags"></ion-icon>
+                      {{ item.serialno }}
+                    </ion-label>
+                  </ion-col>
+                  <ion-col size="2" style="width: 100%; text-align: right;">
+                    <ion-icon name="trash" (click)="removeProduct(item)" style="font-size: x-large;
+                    color: red;"></ion-icon>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col nowrap>
+                    <div *ngIf="item.show">
+                      <ion-label style="font-size: small;">QTY: {{ item.qty }}</ion-label>
+                      <ion-label style="font-size: small;">UOM: {{ item.uomname }}</ion-label>
+                      <ion-label style="font-size: small;" *ngIf="Servicepricebasedon == 'PLB'">Rate:{{item.rate}}</ion-label>
+                      <ion-label style="font-size: small;" *ngIf="Servicepricebasedon == 'PLB'">Net Amount: {{ item.netamt }}</ion-label>
+                      <ion-label style="font-size: small;" *ngIf="Servicepricebasedon == 'PLB'">Tax: {{ item.taxname}}</ion-label>
+                      <ion-label style="font-size: small;" *ngIf="Servicepricebasedon == 'PLB'">Total Gross Amount: {{ item.totgrossamt}}</ion-label>
+                    </div>
+                 </ion-col>
+                </ion-row>
+            </div>
+        
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+    <ion-row>
+      <ion-col style="padding-left: 16px;padding-right: 16px;">
+        <ion-button size="default"
+          class="submit-btn" expand="block" [disabled]="(!customerQuotationForm.valid || customerQuotationForm.disabled ) || !hasSerialNumber" color="primary" (click)="onSaveQuotation(customerQuotationForm)">Get Quotation
+        </ion-button>
+      </ion-col>
+    </ion-row>
+    
+</form>
+</ion-content>

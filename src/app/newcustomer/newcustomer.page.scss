@@ -1,0 +1,44 @@
+ion-scroll[scrollX] {
+  white-space: nowrap;
+ // height: 120px;
+  overflow: visible;
+  overflow-y: auto;
+// width:100%;
+  .scroll-item {
+    display: inline-block;
+  }
+
+  .selectable-icon{
+    margin: 10px 20px 10px 20px;
+    color: red;
+    font-size: 100px;
+  }
+
+  ion-avatar img{
+    margin: 10px;
+  }
+}
+
+ion-scroll[scroll-avatar]{
+  height: 60px;
+}
+
+/* Hide ion-content scrollbar */
+::-webkit-scrollbar{
+  display:none;
+}
+
+h5{
+  font-style: oblique;
+  color: darkcyan;
+  font-size: large;
+  ion-icon{
+    color: lightcoral;
+  }
+
+}
+
+.inputfile {
+  color: transparent;
+}
+

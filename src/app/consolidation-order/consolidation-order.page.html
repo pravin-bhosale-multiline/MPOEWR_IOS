@@ -1,0 +1,149 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Consolidation Order
+    </ion-title>
+    <ion-buttons slot="end" style="font-size: 1.8rem;" routerDirection="root" routerLink="/home">
+      <ion-icon name="home"></ion-icon>
+    </ion-buttons>
+    <ion-buttons (click)="refreshPage()" slot="end" style="font-size: 1.8rem;">
+      <ion-icon name="refresh"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="consolidationOrderForm">
+    <ion-card>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-label position="stacked">Customer<span style="color:red!important">*</span></ion-label>
+          <ionic-selectable placeholder="Select Customer" disable="true" [formControl]="consolidationOrderForm.controls['primaryCustomerCtrl']"
+              [items]="primaryBusinessPartnerList" 
+              itemValueField="id" 
+              itemTextField="_identifier" 
+              [canSearch]="true"
+              [shouldStoreItemValue]="false"
+              (onChange)="onCustomerChange($event)"
+              (onClose)="onCustomerClose($event)"
+              (onSearch)="onCustomerSearchChange($event)">
+            </ionic-selectable>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <!-- Shipping Information -->
+    <ion-row>
+      <ion-col>
+        <h5 ion-text class="text-primary">
+          <ion-icon name="locate"></ion-icon> Shipping Information:
+        </h5>
+      </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+            <ion-item >
+              <ion-label position="stacked">Shipping Address<span style="color:red!important">*</span></ion-label>
+              <ion-select  [formControl]="consolidationOrderForm.controls['selectedBPaddressShippingCtrl']" interface="popover" multiple="false" placeholder="Select Address">
+                <ion-select-option *ngFor="let custShippingAddress of custShippingAddressList" [value]="custShippingAddress">{{custShippingAddress.name}}</ion-select-option>
+              </ion-select>
+              </ion-item>
+              <div padding-left>
+                <ng-container *ngFor="let validation of validation_messages.custAddShippingCtrlErrorMessage">
+                  <div *ngIf="consolidationOrderForm.get('selectedBPaddressShippingCtrl').hasError(validation.type) && consolidationOrderForm.get('selectedBPaddressShippingCtrl').touched">
+                    <p style="color: red;font-size: small;">{{validation.message}}</p>
+                  </div>
+                </ng-container>
+              </div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+            <ion-item >
+              <ion-label position="stacked">Billing Address<span style="color:red!important">*</span></ion-label>
+              <ion-select  [formControl]="consolidationOrderForm.controls['selectedBPAddressBillingCtrl']" interface="popover" multiple="false" placeholder="Select Address">
+                <ion-select-option *ngFor="let badd of custBillingAddressList" [value]="badd">{{badd.name}}</ion-select-option>
+              </ion-select>
+              </ion-item>
+              <div padding-left>
+                <ng-container *ngFor="let validation of validation_messages.custAddBillingCtrlErrorMessage">
+                  <div *ngIf="consolidationOrderForm.get('selectedBPAddressBillingCtrl').hasError(validation.type) && consolidationOrderForm.get('selectedBPAddressBillingCtrl').touched">
+                    <p style="color: red;font-size: small;">{{validation.message}}</p>
+                  </div>
+                </ng-container>
+              </div>
+        </ion-col>
+      </ion-row>
+    </ion-card>
+      <ion-row>
+        <ion-col>
+          <ion-card>
+            <!-- bootstrap resizeable -->
+            <!-- material -->
+            <ngx-datatable 
+            class="bootstrap resizeable"
+           
+            
+            [rows]="rows" 
+            [rowHeight]="'auto'" 
+            [limit]="page.size"
+            [columnMode]="ColumnMode.force" 
+            [sortType]="'multi'" 
+            [headerHeight]="50" 
+            [footerHeight]="50"
+            [selectionType]="SelectionType.checkbox"
+            [selected]="selected"
+            (select)="onSelect($event)"
+           
+            [offset]="page.pageNumber"
+            [count]="page.totalElements"
+            (page)="getSecondaryCustomer($event)">
+
+            <ngx-datatable-column
+            [width]="25"
+            [sortable]="false"
+            [canAutoResize]="false"
+            [draggable]="false"
+            [resizeable]="false">
+          
+            <ng-template
+              ngx-datatable-cell-template
+              let-value="value"
+              let-isSelected="isSelected"
+              let-onCheckboxChangeFn="onCheckboxChangeFn">
+              <input type="checkbox" [checked]="isSelected" (change)="onCheckboxChangeFn($event)" />
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Secondary Customer Name"  [flexGrow]="3"  prop="secondary_cust"></ngx-datatable-column>
+          <ngx-datatable-column name="Order No" [flexGrow]="1" prop="documentno" ></ngx-datatable-column>
+          <ngx-datatable-column name="Date" [flexGrow]="1" prop="documentdate">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              {{row.documentdate | date:'dd-MMM-yyyy'}}
+            </ng-template>
+          </ngx-datatable-column>
+
+          </ngx-datatable>
+
+</ion-card>
+       
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col style="padding-left: 16px;padding-right: 16px;">
+          <ion-button size="default"
+            class="submit-btn" expand="block" [disabled]= "!consolidationOrderForm.valid || !selectedOrder"  color="primary" (click)="onConsolidateOrder(consolidationOrderForm)">Consolidate Order
+          </ion-button>
+        </ion-col>
+        <ion-col style="padding-left: 16px;padding-right: 16px;">
+          <ion-button size="default"
+            class="submit-btn" expand="block" [disabled]= "!consolidationOrderForm.valid || !selectedOrder" color="primary" (click)="onCloseOrder(consolidationOrderForm)">Close
+          </ion-button>
+        </ion-col>
+      </ion-row>
+
+
+  </form>
+</ion-content>

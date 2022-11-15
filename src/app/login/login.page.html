@@ -1,0 +1,216 @@
+<ion-content no-bounce class="main-content">
+  <div class="img-contaimer" *ngIf="loginrequired">
+    <img *ngIf="!msg.isplatformweb" class="height-img" src="../../assets/test.png" />
+  </div>
+  <section id="loginFormSection" *ngIf="loginrequired" [ngClass]="{'logingrid' : msg.isplatformweb}"
+    [ngStyle]="{'background-image':msg.isplatformweb === true ? 'url('+backgroundimg+')' : 'none' }">
+    <form (ngSubmit)="loginSubmit()" #loginForm="ngForm">
+      <ion-grid>
+        <ion-row justify-content-center>
+          <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
+            <ion-card style=" background-color: white;" [ngClass]="{'login-form-section' : msg.isplatformweb}">
+              <div text-center>
+                <h1>Welcome</h1>
+              </div>
+              <div padding>
+                <ion-item class="login-item">
+                  <ion-icon name="person" size="large" slot="start"></ion-icon>
+                  <ion-input id="txtUserName" name="username" type="text" placeholder="Username" [(ngModel)]="username"
+                    maxlength="40" required></ion-input>
+                </ion-item>
+                <ion-item class="login-item" *ngIf="!isforgetpass">
+                  <ion-icon name="lock" size="large" slot="start"></ion-icon>
+                  <ion-input id="txtPassword" name="password" type="password" placeholder="Password"
+                    [(ngModel)]="password" maxlength="20" required></ion-input>
+                </ion-item>
+                <ion-item class="login-item" *ngIf="showChangePassword">
+                  <ion-icon name="key" size="large" slot="start"></ion-icon>
+                  <ion-input id="txtPassword" name="otp" type="password" placeholder="OTP" [(ngModel)]="otp"
+                    maxlength="20" required></ion-input>
+                </ion-item>
+                <ion-item class="login-item" *ngIf="showChangePassword">
+                  <ion-icon name="lock" size="large" slot="start"></ion-icon>
+                  <ion-input id="txtPassword" name="password" type="password" placeholder="Enter New Password"
+                    [(ngModel)]="newpass" maxlength="20" required></ion-input>
+                </ion-item>
+                <ion-item *ngIf="!isforgetpass && !msg.isplatformweb" lines="none">
+                  <ion-label>{{authText}}</ion-label>
+                  <ion-toggle name="authStatus" mode="ios" [(ngModel)]="logBiometricstatus"
+                    [checked]="logBiometricstatus" (ionChange)="biometricStatusChange($event)"></ion-toggle>
+                </ion-item>
+              </div>
+              <div padding>
+                <ion-button *ngIf="showLoginButton" color="vibrant" (click)="loginSubmit()" size="large" expand="block"
+                  class="submit-btn" [disabled]="!loginForm.valid">Login</ion-button>
+                <ion-button *ngIf="showGetOTPButton" color="vibrant" (click)="onClickGetOTP()" size="large"
+                  expand="block" class="submit-btn" [disabled]="!loginForm.valid">Get OTP</ion-button>
+                <ion-button *ngIf="showChangePassword" (click)="onChangePass()" color="vibrant" size="large"
+                  expand="block" class="submit-btn" [disabled]="!loginForm.valid">Change Password</ion-button>
+              </div>
+              <div *ngIf="!isforgetpass">	
+                <ion-row>	
+                  <ion-col text-left (click)="onClickForgetPass()">	
+                <h5 style="text-decoration: underline;cursor:pointer">Forgot Password?</h5>	
+              </ion-col>	
+              <ion-col  text-right (click)="onClickNewRegistration()"> 	
+                <h5 style="text-decoration: underline;cursor:pointer">New Registration</h5>	
+              </ion-col>	
+              </ion-row>	
+              </div>
+              <div *ngIf="isforgetpass && loginForm.valid" text-center (click)="onClickForgetPass()">
+                <h5>OTP will be send on your register mobile number</h5>
+              </div>
+              <div>
+                <h5>{{txterror}}</h5>
+              </div>
+              <div>
+                <h5>{{txthint}}</h5>
+              </div>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </form>
+  </section>
+  <section *ngIf="!loginrequired && showCustomPassword && msg.isplatformweb == false" class="sec-password-template">
+    <ion-grid class="four-digit-password">
+      <ion-row>
+        <ion-col class="text-align-center">
+          <ion-avatar>
+            <div style="background-color: brown;"></div>
+          </ion-avatar>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col class="text-align-center">
+          <div class="profile-name">Welcome</div>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="text-align-center">
+
+        <ion-col offset="1.8" size="2">
+          <ion-avatar>
+            <div [ngClass]="codeone || codeone == 0 ? 'rounded-div': 'rounded-div-selected'">
+              <div *ngIf="codeone || codeone == 0">&#10033;</div>
+            </div>
+          </ion-avatar>
+        </ion-col>
+
+        <ion-col size="2">
+          <ion-avatar>
+            <div [ngClass]="codetwo || codetwo == 0 ? 'rounded-div': 'rounded-div-selected'">
+              <div *ngIf="codetwo || codetwo == 0">&#10033;</div>
+            </div>
+          </ion-avatar>
+        </ion-col>
+        <ion-col size="2">
+          <ion-avatar>
+            <div [ngClass]="codethree || codethree == 0 ? 'rounded-div': 'rounded-div-selected'">
+              <div *ngIf="codethree || codethree == 0">&#10033;</div>
+            </div>
+          </ion-avatar>
+        </ion-col>
+        <ion-col size="2">
+          <ion-avatar>
+            <div [ngClass]="codefour || codefour == 0 ? 'rounded-div': 'rounded-div-selected'">
+              <div *ngIf="codefour || codefour == 0">&#10033;</div>
+            </div>
+          </ion-avatar>
+        </ion-col>
+
+
+
+      </ion-row>
+
+      <ion-row size="12" text-center padding>
+        <ion-col>
+          <div *ngIf="!message">
+            <span>{{pageStatus}}</span>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row class="reset-pin-css">
+        <ion-col>
+          <div class="reset-pin" (click)="resetPin()">
+            Reset Pin!
+          </div>
+        </ion-col>
+      </ion-row>
+
+
+      <ion-row text-center style="margin-left: -1%;">
+        <ion-card class="number-dial-card">
+
+          <ion-row class="row-digit">
+            <ion-col class="col-right col-all">
+              <div class="digit" (click)="add('1')">1</div>
+            </ion-col>
+            <ion-col class="col-right col-all">
+              <div class="digit" (click)="add('2')">2</div>
+            </ion-col>
+            <ion-col class="col-all">
+              <div class="digit" (click)="add('3')">3</div>
+            </ion-col>
+          </ion-row>
+          <ion-row class="row-digit ">
+            <ion-col class="col-right col-all">
+              <div class="digit" (click)="add('4')">4</div>
+            </ion-col>
+            <ion-col class="col-right col-all">
+              <div class="digit" (click)="add('5')">5</div>
+            </ion-col>
+            <ion-col class="col-all">
+              <div class="digit" (click)="add('6')">6</div>
+            </ion-col>
+          </ion-row>
+          <ion-row class="row-digit">
+            <ion-col class="col-right col-all">
+              <div class="digit" (click)="add('7')">7</div>
+            </ion-col>
+            <ion-col class="col-right col-all">
+              <div class="digit" (click)="add('8')">8</div>
+            </ion-col>
+            <ion-col class="col-all">
+              <div class="digit" (click)="add('9')">9</div>
+            </ion-col>
+          </ion-row>
+          <ion-row style="min-height: 50px !important;">
+            <ion-col class="col-right col-all">
+              <div class="digit" (click)="delete()">
+                <ion-icon name="backspace"></ion-icon>
+              </div>
+            </ion-col>
+            <ion-col class="col-right col-all">
+              <div class="digit" (click)="add('0')">0</div>
+            </ion-col>
+            <ion-col class="col-all">
+              <!-- <div class="digit"><ion-button  shape="round" color="success" expand="full">OK</ion-button></div> -->
+            </ion-col>
+          </ion-row>
+
+        </ion-card>
+      </ion-row>
+
+
+
+    </ion-grid>
+
+  </section>
+  <section id="loginWithFaceSection" class="height100"
+    *ngIf="!loginrequired && !showCustomPassword && showFaceIdSection">
+    <ion-grid class="height100">
+      <ion-row class="vertical-center">
+        <ion-col>
+          <!-- Icons -->
+          <ion-button (click)="onfingerPrintshow()" style="height: 105px !important;">
+            <ion-icon slot="start" name="person"></ion-icon>
+            Tap Here To Authenticate.
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </section>
+
+
+</ion-content>

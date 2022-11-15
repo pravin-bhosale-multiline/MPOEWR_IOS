@@ -1,0 +1,128 @@
+<ion-header>
+   <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title style="font-size: small;">
+      Business Partner Address
+    </ion-title>
+    <ion-buttons slot="end" style="font-size: 1.8rem;" routerDirection="root" routerLink="/home">
+      <ion-icon name="home"></ion-icon>
+    </ion-buttons>
+    <ion-buttons (click)="Resetpage()" slot="end" style="font-size: 1.8rem;">
+      <ion-icon name="refresh"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+ 
+  <form [formGroup]="formaddr" (ngSubmit)="onSaveAddress(formaddr.value)">
+    <ion-grid fixed>
+  <ion-card>
+    <ion-card-content>
+      <ion-row>
+        <ion-col>
+          <h5 ion-text class="text-primary">
+            <ion-icon name="person"></ion-icon> Customer Detail :
+          </h5>
+        </ion-col>
+      </ion-row>
+
+      <!-- <ion-row>
+        <ion-col>
+            <ion-item >
+              <ion-label  position="stacked">Organization Activity</ion-label>
+              <ion-select [ngModelOptions]="{standalone: true}" name="selectedactivity" #C [(ngModel)]="selectedactivity" interface="popover"  (ionChange)="exonActChange()" multiple="false" placeholder="Select Activity">
+                <ion-select-option *ngFor="let activity of activitylist" [value]="activity.id">{{activity.name}}</ion-select-option>
+              </ion-select>
+              </ion-item>
+        </ion-col>
+      </ion-row> -->
+
+      
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked">Customer<span style="color:red!important">*</span></ion-label>
+            <ionic-selectable placeholder="Select Customer"
+            [formControl]="formaddr.controls['selectedBusinessPartner']"
+            [items]="BusinessPartnerlist" 
+            itemValueField="id" 
+            itemTextField="sfname" 
+            [canSearch]="true"
+            (onChange)="oncustchange($event)"
+            (onSearch)="custsearchChange($event)"
+            (onClose)="onCancel($event)"
+            >
+            </ionic-selectable>
+              <!-- (onSearch)="custsearchChange($event)" -->
+          </ion-item>
+          <div padding-left>
+            <ng-container *ngFor="let validation of validation_messages.selectedBusinessPartner">
+              <div *ngIf="formaddr.get('selectedBusinessPartner').hasError(validation.type) && formaddr.get('selectedBusinessPartner').touched">
+                <p style="color: red;font-size: small;">{{validation.message}}</p>
+              </div>
+            </ng-container>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-content>
+      <ion-row>
+        <ion-col>
+          <h5 ion-text class="text-primary">
+            <ion-icon name="navigate"></ion-icon>  Address:
+          </h5>
+        </ion-col>
+        <ion-col>
+          <ion-fab-button size="small" float-right (click)="onAddAddress()">
+            <ion-icon name="add"></ion-icon>
+          </ion-fab-button>
+        </ion-col>
+      </ion-row>
+
+      <ion-item *ngFor="let item of cartaddress; index as i"  text-wrap style="font-size: small; max-width: 100% !important;">
+        <!-- <ion-content scrollX="true"> -->
+          <div style="width: 100%;" (click)="toggleaddress(item)">
+        <ion-row>
+          <ion-col size="12">
+            <ion-label style="white-space: normal;">
+          <ion-icon *ngIf="!item.MainProductQty" style="color: springgreen;" name="locate"></ion-icon>
+              {{ item._identifier }}
+            </ion-label>
+          </ion-col>
+        </ion-row>
+        
+        <ion-row>
+          <ion-col nowrap>
+            <div *ngIf="item.show">
+              <ion-label style="font-size: small;">Billing Address: <span *ngIf="!item.billadd">No</span><span *ngIf="item.billadd">Yes</span></ion-label>
+              <!-- <ion-checkbox slot="end" [(ngModel)]="item.billadd"></ion-checkbox> -->
+
+              <ion-label style="font-size: small;">Shipping Address: <span *ngIf="!item.shipadd">No</span><span *ngIf="item.shipadd">Yes</span></ion-label>
+              <!-- <ion-checkbox slot="end" [(ngModel)]="item.shipadd"></ion-checkbox> -->
+
+              <ion-label style="font-size: small;">Compliance Type Number: {{item.gstno}}</ion-label>
+              <ion-label style="font-size: small;">Active: <span *ngIf="!item.isactive">No</span><span *ngIf="item.isactive">Yes</span></ion-label>
+           
+            </div>
+          </ion-col>
+         
+        </ion-row>
+      </div>
+        <!-- </ion-content> -->
+      </ion-item>
+
+
+    </ion-card-content>
+  </ion-card>
+
+ 
+</ion-grid>
+</form>
+
+</ion-content>

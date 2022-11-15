@@ -1,0 +1,87 @@
+<ion-header>
+  <ion-toolbar>
+   
+    <ion-buttons slot="start">
+      <ion-back-button  defaultHref="order-approval"></ion-back-button>
+    </ion-buttons>
+    <ion-title slot="start">Filters</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="clearFilter()"> Clear Filters</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content no-margin no-padding>
+
+  <ion-grid class="box">
+    <ion-row class="row-custom">
+      <ion-col size="4" class="back-color custom-ion-col">
+        <ion-list *ngFor="let filterItem of filterList;let i = index" class="back-color">
+          <ion-item lines="none" class="list-item" (click)="menuItemClick(i)" [ngClass]="{'custom-activated': (active == i),'ion-item-custom':(active != i)}">
+            <ion-label color="primary">
+              {{ filterItem.name }}
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+      <ion-col size="8">
+      <div *ngIf="showSide" class="right-div">
+        <div *ngIf="tab">
+          <ion-list *ngFor="let subData of filterList[0].subData;let i=index">
+            <ion-item lines="none" text-wrap>
+              <ion-label>{{subData.sub_name}}</ion-label>
+              <ion-checkbox slot="start"  value="subData.sub_name" (ionChange)="chkTabSelect(subData.sub_name,subData.id,i,$event)" [(ngModel)]="subData.checked" (ngModelChange)="$event ? checkedIdx = i : checkedIdx = -1"></ion-checkbox>
+            </ion-item>
+          </ion-list>
+        </div>
+        <div *ngIf="org" class="right-div">
+          <ion-list *ngFor="let subData of filterList[1].subData;let i=index">
+            <ion-item lines="none" text-wrap>
+              <ion-label>{{subData.sub_name}}</ion-label>
+              <ion-checkbox slot="start" value="subData.sub_name" (ionChange)="chkOrgSelect(subData.sub_name,subData.id,$event)" [(ngModel)]="subData.checked"  (ngModelChange)="$event ? checkedOrgIdx = i : checkedOrgIdx = -1"></ion-checkbox>
+            </ion-item>
+          </ion-list>
+        </div>
+        <div  *ngIf="doc_type" class="right-div">
+          <ion-list *ngFor="let subData of filterList[2].subData;let i=index">
+            <ion-item lines="none" text-wrap>
+              <ion-label>{{subData.sub_name}}</ion-label>
+              <ion-checkbox slot="start" value="subData.sub_name" (ionChange)="chkDocTypeSelect(subData.sub_name,subData.id,$event)" [(ngModel)]="subData.checked" (ngModelChange)="$event ? checked_Doc_TypeIdx = i : checked_Doc_TypeIdx = -1"></ion-checkbox>
+            </ion-item>
+          </ion-list>
+        </div>
+        <div  id="business_type" *ngIf="business_type">
+          <ion-item>
+            <ion-label position="stacked">Business Partner</ion-label>
+            <ionic-selectable placeholder="Select Business Partner" disable="true"
+            [(ngModel)]="selectedBusinessPartner"
+            [items]="BusinessPartnerlist" 
+            itemValueField="id" 
+            itemTextField="name" 
+            [canSearch]="true"
+            (onChange)="onBusinessPartnerchange($event)"
+            (onClose)="onBusinessPartnerClose($event)"
+            multiple={false}
+            (onSearch)="onBusinessPartnerSearch($event)">
+            </ionic-selectable>
+          </ion-item>
+          <!-- <ion-list *ngFor="let subData of filterList[3]?.subData;let i=index">
+            <ion-item lines="none" text-wrap>
+              <ion-label>{{subData.sub_name}}</ion-label>
+              <ion-checkbox slot="start" value="subData.sub_name" (ionChange)="chkBusinessTypeSelect(subData.sub_name,$event)" [(ngModel)]="subData.checked"  (ngModelChange)="$event ? checked_Business_Type_Idx = i : checked_Business_Type_Idx = -1" [disabled]="checked_Business_Type_Idx >= 0 && checked_Business_Type_Idx != i"></ion-checkbox>
+            </ion-item>
+          </ion-list> -->
+        </div>
+      </div>  
+    </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+<ion-footer class="footer-back-color">
+  <ion-button  (click)="applyFilter()"  color="primary"  size="large" expand="full" fill="outline" class="footer-btn-color">
+    <ion-label style="color: white;">
+      Apply
+    </ion-label>
+  </ion-button>
+</ion-footer>
+ 

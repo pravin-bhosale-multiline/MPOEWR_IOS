@@ -1,0 +1,75 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Draft Order
+    </ion-title>
+    <ion-buttons slot="end" style="font-size: 1.8rem;" routerDirection="root" routerLink="/home">
+      <ion-icon name="home"></ion-icon>
+    </ion-buttons>
+    <ion-buttons (click)="RefreshPage()" slot="end" style="font-size: 1.8rem;">
+      <ion-icon name="refresh"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-grid fixed>
+    <div>
+      <ion-card>
+        <ion-card-content>
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label position="stacked">Organization Activity<span style="color:red!important">*</span>
+                </ion-label>
+                <ion-select name="selectedactivity" #C [(ngModel)]="selectedactivity" (ionChange)="exonActChange()"
+                  interface="popover" multiple="false" placeholder="Select Activity">
+                  <ion-select-option *ngFor="let activity of activitylist" [value]="activity.id">{{activity.name}}
+                  </ion-select-option>
+                </ion-select>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label position="stacked">Customer<span style="color:red!important">*</span></ion-label>
+                <ionic-selectable placeholder="Select Customer" [searchDebounce]="1000"
+                  [(ngModel)]="exselectedBusinessPartner" [items]="exBusinessPartnerlist" itemValueField="id"
+                  itemTextField="name" [canSearch]="true" (onChange)="refChange($event)"
+                  (onSearch)="custsearchChange($event)" (onClose)="onCustomerClose($event)">
+                </ionic-selectable>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label position="stacked">Document No.<span style="color:red!important">*</span></ion-label>
+                <ionic-selectable placeholder="Select Document No." [(ngModel)]="selecteddocumentno"
+                  [items]="alldocument" itemValueField="id" itemTextField="documentno" [canSearch]="true"
+                  (onChange)="docChange($event)">
+                </ionic-selectable>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-button (click)="onEdit()"
+                [disabled]="!exselectedBusinessPartner || !selectedactivity || !selecteddocumentno">
+                Edit
+              </ion-button>
+            </ion-col>
+            <ion-col>
+              <ion-button (click)="onCancel()">
+                Cancel
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </ion-grid>
+</ion-content>

@@ -1,0 +1,96 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button (click)="backPress($event)"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{sSection}}</ion-title>
+    <!-- <ion-buttons slot="end">
+      <div class="ion-text-center">
+        <ion-button (click)="prevSection($event)" >
+          <<
+        </ion-button>
+        <ion-button (click)="nextSection($event)" >
+            >>
+        </ion-button>
+      </div>
+    </ion-buttons> -->
+  </ion-toolbar>
+  <ion-card>
+    <ion-row>
+      <ion-col size="12">
+        <div style="background-color: antiquewhite;">
+          {{checklistservice.visitplanforchecklist.dateofvisit}} - {{checklistservice.visitplanforchecklist.bpartnername}} 
+      </div>
+      </ion-col>
+    </ion-row>
+    
+  </ion-card>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="myForm" (ngSubmit) = "submitForm($event)">
+
+    <div  style="width: 100%;padding-top: 10px;padding-left: 10px;" *ngFor="let c of curentquestionlist">
+    <ion-item  style="width: 100%;padding-top: 10px;padding-left: 10px;" *ngIf="!c.ishide" >
+     
+      <ion-label class="ion-text-wrap"  position="stacked">
+        {{c.queno}}. {{c.question}} 
+      </ion-label>
+   
+      <div style="width: 100%;" [ngSwitch]="c.type" [ngStyle]="{'background-color': c.colorbackground,'color':c.forecolor}">
+        <ion-input *ngSwitchCase="'INPUT'" [type]="c.inputtype ? c.inputtype:'text'" 
+        [formControlName]="c.questionid" [placeholder]="c.placeholder"></ion-input>
+        <ion-input style="text-transform: uppercase;" *ngSwitchCase="'TUP'" [type]="c.inputtype ? c.inputtype:'text'" 
+        [formControlName]="c.questionid" [placeholder]="c.placeholder" ></ion-input>
+        <ion-datetime *ngSwitchCase="'DATE'" [max]="c.maxdate" [min]="c.mindate" displayFormat="DD-MM-YYYY" [formControlName]="c.questionid"></ion-datetime>
+        <ion-datetime *ngSwitchCase="'DTIME'" [max]="c.maxdate" [min]="c.mindate"  displayFormat="DD-MM-YYYY HH:mm" [formControlName]="c.questionid"></ion-datetime>
+        <ion-select class="ion-text-wrap" *ngSwitchCase="'LIST'" [formControlName]="c.questionid" interface="popover"  >
+          <ion-select-option *ngFor="let item of c.listvalue.split(',')" [value]="item">{{item}}</ion-select-option>
+        </ion-select>
+        <ion-datetime displayFormat="h:mm A" pickerFormat="h:mm A" *ngSwitchCase="'TIME'" [formControlName]="c.questionid" ></ion-datetime>  
+        <ion-row *ngSwitchCase="'IMAGE'" style="width: 100%;padding-top: 10px;padding-left: 10px;">
+          <app-multi-file-upload [myform]="myForm" [controlID]="c.questionid"  [formControlName]="c.questionid"  ></app-multi-file-upload>
+        </ion-row>
+        <ion-row *ngSwitchCase="'IMAGEC'" style="width: 100%;padding-top: 10px;padding-left: 10px;">
+          <app-multi-file-upload [isOnlyCamera]="true" [myform]="myForm" [controlID]="c.questionid"  [formControlName]="c.questionid"  ></app-multi-file-upload>
+        </ion-row>
+        <ion-row *ngSwitchCase="'SL'">
+        <ion-input  [formControlName]="c.questionid" [placeholder]="c.placeholder" readonly type="text" ></ion-input>
+        <ion-icon style="font-size: 40px;" (click)="OnClickSelector(c,$event)" name="search"></ion-icon>
+      </ion-row>
+      <div *ngSwitchCase="'MSL'">
+        <!-- <ion-input  [formControlName]="c.questionid" [placeholder]="c.placeholder" readonly type="text" ></ion-input>
+        <ion-icon style="font-size: 40px;" (click)="OnClickSelector(c,$event)"  name="search"></ion-icon> -->
+         <app-listcontrolchk [myform]="myForm" [formControlName]="c.questionid" [question]="c"></app-listcontrolchk> 
+      </div>
+      <ion-row *ngSwitchCase="'MET'">
+        <ion-input  [formControlName]="c.questionid" [placeholder]="c.placeholder" readonly type="text" ></ion-input>
+        <ion-icon style="font-size: 40px;" (click)="OnClickMultipleEntry(c,$event)"  name="search"></ion-icon>
+      </ion-row>
+      <ion-row *ngSwitchCase="'QRC'">
+           
+        <ion-col size="8" >
+          <ion-textarea [formControlName]="c.questionid"  [placeholder]="c.placeholder" readonly type="text" style="margin-top: -30px"></ion-textarea>
+        </ion-col>
+        <ion-col size="4"> 
+          <div style="margin-left: 16px;margin-top: -44px">
+            <ion-fab-button color="light" vertical="center" size="large" (click)="ScanQRcode(c)">
+              <img src="../../../assets/QRscan_image.png" style="background-color: #EFEFEF!important;" />
+            </ion-fab-button>
+          </div>
+        </ion-col>
+      </ion-row>
+      </div>
+  
+    </ion-item>  
+    
+  </div>  
+ 
+    
+  </form>
+
+</ion-content>
+<ion-footer>
+  <ion-button  *ngIf="islast" type="submit" expand="block" (click)="submitForm($event)"  [disabled]="!myForm.valid">Submit!</ion-button>
+  <!-- <ion-button  expand="block" (click)="findInvalidControls()"  >Submit!</ion-button> -->
+</ion-footer>

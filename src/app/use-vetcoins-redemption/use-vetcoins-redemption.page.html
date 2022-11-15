@@ -1,0 +1,116 @@
+<ion-header>
+  <ion-toolbar class="cssion-toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button style="color: white;"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Use Vetcoins</ion-title>
+    <ion-buttons (click)="Resetpage()" slot="end" style="font-size: 1.8rem;">
+      <ion-icon name="refresh"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+
+  <ion-card style="text-align: center;">
+    <ion-card-content>
+
+  <ion-row>
+    <ion-col>
+      <div class="ion-text-start">
+    <ion-label>
+      Name
+    </ion-label>
+  </div>
+  </ion-col>
+    <ion-col>
+      <div class="ion-text-end">
+      <ion-label>
+        {{firmname}}
+      </ion-label>
+      </div>
+    </ion-col>
+  </ion-row>
+
+  
+
+  <ion-row>
+    <ion-col>
+      <div class="ion-text-start">
+    <ion-label>
+      VetCoins
+    </ion-label>
+  </div>
+  </ion-col>
+    <ion-col>
+      <div class="ion-text-end">
+      <ion-label>
+        &#x20b9; {{vetcoinsused}}
+      </ion-label>
+    </div>
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col>
+      <div class="ion-text-start">
+    <ion-label>
+      Transaction Amount
+    </ion-label>
+  </div>
+  </ion-col>
+    <ion-col>
+      <div class="ion-text-end">
+      <ion-label>
+        &#x20b9; {{currentamount}}
+      </ion-label>
+      </div>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+  <ion-col>
+    <div class="ion-text-start">
+    <ion-label>
+      Redemption Amount
+    </ion-label>
+  </div>
+  </ion-col>
+    <ion-col>
+      <div class="ion-text-end">
+      <ion-label>
+        &#x20b9;{{RedemptionAmount| number:'1.0-0'}}
+      </ion-label>
+      </div>
+    </ion-col>
+  </ion-row>
+
+ 
+    <ion-item no-lines no-lines *ngIf="product">
+      <ion-label>Purchase Product</ion-label>
+      <ion-radio slot="start" color="orangevet" checked></ion-radio>
+    </ion-item>
+
+    <ion-item no-lines *ngIf="vet">
+      <ion-label>Vet Fees</ion-label>
+      <ion-radio slot="start" color="orangevet" checked></ion-radio>
+    </ion-item>
+
+
+
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-label position="stacked">Enter OTP for trn id 001813</ion-label>
+          <ion-input type="text" type="number" [(ngModel)]="userotp"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+<div>
+      <ion-button color="orangevet" expand="block" text-center (click)="onUseConfirm()">Confirm Redemption</ion-button>
+  </div>
+
+</ion-card-content>
+</ion-card>
+</ion-content>

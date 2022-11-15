@@ -1,0 +1,28 @@
+ion-menu ion-content {
+    --background: var(--ion-item-background, var(--ion-background-color,#fff));
+  }
+  ion-item{
+    max-width: 100% !important;
+      }
+  .custom-avatar {
+    // height: 20vw;
+    // width:20vw;
+    height: 100%;
+   width: 100%;
+    border: 1px solid #fff;
+    border-radius: 50%;
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    
+    //background-image: url('../assets/icon/ic_launcher.png');
+  }
+
+  // ion-col {
+  //   border: 2px solid #aeb7ca;
+  // }
+
+  .boder-footer{
+    border-right-width: initial;
+    border-right-style: inset;
+  }

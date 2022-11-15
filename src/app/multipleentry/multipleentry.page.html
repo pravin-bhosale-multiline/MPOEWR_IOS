@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Multiple Entry</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="section"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="myForm">
+    <ion-item *ngFor="let control of myForm.controls | keyvalue">
+      <ion-input
+        required
+        type="text"
+        [formControlName]="control.key"
+        placeHolder="Enter Value..."
+      ></ion-input>
+      <ion-icon (click)="removeControl(control)" name="close-circle"></ion-icon>
+    </ion-item>
+  </form>
+  <ion-button expand="full" color="primary" (click)="addControl()">Add Input</ion-button>
+  <ion-button expand="full" color="primary" [disabled]="!myForm.valid" (click)="onSubmit()">Submit</ion-button>
+</ion-content>

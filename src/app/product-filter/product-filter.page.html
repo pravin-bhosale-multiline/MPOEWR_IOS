@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Product Filter</ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="dismiss()">Close</ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="clearFilter()">Clear Filters</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="no-scroll">
+  <ion-grid class="box" no-padding>
+    <ion-row class="row-custom">
+      <ion-col size="4" class="back-color custom-ion-col">
+        <ion-content class="back-color custom-content">
+          <section class="back-color">
+            <ion-list *ngFor="let filterItem of sideMenuList;let i = index " class="back-color">
+              <ion-item lines="none" class="list-item" (click)="menuItemClick(filterItem,i)" [ngClass]="{'custom-activated': (active == i),'ion-item-custom':(active != i)}">
+                <ion-label color="primary">
+                  {{ filterItem.catname }}
+                </ion-label>
+              </ion-item>
+            </ion-list>
+          </section>
+        </ion-content>
+     </ion-col>
+     <ion-col size="8">
+      <ion-content *ngIf="isDataAvailable">
+        <ion-searchbar animated [debounce]="1000" showCancelButton="focus" [(ngModel)]="searchText"></ion-searchbar>
+        <ion-list *ngFor="let subData of sideMenuList[selectedMainIndex].catvalues | filter:searchText;let i=index">
+          <ion-item lines="none" text-wrap>
+            <ion-label>{{subData.subcatname}}</ion-label>
+            <ion-checkbox slot="start"  checked="false" value="subData.sub_name" (click)="chkSubSelectFilter(subData,subData.checked,$event)" [(ngModel)]="subData.checked"></ion-checkbox>
+          </ion-item>
+        </ion-list>
+    </ion-content>
+    </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+<ion-footer class="footer-back-color">
+  <ion-button  no-margin (click)="applyFilter()"  color="primary"  size="large" expand="full" fill="outline" class="footer-btn-color">
+    <ion-label style="color: white;">
+      Apply
+    </ion-label>
+  </ion-button>
+</ion-footer>

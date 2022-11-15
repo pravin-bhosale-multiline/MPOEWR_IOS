@@ -1,0 +1,241 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Visit Activity Report</ion-title>
+    <ion-buttons slot="end" style="font-size: 1.8rem;" routerDirection="root" routerLink="/home">
+      <ion-icon name="home"></ion-icon>
+    </ion-buttons>
+
+    <ion-buttons (click)="Resetpage()" slot="end" style="font-size: 1.8rem;">
+      <ion-icon name="refresh"></ion-icon>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="formactualtravel">
+    <ion-card>
+      <ion-card-content>
+        <ion-row>
+          <ion-col>
+            <h5 ion-text class="text-primary">
+              <ion-icon name="person"></ion-icon> Plan :
+            </h5>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label position="floating">Sales Person</ion-label>
+              <ion-input type="text" [formControl]="formactualtravel.controls['salesperson']" disabled="true"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+
+        <!-- <ion-row>
+        <ion-col>
+          <ion-item >
+            <ion-label position="stacked">Plan<span style="color:red!important">*</span></ion-label>
+            <ion-select #C [formControl]="formactualtravel.controls['selectedplan']" interface="popover" placeholder="Select One" (ionChange)='onChangeplan()'>
+              <ion-select-option value="A">Plan A</ion-select-option>
+              <ion-select-option value="B">Plan B</ion-select-option>
+              <ion-select-option value="C">Plan C</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+      </ion-row> -->
+
+
+      <ion-row>
+        <ion-col>
+            <ion-item >
+              <ion-label position="stacked">Plan<span style="color:red!important">*</span></ion-label>
+              <ion-select #C [formControl]="formactualtravel.controls['selectedplan']" interface="popover" (ionChange)="onChangeplan()" multiple="false" placeholder="Select Plan">
+                <ion-select-option *ngFor="let plan of salespersoninfo" [value]="plan.mexp_visitplan_id">{{plan.plan}}</ion-select-option>
+              </ion-select>
+              </ion-item>
+              <div padding-left>
+                <ng-container *ngFor="let validation of validation_messages.selectedplan">
+                  <div *ngIf="formactualtravel.get('selectedplan').hasError(validation.type) && formactualtravel.get('selectedplan').touched">
+                    <p style="color: red;font-size: small;">{{validation.message}}</p>
+                  </div>
+                </ng-container>
+              </div>
+        </ion-col>
+      </ion-row>
+
+
+
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label>From Date</ion-label>
+              <ion-datetime placeholder="Select Date" [disabled]="true" [formControl]="formactualtravel.controls['fromdate']" displayFormat="DD.MM.YYYY" max="2050"></ion-datetime>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label>To Date</ion-label>
+              <ion-datetime placeholder="Select Date" [disabled]="true" [formControl]="formactualtravel.controls['todate']" displayFormat="DD.MM.YYYY" max="2050"></ion-datetime>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label>Travel Date</ion-label>
+              <ion-datetime placeholder="Select Date" [formControl]="formactualtravel.controls['traveldate']" (ionChange)="ondatechange()" displayFormat="DD.MM.YYYY" [min]='traveldatemin' [max]='traveldatemax'></ion-datetime>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label position="floating">Home Lat</ion-label>
+              <ion-input type="text" [formControl]="formactualtravel.controls['homelat']" disabled="true"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label position="floating">Home Long</ion-label>
+              <ion-input type="text" [formControl]="formactualtravel.controls['homelong']" disabled="true"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label>Outstation?</ion-label>
+              <ion-checkbox slot="end" [disabled]="true" [checked]="outstation_chk_box" [formControl]="formactualtravel.controls['outstationOrderChkCtrl']"></ion-checkbox>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-content>
+        <ion-row>
+          <ion-col>
+            <h5 ion-text class="text-primary">
+              <ion-icon name="bookmarks"></ion-icon> Customer:
+            </h5>
+          </ion-col>
+          <ion-col>
+            <div style="display: none;">
+          <ion-fab-button size="small" float-right (click)="onAddLead(null,null)">	
+            <ion-icon name="add"></ion-icon>	
+          </ion-fab-button>	
+            </div>
+        </ion-col>
+        </ion-row>
+
+
+
+      
+
+
+
+<div style="overflow-x:auto">
+        <ion-grid>
+         <ion-row nowrap >
+          <ion-col nowrap>
+          <ion-row nowrap>
+           <ion-col col-3 size="4" class="grid-header">Line Number</ion-col>
+           <ion-col size="8" class="grid-header">Customer</ion-col>
+           <ion-col size="8" class="grid-header">Address</ion-col>
+           <ion-col size="2" class="grid-header">Day</ion-col>
+           <ion-col size="8" class="grid-header">Date</ion-col>
+           <!-- <ion-col size="5" class="grid-header">Address Lat</ion-col> -->
+           <!-- <ion-col size="5" class="grid-header">Address Long</ion-col> -->
+           <ion-col size="4" class="grid-header">KM</ion-col>
+           <ion-col size="4" class="grid-header">Status</ion-col>
+
+          </ion-row>
+        </ion-col>
+         </ion-row>
+        
+         <ion-row *ngFor="let data of leads; index as i"  nowrap>
+          <ion-col nowrap>
+         <ion-row nowrap (click)="hideshowsublead(data)">
+            <ion-col size="1" style="width: 100%; text-align: right;">
+              <ion-icon ios="ios-add-circle" md="md-add-circle" (click)="onAddLead(data,i)" style="font-size: x-large;">
+              </ion-icon>
+            </ion-col>
+            <ion-col size="1" style="width: 100%; text-align: right;">
+              <!-- <ion-icon name="trash" (click)="removeLeads(data)" style="font-size: x-large;
+              color: red;"></ion-icon> -->
+            </ion-col>
+          <ion-col size="2" class="forecast_div">{{i+1}}</ion-col>
+          <ion-col size="8" class="forecast_div">{{data.custname}}</ion-col>
+          <ion-col size="8" class="forecast_div">{{data.addressname}}</ion-col>
+          <ion-col  size="2"class="forecast_div">{{data.visit_day}}</ion-col>
+          <ion-col size="8" class="forecast_div">{{data.visit_date}}</ion-col>
+          <!-- <ion-col size="5" class="forecast_div">{{data.latitude}}</ion-col> -->
+          <!-- <ion-col size="5" class="forecast_div">{{data.longitude}}</ion-col> -->
+          <ion-col size="4" class="forecast_div">{{data.km}} km</ion-col>
+          <!-- <ion-col size="3" class="forecast_div">{{data.status}}</ion-col> -->
+          <ion-col size="4" class="forecast_div">
+          <ion-select style="width: fit-content;" [ngModelOptions]="{standalone: true}"  [(ngModel)]="data.status" interface="popover">
+            <ion-select-option value="Actual">Actual</ion-select-option>
+            <ion-select-option value="Cancel">Cancel</ion-select-option>
+            <ion-select-option value="CNM">Customer Not Meet</ion-select-option>
+          </ion-select>
+        </ion-col>
+
+          </ion-row>
+          <div *ngIf="data.show">
+            <ion-row nowrap>
+              <ion-col nowrap>
+                <ion-row nowrap>
+                
+                 <ion-col size="4" offsetLg="2" class="grid-header">Task</ion-col>
+                 <ion-col size="2" class="grid-header">Done?</ion-col>
+                </ion-row>
+
+                <ion-row *ngFor="let task of data.TaskList; index as i" nowrap>
+                  
+                 <ion-col size="4"  offsetLg="2" class="forecast_div">{{task.task}}</ion-col>
+                 <ion-col  size="2" class="forecast_div">
+                    <ion-checkbox [ngModelOptions]="{standalone: true}" [(ngModel)]="task.Done"></ion-checkbox>
+                 </ion-col>
+                 <ion-col size="2" class="forecast_div" *ngIf="task.info_required!='N' && task.Done==true" >
+                  <ion-textarea type="text" placeholder="Remark" [ngModelOptions]="{standalone: true}" [(ngModel)]="task.remark"></ion-textarea>
+                </ion-col>
+                </ion-row>
+            
+
+              </ion-col>
+            </ion-row>
+                  
+            </div>
+        </ion-col>
+          </ion-row>
+       
+
+        </ion-grid>     
+      </div>
+              <ion-item float-right lines="none">
+                <ion-button color="primary" text-center (click)="onSaveActualTravelPlan(formactualtravel.value,false)">Save Visit Report</ion-button>
+              </ion-item>
+              <ion-item float-right lines="none">
+                <ion-button color="primary" text-center (click)="onSaveActualTravelPlan(formactualtravel.value,true)">Submit Visit Activity Report?</ion-button>
+              </ion-item>
+      </ion-card-content>
+    </ion-card>
+
+  </form>
+</ion-content>

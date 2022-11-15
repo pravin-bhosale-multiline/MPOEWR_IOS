@@ -1,0 +1,145 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Approval
+    </ion-title>
+    <ion-buttons slot="end" style="font-size: 1.8rem;" routerDirection="root" routerLink="/home">
+      <ion-icon name="home"></ion-icon>
+    </ion-buttons>
+    <ion-buttons (click)="RefreshPage(target)" slot="end" style="font-size: 1.8rem;">
+      <ion-icon name="refresh"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div #target>
+  <ion-row>
+    <ion-col>
+      <ion-item lines="full" [routerDirection]="'root'" [routerLink]="['/filter']">
+         <ion-icon name="funnel" color="primary"></ion-icon>
+         <ion-label>Filters {{totalFilterApplied}}</ion-label>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+</div>
+  <ion-list *ngFor="let order of orderData">
+    <ion-card no-padding>
+      <ion-card-header no-padding>
+        <ion-item-divider style="background-color:#80cbc4;" no-padding>
+          <ion-row style="width:-webkit-fill-available; text-align: end">
+            <ion-col text-left>
+              <div>{{order.tab}}</div>
+            </ion-col>
+            <!-- <ion-col>
+              <div>{{order.approved_by}}</div>
+            </ion-col> -->
+          </ion-row>
+        </ion-item-divider>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-row>
+          <ion-col>
+            <ion-text color="primary" text-left>
+              <h6>Organization</h6>
+            </ion-text>
+            <div>{{order.organization}}</div>
+          </ion-col>
+          <ion-col>
+            <ion-text color="primary">
+              <h6>Document Type</h6>
+            </ion-text>
+            <div>{{order.document_type}}</div>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-text color="primary" text-left>
+              <h6>Business Partner</h6>
+            </ion-text>
+            <div>{{order.business_partner}}</div>
+          </ion-col>
+          <ion-col>
+            <ion-text color="primary" text-left>
+              <h6>Document No.</h6>
+            </ion-text>
+            <div>{{order.document_no}}</div>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <div class="container">
+            <div scrollY="true" class="scroll">
+              <div>
+                <h2>Info1: {{order.info1}}</h2>
+              </div>
+              <div *ngIf="order.info2">
+                <h2>Info2: {{order.info2}}</h2>
+              </div>
+              <div *ngIf="order.info3">
+                <h2>Info3: {{order.info3}}</h2>
+              </div>
+              <div *ngIf="order.info4">
+                <h2>Info4: {{order.info4}}</h2>
+              </div>
+              <div *ngIf="order.info5">
+                <h2>Info5: {{order.info5}}</h2>
+              </div>
+              <div *ngIf="order.info6">
+                <h2>Info6: {{order.info6}}</h2>
+              </div>
+              <div *ngIf="order.info7">
+                <h2>Info7: {{order.info7}}</h2>
+              </div>
+              <div *ngIf="order.info8">
+                <h2>Info8: {{order.info8}}</h2>
+              </div>
+              <div *ngIf="order.info9">
+                <h2>Info9: {{order.info9}}</h2>
+              </div>
+              <div *ngIf="order.info10">
+                <h2>Info10:{{order.info10}}</h2>
+              </div>
+            </div>
+          </div>
+        </ion-row>
+      
+       <ion-row>
+          <ion-col size="6" size-lg="3" no-padding>
+              <ion-button size="small" expand="block" color="primary" (click)="rejectConfirm(order.id,order.record,order.tab_id,'D')">Reject</ion-button>
+          </ion-col>
+          <ion-col size="6" size-lg="3" no-padding>
+              <ion-button size="small" expand="block" color="primary" (click)="saveConfirm(order.id,order.record,order.tab_id,'C')">Incomplete</ion-button>
+          </ion-col>
+          <ion-col size="6" size-lg="3" no-padding>
+              <ion-button size="small" expand="block" color="primary" (click)="saveConfirm(order.id,order.record,order.tab_id,'A')">Approve</ion-button>
+          </ion-col>
+          <ion-col size="6" size-lg="3" *ngIf="order.show_query == 'Y'" no-padding>
+              <ion-button size="small" expand="block" color="primary" (click)="getDetails(order.id,order.record,order.tab_id)">Details</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+  <section *ngIf="emptyCart">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <img src="./assets/new_order.svg" style="padding: 20%;">
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col text-center>
+          <h3>You dont have any order.</h3>
+        </ion-col>
+      </ion-row>
+    </ion-grid>  
+
+  </section>
+
+</ion-content>

@@ -1,0 +1,55 @@
+::ng-deep .ionic-selectable-item {
+    max-width: none !important;
+    --min-height: 20px;
+    
+  }
+ 
+  ion-input {
+    &.custom-class {
+      font-size: smaller;
+    }
+}
+
+ion-col{
+  ion-input{
+     border: solid 1px #757575;
+  }
+}
+
+.amc-for-two-Year{
+  background-color:#FF5252;
+  padding: 5px;
+  border-radius: 5px;
+  color: white;
+  font-weight:bold;
+}
+ion-item{
+  max-width:-webkit-fill-available !important
+}
+.save-cart{
+  background:#f39e20;
+}
+.rupee-font{
+  font-size: x-large;
+}
+.total-amount{
+  font-size: x-large;
+  font-weight: bold;
+}
+left-padding{
+  padding-left: 10px !important;
+}
+
+@media only screen and (min-width: 768px) and (min-height: 768px){
+  
+}
+// ::ng-deep .sc-ion-modal-ios-h {
+//   @media only screen and (min-width: 768px) and (min-height: 768px){
+//     --width: 670px !important;
+//     --height: 670px !important;
+//   }
+  
+// }
+.my-custom-filter-class .modal-wrapper{
+  
+}

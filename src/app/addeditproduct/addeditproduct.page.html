@@ -1,0 +1,103 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Select Product</ion-title>
+    <ion-buttons (click)="Resetpage()" slot="end" style="font-size: 1.8rem;">
+      <ion-icon name="refresh"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <form [formGroup]="form" (ngSubmit)="onSave(form.value)">
+    <!-- <ion-card> -->
+    <ion-row>
+      <ion-col no-margin no-padding>
+        <ion-item (click)="onShowFilterModel()" text-center no-padding no-margin
+          style="border-bottom-style:groove;border-right-style:groove">
+          <!-- <ion-icon slot="start" name="funnel" color="primary" ></ion-icon> -->
+          <ion-label style="margin-left:10px">Filter</ion-label>
+        </ion-item>
+      </ion-col>
+      <ion-col no-margin no-padding>
+        <ion-item (click)="clearFilter()" text-center no-padding no-margin style="border-bottom-style:groove"
+          [disabled]="totalFilterApplied==0">
+          <ion-label>Clear Filter <span class="amc-for-two-Year">{{totalFilterApplied}}</span></ion-label>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <!-- </ion-card> -->
+    <ion-list>
+      <ion-card>
+        <ion-row>
+          <ion-col>
+            <ion-item (click)="onShowProductListModel(false)">
+              <ion-label>Select Product</ion-label>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-card>
+    </ion-list>
+    <ion-list >
+      <ion-card *ngFor="let item of tempcartproduct; index as i">
+          <ion-row class="left-padding" style="padding-left: 15px; padding-top: 15px;">
+            <ion-label style="white-space: normal;font-weight: bold;" >
+              <ion-icon *ngIf="!item.MainProductQty" style="color: springgreen;" name="pricetags"></ion-icon>
+              {{ item.product }}
+            </ion-label>
+          </ion-row>
+          <ion-row style="padding-left: 10px;">
+            <ion-col>
+              <ion-label color="green" style="font-size: small;font-weight: bold;" *ngIf="item.MainProductQty">Qty: {{
+                item.MainProductQty }}</ion-label>
+            </ion-col>
+          </ion-row>
+          <ion-row style="padding-left: 10px;">
+            <ion-col>
+              <ion-label color="green" style="font-size: small;font-weight: bold;" *ngIf="item.freeqty">Free Qty: {{ item.freeqty }}
+              </ion-label>
+            </ion-col>
+          </ion-row>
+          <ion-row style="padding-left: 10px;">
+            <ion-col>
+              <ion-label color="green" style="font-size: small;font-weight: bold;" *ngIf="!!item.enteredfreeqty && item.enteredfreeqty!=='0' && item.enteredfreeqty!==''">Entered Free Qty: {{ item.enteredfreeqty }}
+              </ion-label>
+            </ion-col>
+          </ion-row>
+          <ion-row *ngIf="item.MainProductQty" no-padding style="border-top-style:ridge;margin-top:10px">
+            <ion-col no-padding style="border-right-style:ridge">
+              <ion-button (click)="onEditCartProduct(item)" expand="full" 
+              style="--background: white;color: black;margin-inline:0px;--background-activated:whitesmoke;--background-hover:white;">Edit
+                <ion-icon slot="start" name="create"></ion-icon>
+              </ion-button>
+            </ion-col>
+            <ion-col no-padding>
+              <ion-button (click)="removeProduct(item)" expand="full" style="--background: white;color: black;margin-inline:0px;--background-activated:whitesmoke;--background-hover:white">Remove
+                <ion-icon slot="start" name="trash"></ion-icon>
+              </ion-button>
+            </ion-col>
+          </ion-row>
+          
+      </ion-card>
+    </ion-list>
+    
+  </form>
+</ion-content>
+<ion-footer>
+  <ion-card no-margin>
+    <ion-row>
+      <ion-col>
+        <!-- <ion-item>
+          <ion-icon color="primary" src="./assets/rupee-indian.svg" class="rupee-font"></ion-icon>
+          <ion-label class="total-amount">{{ totalCartAmount | number:'1.2-2' }}</ion-label>
+        </ion-item> -->
+      </ion-col>
+      <ion-col>
+        <ion-button [disabled]="!form.valid && !Istempcartproduct" (click)="onSave('save')" color="primary"
+          class="save-cart" expand="full" fill="outline">
+          <ion-label style="color: white;">
+            Save
+          </ion-label>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-card>
+</ion-footer>

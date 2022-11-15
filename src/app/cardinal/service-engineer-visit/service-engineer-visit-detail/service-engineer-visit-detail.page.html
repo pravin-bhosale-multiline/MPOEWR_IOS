@@ -1,0 +1,798 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Field Visit Details
+    </ion-title>
+    <ion-buttons slot="end" style="font-size: 1.8rem;" routerDirection="root" routerLink="/home">
+      <ion-icon name="home"></ion-icon>
+    </ion-buttons>
+    <!-- <ion-buttons (click)="refreshPage()" slot="end" style="font-size: 1.8rem;">
+      <ion-icon name="refresh"></ion-icon>
+    </ion-buttons> -->
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <mat-vertical-stepper [linear]="isLinear" #stepper>
+    <ng-template matStepperIcon="edit">
+      <mat-icon>done</mat-icon>
+    </ng-template>
+    <!-- Detail Tab -->
+    <mat-step [stepControl]="detailFormGroup">
+      <form [formGroup]="detailFormGroup" class="example-form">
+        <ng-template matStepLabel>Details</ng-template>
+        <!-- complaint_no -->
+        <mat-form-field class="example-full-width">
+          <mat-label>Complaint No.</mat-label>
+          <input matInput [disabled]='true' [(ngModel)]="service.complaintno" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+        <!-- complaint_date -->
+        <mat-form-field class="example-full-width">
+          <mat-label>Complaint Date</mat-label>
+          <input matInput [disabled]='true' [(ngModel)]="service.complaintdate" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+        <!-- Document Type -->
+        <mat-form-field class="example-full-width">
+          <mat-label>Document Type</mat-label>
+          <input matInput [disabled]='true' [(ngModel)]="service.doctype[0].name" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+        <!-- Name of Complainer -->
+        <mat-form-field class="example-full-width">
+          <mat-label>Name of Complainer</mat-label>
+          <input matInput [disabled]='true' [(ngModel)]="service.nameofcomplainer" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+        <!-- Designation of Complainer -->
+        <mat-form-field class="example-full-width">
+          <mat-label>Designation of Complainer</mat-label>
+          <input matInput [disabled]='true' [(ngModel)]="service.desofcomplnr[0].name" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+        <!-- Contact No -->
+        <mat-form-field class="example-full-width">
+          <mat-label>Contact No</mat-label>
+          <input matInput [disabled]='true' [(ngModel)]="service.contnumber" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+        <!-- Email ID -->
+        <mat-form-field class="example-full-width">
+          <mat-label>Email ID</mat-label>
+          <input matInput [disabled]='true' [(ngModel)]="service.email" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+        <!-- Event Date -->
+        <mat-form-field class="example-full-width">
+          <mat-label>Event Date</mat-label>
+          <input matInput [disabled]='true' [(ngModel)]="service.eventdate" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+        <!-- Complaint Description -->
+        <mat-form-field class="example-full-width">
+          <mat-label>Complaint Description</mat-label>
+          <input matInput [disabled]='true' [(ngModel)]="service.description" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperNext (click)="matDetailSettper($event)">Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <!-- Product Compliant Tab-->
+    <mat-step [stepControl]="productCompliantFormGroup" *ngIf="isProductCompliantTab">
+      <form [formGroup]="productCompliantFormGroup" class="example-form">
+        <ng-template matStepLabel>Product Compliant</ng-template>
+        <!-- Lot No -->
+        <mat-form-field class="example-full-width">
+          <mat-label>Lot No.</mat-label>
+          <input matInput >
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext (click)="matSettperProductCompliant($event)">Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <!-- Consumables Tab  -->
+    <mat-step [stepControl]="consumablesFormGroup" *ngIf="isConsumablesTab">
+      <form [formGroup]="consumablesFormGroup" class="example-form">
+        <ng-template matStepLabel>Consumables</ng-template>
+        <!-- Lot No -->
+        <mat-form-field class="example-full-width">
+          <mat-label>Lot No.</mat-label>
+          <input matInput>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext (click)="matSettperConsumables($event)">Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <!-- Equiment Tab-->
+    <mat-step [stepControl]="equimentFormGroup" *ngIf="isEquimentTab">
+      <form [formGroup]="equimentFormGroup" class="example-form">
+        <ng-template matStepLabel>Equiment</ng-template>
+        <!-- Serial No -->
+        <mat-form-field class="example-full-width">
+          <mat-label>Serial No.</mat-label>
+          <input matInput formControlName="serialNoCtrl" [(ngModel)]="service.serialno">
+          <div padding-left>
+            <ng-container *ngFor="let validation of validation_messages.serialNo">
+              <div *ngIf="equimentFormGroup.get('serialNoCtrl').hasError(validation.type) && equimentStepValid">
+                <p style="color: red;font-size: small;">{{validation.message}}</p>
+              </div>
+            </ng-container>
+          </div>
+        </mat-form-field>
+        <!-- Contract Type -->
+        <mat-form-field class="example-full-width">
+          <mat-label>Contract Type</mat-label>
+          <input matInput [disabled]='true' [(ngModel)]="contracttypeSelected" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+        <!-- Invoice No -->
+        <mat-form-field class="example-full-width">
+          <mat-label>Invoice No.</mat-label>
+          <input matInput [disabled]='true' [(ngModel)]="service.invoiceno" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+        <!-- Invoice Date -->
+        <mat-form-field class="example-full-width">
+          <mat-label>Invoice Date</mat-label>
+          <input matInput [disabled]='true' [(ngModel)]="service.invoicedate" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+        <!-- Error Code -->
+        <mat-form-field class="example-full-width">
+          <mat-label class="asterisk_input">Error Code</mat-label>
+          <mat-select [(ngModel)]="errorCodeSelected" formControlName="errorCodeCtrl"
+            (selectionChange)="errorCodeSelectedChange(errorCodeSelected)">
+            <mat-option *ngFor="let errorCode of errorCodeList" [value]="errorCode">
+              {{errorCode.name}}
+            </mat-option>
+          </mat-select>
+          <div padding-left>
+            <ng-container *ngFor="let validation of validation_messages.errorCodeCtrlErrorMessage">
+              <div *ngIf="equimentFormGroup.get('errorCodeCtrl').hasError(validation.type) && equimentStepValid">
+                <p style="color: red;font-size: small;">{{validation.message}}</p>
+              </div>
+            </ng-container>
+          </div>
+        </mat-form-field>
+        <!-- Dealer Name -->
+        <mat-form-field class="example-full-width">
+          <mat-label>Dealer Name</mat-label>
+          <input matInput formControlName="dealerNameCtrl" [(ngModel)]="service.newdealername">
+        </mat-form-field>
+        <!-- Sales Representative -->
+        <mat-form-field class="example-full-width">
+          <mat-label>Sales Representative</mat-label>
+          <input matInput [disabled]='true' [(ngModel)]="service.salesrep"
+            [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+        <!-- Invoice Date -->
+        <mat-form-field class="example-full-width">
+          <mat-label>Installation Date</mat-label>
+          <input matInput [disabled]='true' [(ngModel)]="service.installationdate"
+            [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext (click)="matSettperEquiment($event)">Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <!-- SKU Details Tab-->
+    <mat-step [stepControl]="skuDetailsFormGroup">
+      <form [formGroup]="skuDetailsFormGroup" class="example-form">
+        <ng-template matStepLabel>SKU Details</ng-template>
+        <mat-form-field class="example-full-width">
+          <mat-label>SKU Code</mat-label>
+          <input matInput [disabled]='true' [(ngModel)]="service.skucode" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+        <!-- SKU Name / Description -->
+        <mat-form-field class="example-full-width">
+          <mat-label>SKU Name / Description</mat-label>
+          <input matInput [disabled]='true' [(ngModel)]="service.skuname" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+        <!-- Brand Name -->
+        <mat-form-field class="example-full-width">
+          <mat-label>Brand Name</mat-label>
+          <input matInput [disabled]='true' [(ngModel)]="service.brandname" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+        <!-- Product to be returned -->
+        <mat-form-field class="example-full-width">
+          <mat-label>Product to be returned</mat-label>
+          <input matInput [disabled]='true' [(ngModel)]="productToBeReturn" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext (click)="matSettperSKUDetails($event)">Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <!-- Customer Detail Tab -->
+    <mat-step [stepControl]="customerDetailFormGroup">
+      <form [formGroup]="customerDetailFormGroup" class="example-form">
+        <ng-template matStepLabel>Customer Detail</ng-template>
+        <!-- Customer Name -->
+        <mat-form-field class="example-full-width">
+          <mat-label>Customer Name</mat-label>
+          <input matInput [disabled]='true' [(ngModel)]="service.custname" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+        <!-- Customer Address 1 -->
+        <mat-form-field class="example-full-width">
+          <mat-label>Customer Address 1</mat-label>
+          <input matInput formControlName="customerAddress1Ctrl" [(ngModel)]="service.add1">
+          <div padding-left>
+            <ng-container *ngFor="let validation of validation_messages.customerAddress1">
+              <div
+                *ngIf="customerDetailFormGroup.get('customerAddress1Ctrl').hasError(validation.type) && customerDetailStepValid">
+                <p style="color: red;font-size: small;">{{validation.message}}</p>
+              </div>
+            </ng-container>
+          </div>
+        </mat-form-field>
+        <!-- Customer Address 2 -->
+        <mat-form-field class="example-full-width">
+          <mat-label>Customer Address 2</mat-label>
+          <input matInput formControlName="customerAddress2Ctrl" [(ngModel)]="service.add2">
+          <div padding-left>
+            <ng-container *ngFor="let validation of validation_messages.customerAddress2">
+              <div
+                *ngIf="customerDetailFormGroup.get('customerAddress2Ctrl').hasError(validation.type) && customerDetailStepValid">
+                <p style="color: red;font-size: small;">{{validation.message}}</p>
+              </div>
+            </ng-container>
+          </div>
+        </mat-form-field>
+        <!-- Customer Address 3 -->
+        <mat-form-field class="example-full-width">
+          <mat-label>Customer Address 3</mat-label>
+          <input matInput formControlName="customerAddress3Ctrl" [(ngModel)]="service.add3">
+          <div padding-left>
+            <ng-container *ngFor="let validation of validation_messages.customerAddress3">
+              <div
+                *ngIf="customerDetailFormGroup.get('customerAddress3Ctrl').hasError(validation.type) && customerDetailStepValid">
+                <p style="color: red;font-size: small;">{{validation.message}}</p>
+              </div>
+            </ng-container>
+          </div>
+        </mat-form-field>
+        <!-- Pin Code -->
+        <mat-form-field class="example-full-width">
+          <mat-label>Pin Code</mat-label>
+          <input type="number" matInput formControlName="pinCodeCtrl" [(ngModel)]="service.pincode">
+          <div padding-left>
+            <ng-container *ngFor="let validation of validation_messages.pinCode">
+              <div
+                *ngIf="customerDetailFormGroup.get('pinCodeCtrl').hasError(validation.type) && customerDetailStepValid">
+                <p style="color: red;font-size: small;">{{validation.message}}</p>
+              </div>
+            </ng-container>
+          </div>
+        </mat-form-field>
+        <!-- Area -->
+        <mat-form-field class="example-full-width">
+          <mat-label>Area</mat-label>
+          <input matInput [disabled]='true' [(ngModel)]="service.area[0].name" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+        <!-- City -->
+        <mat-form-field class="example-full-width">
+          <mat-label>City</mat-label>
+          <input matInput [disabled]='true' [(ngModel)]="service.city[0].name" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+        <!-- State -->
+        <mat-form-field class="example-full-width">
+          <mat-label>State</mat-label>
+          <input matInput [disabled]='true' [(ngModel)]="service.state[0].name" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+        <!-- Country -->
+        <mat-form-field class="example-full-width">
+          <mat-label>Country</mat-label>
+          <input matInput [disabled]='true' [(ngModel)]="service.country[0].name" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext (click)="matSettperConsumables($event)">Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <!-- Vender Tab  -->
+    <mat-step [stepControl]="venderFormGroup">
+      <form [formGroup]="venderFormGroup" class="example-form">
+        <ng-template matStepLabel>Vendor Details</ng-template>
+        <!-- Service Engineer Name -->
+        <mat-form-field class="example-full-width">
+          <mat-label>Service Engineer Name</mat-label>
+          <input matInput [disabled]='true'  [(ngModel)]="service.serviceengname.name" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+        <!--Service Engineer Contact No -->
+        <mat-form-field class="example-full-width">
+          <mat-label>Contact No</mat-label>
+          <input matInput [disabled]='true' [(ngModel)]="service.servicontactno" [ngModelOptions]="{standalone: true}" >
+        </mat-form-field>
+        <!-- Date of Visit -->
+        <mat-form-field class="example-full-width">
+          <mat-label>Date of Visit</mat-label>
+          <input type="date" matInput [disabled]='true'  [(ngModel)]="service.dateofvisit" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+        <!-- Service Vendor Remarks -->
+        <mat-form-field class="example-full-width">
+          <mat-label>Service Vendor Remarks</mat-label>
+          <input matInput [disabled]='true' [(ngModel)]="service.serivevendorremark" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext (click)="matSettperConsumables($event)">Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <!-- Engineer Details  -->
+    <mat-step [stepControl]="engineerDetailsFormGroup">
+      <form [formGroup]="engineerDetailsFormGroup" class="example-form">
+        <ng-template matStepLabel>Engineer Details</ng-template>
+        <!-- Problem Observed -->
+        <mat-form-field class="example-full-width">
+          <mat-label class="asterisk_input">Problem Observed</mat-label>
+          <input matInput formControlName="problemObservedCtrl" [(ngModel)]="service.problem_observed">
+          <div padding-left>
+            <ng-container *ngFor="let validation of validation_messages.problemObservedMessage">
+              <div
+                *ngIf="engineerDetailsFormGroup.get('problemObservedCtrl').hasError(validation.type) && engineerDetailStepValid">
+                <p style="color: red;font-size: small;">{{validation.message}}</p>
+              </div>
+            </ng-container>
+          </div>
+        </mat-form-field>
+        <!-- Field Visit Remarks -->
+        <mat-form-field class="example-full-width">
+          <mat-label>Field Visit Remarks</mat-label>
+          <textarea matInput [maxLength]="250" formControlName="fieldVisitRemarksCtrl" [(ngModel)]="service.field_visit_remark"></textarea>
+          <div padding-left>
+            <ng-container *ngFor="let validation of validation_messages.fieldVisitRemarksMessage">
+              <div
+                *ngIf="engineerDetailsFormGroup.get('fieldVisitRemarksCtrl').hasError(validation.type) && engineerDetailStepValid">
+                <p style="color: red;font-size: small;">{{validation.message}}</p>
+              </div>
+            </ng-container>
+          </div>
+        </mat-form-field>
+       <!-- Proposed Action -->
+        <mat-form-field class="example-full-width">
+          <mat-label class="asterisk_input">Proposed Action</mat-label>
+          <mat-select [(ngModel)]="proposedActionSelected" formControlName="proposedActionCtrl"
+            (selectionChange)="proposedActionClick(proposedActionSelected)">
+            <mat-option *ngFor="let proposedActionObject of proposedActionList" [value]="proposedActionObject">
+              {{proposedActionObject.name}}
+            </mat-option>
+          </mat-select>
+          <div padding-left>
+            <ng-container *ngFor="let validation of validation_messages.proposedActionCtrlErrorMessage">
+              <div *ngIf="engineerDetailsFormGroup.get('proposedActionCtrl').hasError(validation.type) && engineerDetailStepValid">
+                <p style="color: red;font-size: small;">{{validation.message}}</p>
+              </div>
+            </ng-container>
+          </div>
+        </mat-form-field>
+        <!-- Dealer Billing Address -->
+        <mat-form-field class="example-full-width" *ngIf="isDealerBillingAddress">
+          <mat-label>Dealer Billing Address</mat-label>
+          <mat-select  formControlName="dealerBillingAddressCtrl" [(ngModel)]="dealerBillingAddressSelected"
+            (selectionChange)="dealerBillingAddressClick(dealerBillingAddressSelected)">
+            <mat-option *ngFor="let dealerBillingAddressObject of dealerBillingAddressList" [value]="dealerBillingAddressObject">
+              {{dealerBillingAddressObject.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <!-- Dealer Shipping Address -->
+        <mat-form-field class="example-full-width" *ngIf="isDealerShippingAddress">
+          <mat-label>Dealer Shipping Address</mat-label>
+          <mat-select  formControlName="dealerShippingAddressCtrl" [(ngModel)]="dealerShippingAddressSelected"
+            (selectionChange)="dealerBillingAddressClick(dealerShippingAddressSelected)">
+            <mat-option *ngFor="let dealerShippingAddressObject of dealerShippingAddressList" [value]="dealerShippingAddressObject">
+              {{dealerShippingAddressObject.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <!-- Complaint Status -->
+         <mat-form-field class="example-full-width" *ngIf="complaintStatusControlVisible">
+          <mat-label class="asterisk_input">Complaint Status</mat-label>
+          <mat-select [(ngModel)]="complaintStatusSelected" formControlName="complaintStatusCtrl"
+          (selectionChange)="complaintStatusClick(complaintStatusSelected)">
+          <mat-option *ngFor="let complaintStatusObject of complaintStatusList" [value]="complaintStatusObject">
+            {{complaintStatusObject.name}}
+          </mat-option>
+        </mat-select>
+            <div padding-left>
+              <ng-container *ngFor="let validation of validation_messages.complaintStatusCtrlErrorMessage">
+                <div
+                  *ngIf="engineerDetailsFormGroup.get('complaintStatusCtrl').hasError(validation.type) && engineerDetailStepValid">
+                  <p style="color: red;font-size: small;">{{validation.message}}</p>
+                </div>
+              </ng-container>
+            </div>
+        </mat-form-field>
+         <!-- Assign To -->
+         <mat-form-field class="example-full-width" *ngIf="assignToCtrlVisible">
+          <mat-label>Assign To</mat-label>
+          <mat-select  formControlName="assignToCtrl" 
+          (selectionChange)="assignToClick()" [(ngModel)]="assignToSelected">
+          <mat-option *ngFor="let serviceManagerObject of serviceManagerList" [value]="serviceManagerObject">
+            {{serviceManagerObject.name}}
+          </mat-option>
+        </mat-select>
+        </mat-form-field>
+        <!-- Closure at Field -->
+        <div>
+          <ion-row>
+            <ion-col no-padding>
+              <ion-button size="default" class="submit-btn" [disabled]="!closureAtFieldBtnVisible" expand="block" color="primary" (click)="closureAtFieldBtnClick()">Closure at Field
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </div>
+        <div>
+          <!-- <button mat-button  class="submit-btn" (click)="takePicture()">Camera</button> -->
+          
+          <button mat-button matStepperNext (click)="matSettperSpareRequired(spareRequiredFormGroup)" *ngIf="engineerDetailsNextButtonVisible">Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <!-- Spare Required -->
+    <mat-step [stepControl]="spareRequiredFormGroup" *ngIf="isSpareRequiredTabVisible">
+      <form [formGroup]="spareRequiredFormGroup" class="example-form">
+      <ng-template matStepLabel>Spare Required</ng-template>
+      <!-- Spare SKU Code -->
+      <mat-form-field class="example-full-width">
+        <mat-label class="asterisk_input">Spare SKU Code</mat-label>
+        <mat-select formControlName="spareSKUCodeDropDownCtrl" [(ngModel)]="spareSKUCodeSelected"
+          (selectionChange)="spareSKUCodeClick(spareSKUCodeSelected)">
+          <mat-option *ngFor="let spareSKUCodeObject of spareSKUCodeList" [value]="spareSKUCodeObject">
+            {{spareSKUCodeObject.name}}
+          </mat-option>
+        </mat-select>
+        <div padding-left>
+          <ng-container *ngFor="let validation of validation_messages.spareSKUCodeDropDownCtrlErrorMessage">
+            <div *ngIf="spareRequiredFormGroup.get('spareSKUCodeDropDownCtrl').hasError(validation.type) && spareRequiredStepValid">
+              <p style="color: red;font-size: small;">{{validation.message}}</p>
+            </div>
+          </ng-container>
+        </div>
+      </mat-form-field>
+      <!-- Quantity -->
+      <mat-form-field class="example-full-width">
+        <mat-label class="asterisk_input">Quantity</mat-label>
+        <input matInput type="number" formControlName="quantityCtrl" readonly>
+        <!-- <div padding-left>
+          <ng-container *ngFor="let validation of validation_messages.quantityCtrlErrorMessage">
+            <div *ngIf="spareRequiredFormGroup.get('quantityCtrl').hasError(validation.type) && spareRequiredStepValid">
+              <p style="color: red;font-size: small;">{{validation.message}}</p>
+            </div>
+          </ng-container>
+        </div> -->
+      </mat-form-field>
+      <!-- Dealer Name -->
+      <mat-form-field class="example-full-width">
+        <mat-label>Dealer Name</mat-label>
+        <input matInput formControlName="dealerNameSpareRequiredCtrl" [(ngModel)]="tempNewDealer" readonly>
+      </mat-form-field>
+      <!-- COP Sales Order Reference -->
+      <mat-form-field class="example-full-width">
+        <mat-label>COP Sales Order Reference</mat-label>
+        <input matInput formControlName="copSalesOrderReferenceCtrl">
+      </mat-form-field>
+      <!-- Spare Request -->
+      <div>
+        <ion-row>
+          <ion-col no-padding>
+           
+            <ion-button size="default"  [disabled]="!tempCartStatus"  class="submit-btn" expand="block" color="primary" (click)="punchedCOPSalesOrder()">Spare Request
+            </ion-button>
+          </ion-col>
+          <ion-col no-padding>
+            <ion-button size="default"  [disabled]="!spareRequiredFormGroup.valid" class="submit-btn" expand="block" color="primary" (click)="addToCart()">Add To Cart
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </div>
+      <mat-list dense>
+        <mat-icon matListIcon>add_shopping_cart</mat-icon>
+        <mat-list-item *ngFor="let spareItem of tempSpareCart">
+          <ion-col size="10">
+            <p matLine style="font-weight: bolder;"> {{spareItem.name}} </p>
+            <p matLine> {{spareItem.dealer_name}} </p>
+            <p matLine> {{spareItem.qty}} </p>
+          </ion-col>
+          <ion-col size="2">
+            <button mat-icon-button color="warn" aria-label="Example icon button with a heart icon" (click)="removeFromCart(spareItem)">
+              <mat-icon>delete_sweep</mat-icon>
+            </button>
+            
+          </ion-col>
+          <mat-divider></mat-divider>
+        </mat-list-item>
+      </mat-list>
+      <div>
+        <button mat-button matStepperPrevious class="submit-btn">Back</button>
+        <button mat-button matStepperNext (click)="matSettperSpareRequired(spareRequiredFormGroup)">Next</button>
+      </div>
+      </form>
+    </mat-step>
+     <!--Spare Ordered Tab-->
+     <mat-step [stepControl]="spareOrderedTab" *ngIf="spareOrderedTabVisible">
+      <form [formGroup]="spareOrderedTab" class="example-form">
+        <ng-template matStepLabel>Spare Ordered Tab</ng-template>
+        <mat-list dense>
+         <mat-list-item *ngFor="let orderItem of spareRequiredList" style="padding: top 0px;">
+            <ion-col>
+              <p matLine>Order Reference: {{orderItem.orderno}} </p>
+              <p matLine>Spare SKU Code: {{orderItem.sapresku}} </p>
+              <p matLine>Quantity: {{orderItem.qty}} </p>
+              <p matLine>Dealer Name: {{orderItem.dealername}} </p>
+            </ion-col>
+          <mat-divider></mat-divider>
+          </mat-list-item>
+        </mat-list>
+      </form>
+    </mat-step>
+    <!-- Spare Installation Tab -->
+    <mat-step [stepControl]="spareInstallationFormGroup" *ngIf="isSpareInstallationTabVisible">
+      <form [formGroup]="spareInstallationFormGroup" class="example-form">
+        <ng-template matStepLabel>Spare Installation</ng-template>
+        <!-- COP Sales order Reference -->
+        <mat-form-field class="example-full-width">
+          <mat-label class="asterisk_input">COP Sales order Reference</mat-label>
+          <mat-select formControlName="copSalesOrderReferenceDropDownCtrl" [(ngModel)]="copSalesOrderReferenceSelected"
+            (selectionChange)="copSalesOrderReferenceDropDownChange(copSalesOrderReferenceSelected)">
+            <mat-option *ngFor="let copSalesOrderReferenceObject of copSalesOrderReferenceList" [value]="copSalesOrderReferenceObject">
+              {{copSalesOrderReferenceObject.orderno}}
+            </mat-option>
+          </mat-select>
+          <div padding-left>
+            <ng-container *ngFor="let validation of validation_messages.copSalesOrderReferenceDropDownCtrlErrorMessage">
+              <div *ngIf="spareInstallationFormGroup.get('copSalesOrderReferenceDropDownCtrl').hasError(validation.type) && spareInstallationStepValid">
+                <p style="color: red;font-size: small;">{{validation.message}}</p>
+              </div>
+            </ng-container>
+          </div>
+        </mat-form-field>
+         <!-- SKU Code -->
+         <mat-form-field class="example-full-width">
+          <mat-label class="asterisk_input">SKU Code</mat-label>
+          <mat-select formControlName="skuCodeCtrl" [(ngModel)]="skuCodeSelected"
+            (selectionChange)="skuCodeListChange(skuCodeSelected)">
+            <mat-option *ngFor="let skuCodeListObject of skuCodeList" [value]="skuCodeListObject">
+              {{skuCodeListObject.sapresku}}
+            </mat-option>
+          </mat-select>
+          <div padding-left>
+            <ng-container *ngFor="let validation of validation_messages.skuCodeCtrlErrorMessage">
+              <div *ngIf="spareInstallationFormGroup.get('skuCodeCtrl').hasError(validation.type) && spareInstallationStepValid">
+                <p style="color: red;font-size: small;">{{validation.message}}</p>
+              </div>
+            </ng-container>
+          </div>
+        </mat-form-field>
+       <mat-form-field class="example-full-width">
+          <mat-label class="asterisk_input">Quantity</mat-label>
+          <input type="number" formControlName="spareReceivedQuantityCtrl" matInput readonly>
+          <div padding-left>
+            <ng-container *ngFor="let validation of validation_messages.spareReceivedQuantityCtrlErrorMessage">
+              <div
+                *ngIf="spareInstallationFormGroup.get('spareReceivedQuantityCtrl').hasError(validation.type) && spareInstallationStepValid">
+                <p style="color: red;font-size: small;">{{validation.message}}</p>
+              </div>
+            </ng-container>
+          </div>
+        </mat-form-field>
+
+        <!-- Spare Received Date -->
+        <div class="example-full-width bottom-border">
+          <ion-label  class="asterisk_input" style="color: darkgray;">Spare Received Date</ion-label>
+          <section class="cus">
+           <ion-datetime  style="--padding-start:0px" displayFormat="DD-MM-YYYY"  formControlName="spareReceivedDateCtrl">
+          </ion-datetime>
+          <ion-icon name="calendar"></ion-icon> 
+        </section>
+        </div>
+        <div padding-left>
+          <ng-container *ngFor="let validation of validation_messages.spareReceivedDateCtrlErrorMessage">
+            <div
+              *ngIf="spareInstallationFormGroup.get('spareReceivedDateCtrl').hasError(validation.type) && spareInstallationStepValid">
+              <p style="color: red;font-size: small;">{{validation.message}}</p>
+            </div>
+          </ng-container>
+        </div>
+        <!-- Repair Report -->
+        <mat-form-field class="example-full-width">
+          <mat-label>Repair Report</mat-label>
+          <textarea matInput formControlName="repairReportCtrl"></textarea>
+        </mat-form-field>
+        <!-- Completion Date -->
+        <div class="example-full-width bottom-border">
+          <ion-label class="asterisk_input" style="color: darkgray;">Completion Date</ion-label>
+          <section class="cus">
+           <ion-datetime  style="--padding-start:0px" displayFormat="DD-MM-YYYY"  formControlName="completionDateCtrl">
+          </ion-datetime>
+          <ion-icon name="calendar"></ion-icon> 
+        </section>
+        </div>
+        <div padding-left>
+          <ng-container *ngFor="let validation of validation_messages.completionDateCtrlErrorMessage">
+            <div
+              *ngIf="spareInstallationFormGroup.get('completionDateCtrl').hasError(validation.type) && spareInstallationStepValid">
+              <p style="color: red;font-size: small;">{{validation.message}}</p>
+            </div>
+          </ng-container>
+        </div>
+        <!-- Replaced Spare Part Serial No. -->
+        <mat-form-field class="example-full-width">
+          <mat-label class="asterisk_input">Replaced Spare Part Serial No</mat-label>
+          <input matInput formControlName="replacedSparePartSerialNoCtrl">
+          <div padding-left>
+            <ng-container *ngFor="let validation of validation_messages.replacedSparePartSerialNoCtrlErrorMessage">
+              <div
+                *ngIf="spareInstallationFormGroup.get('replacedSparePartSerialNoCtrl').hasError(validation.type) && spareInstallationStepValid">
+                <p style="color: red;font-size: small;">{{validation.message}}</p>
+              </div>
+            </ng-container>
+          </div>
+        </mat-form-field>
+        <!-- Service Attended by -->
+        <mat-form-field class="example-full-width">
+          <mat-label class="asterisk_input">Service Attended by</mat-label>
+          <input matInput formControlName="serviceAttendedCtrl">
+          <div padding-left>
+            <ng-container *ngFor="let validation of validation_messages.serviceAttendedCtrlErrorMessage">
+              <div
+                *ngIf="spareInstallationFormGroup.get('serviceAttendedCtrl').hasError(validation.type) && spareInstallationStepValid">
+                <p style="color: red;font-size: small;">{{validation.message}}</p>
+              </div>
+            </ng-container>
+          </div>
+        </mat-form-field>
+        <!-- Defective Spare Part No -->
+        <mat-form-field class="example-full-width">
+          <mat-label class="asterisk_input">Defective Spare Part No</mat-label>
+          <input matInput formControlName="defectiveSparePartNoCtrl">
+          <div padding-left>
+            <ng-container *ngFor="let validation of validation_messages.defectiveSparePartNoCtrlErrorMessage">
+              <div
+                *ngIf="spareInstallationFormGroup.get('defectiveSparePartNoCtrl').hasError(validation.type) && spareInstallationStepValid">
+                <p style="color: red;font-size: small;">{{validation.message}}</p>
+              </div>
+            </ng-container>
+          </div>
+        </mat-form-field>
+        <!-- Def Spare Docket No. -->
+        <mat-form-field class="example-full-width">
+          <mat-label>Def Spare Docket No</mat-label>
+          <input matInput formControlName="defSpareDocketNoCtrl">
+        </mat-form-field>
+        <!-- Def Spare Courier -->
+        <mat-form-field class="example-full-width">
+          <mat-label>Def Spare Courier</mat-label>
+          <input matInput formControlName="defSpareCourierCtrl">
+        </mat-form-field>
+        <!-- Def Spare Sent Date -->
+        <div class="example-full-width bottom-border">
+          <ion-label style="color: darkgray;">Def Spare Sent Date</ion-label>
+          <section class="cus">
+           <ion-datetime  style="--padding-start:0px" displayFormat="DD-MM-YYYY"  formControlName="defSpareSentDateCtrl">
+          </ion-datetime>
+          <ion-icon name="calendar"></ion-icon> 
+        </section>
+        </div>
+        <!-- Spare Install Closed -->
+        <section class="example-full-width" *ngIf="isSpareInstallClosedCtrlVisible">
+          <mat-checkbox formControlName="spareInstallClosedCtrl" (change)="spareInstallClosedCheckbox($event.checked)"
+            class="example-margin">Spare Install Closed</mat-checkbox>
+        </section>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext [disabled]="!spareInstallationFormGroup.valid" (click)="spareInstallationSaveToOB($event)">Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <!-- Attachment -->
+    <mat-step [stepControl]="attachmentFormGroup" *ngIf="isAttachmentTabVisible">
+      <form [formGroup]="attachmentFormGroup" class="example-form">
+        <ng-template matStepLabel>Attachment</ng-template>
+       
+        <section *ngIf="isdesktop===false">
+          <ion-button color="light"(click)="ChosePic()">Select Attachment
+            <ion-icon color="primary" name="Photos" slot="icon-only"></ion-icon>
+          </ion-button>
+        </section>
+        <section *ngIf="isdesktop===true">
+         
+          <ion-col size="2">
+            <input type="file" name="file" accept="image/*,application/pdf" id='selectedFile' #selectedFile (change)="uploadcompImage($event)" class="inputfile"/>
+          </ion-col>
+        </section>
+
+        <section *ngIf="this.cardinalFileType=='image'">
+          <ion-row *ngFor="let imgg of imgcomp;">	
+            <ion-col>	
+              <img [src]="'data:image/jpeg;base64,'+imgg" (click)="ImageViewr(imgg,imgcomp)" *ngIf="imgg" style="width: 35px; height: 35px;">	
+            </ion-col>	
+          </ion-row>
+        </section>
+        <section *ngIf="this.cardinalFileType=='pdf'">
+          <ion-row *ngFor="let pdfItem of pdfFileSelectedURI;">
+            <ion-col size="2">
+              <img src="./assets/transparent-pdf1.png" style="width: 50px; height: 50px;">
+            </ion-col>
+            <ion-col>
+              <ion-row>
+               <ion-col>
+                 <ion-row *ngIf="isdesktop===false">
+                  <ion-label>{{pdfItem.file_name}}</ion-label>
+                 </ion-row>
+                 <!-- <ion-row margin-top="5px">
+                  <ion-label>{{pdfItem.size / 1024 / 1024 }}</ion-label>
+                 </ion-row> -->
+               </ion-col>
+              </ion-row>
+            </ion-col>
+            
+          </ion-row>
+        </section>
+
+
+
+        
+          <!-- <mat-label>Select Attachment</mat-label> -->
+        <button mat-button matStepperPrevious>Next</button>
+            
+     </form>
+    </mat-step >
+    <!-- Service Manager Tab -->
+    <mat-step [stepControl]="serviceManagerFormGroup" *ngIf="isServiceManagerTabVisible">
+      <form [formGroup]="serviceManagerFormGroup" class="example-form">
+        <ng-template matStepLabel>Service Manager</ng-template>
+        <!-- Service Manager Remark -->
+        <mat-form-field class="example-full-width">
+          <mat-label>Service Manager Remark</mat-label>
+          <input matInput formControlName="serviceManagerRemarkCtrl">
+        </mat-form-field>
+        <!-- Defective Spare Part No. -->
+        <mat-form-field class="example-full-width">
+          <mat-label>Defective Spare Part No</mat-label>
+          <input matInput type="text" formControlName="defectiveSparePartNoCtrl">
+        </mat-form-field>
+        <!-- Defective Spare Part Received Date -->
+        <div class="example-full-width bottom-border">
+          <ion-label style="color: darkgray;">Defective Spare Part Received Date</ion-label>
+          <section class="cus">
+           <ion-datetime  style="--padding-start:0px" displayFormat="DD-MM-YYYY"  formControlName="defectiveSparePartReceivedDateCtrl">
+          </ion-datetime>
+          <ion-icon name="calendar"></ion-icon> 
+        </section>
+        </div>
+       
+        <!-- <mat-form-field class="example-full-width">
+          <mat-label>Defective Spare Part Received Date</mat-label>
+          <input type="date" formControlName="defectiveSparePartReceivedDateCtrl" matInput>
+        </mat-form-field> -->
+        <!-- Smart Solve Ref No. -->
+        <mat-form-field class="example-full-width">
+          <mat-label>Smart Solve Ref No</mat-label>
+          <input matInput type="text" formControlName="smartSolveRefNoCtrl">
+        </mat-form-field>
+        <!-- Final Closure -->
+        <div>
+          <ion-row>
+            <ion-col no-padding>
+              <ion-button size="default" class="submit-btn" [disabled]="!serviceManagerFormGroup.valid" expand="block" color="primary" (click)="finalClosureCheckboxServiceManager()">Final Closure
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </div>
+        <!-- <section class="example-full-width">
+          <mat-checkbox formControlName="finalClosureCtrl"
+            (change)="finalClosureCheckbox($event.checked)" class="example-margin">Final Closure</mat-checkbox>
+        </section> -->
+      </form>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <!-- <button mat-button matStepperNext (click)="matSettperServiceManager($event)">Next</button> -->
+      </div>
+      
+    </mat-step>
+  </mat-vertical-stepper>
+   
+</ion-content>

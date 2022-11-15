@@ -1,0 +1,225 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Travel Plan</ion-title>
+    <ion-buttons slot="end" style="font-size: 1.8rem;" routerDirection="root" routerLink="/home">
+      <ion-icon name="home"></ion-icon>
+    </ion-buttons>
+    <ion-buttons (click)="Resetpage()" slot="end" style="font-size: 1.8rem;">
+      <ion-icon name="refresh"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <form [formGroup]="formtravel" (ngSubmit)="onSaveTravelPlan(formtravel.value)">
+            <ion-card>
+              <ion-card-content>
+                <ion-row>
+                  <ion-col>
+                    <h5 ion-text class="text-primary">
+                      <ion-icon name="person"></ion-icon> Plan :
+                    </h5>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col>
+                    <ion-item>
+                      <ion-label position="floating">Sales Person</ion-label>
+                      <ion-input type="text" [formControl]="formtravel.controls['salesperson']" disabled="true">
+                      </ion-input>
+                    </ion-item>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col>
+                    <ion-item>
+                      <ion-label>From Date</ion-label>
+                      <ion-datetime placeholder="Select Date" [formControl]="formtravel.controls['fromdate']"
+                        [disabled]="isleads" (ionChange)="ondatechange()" displayFormat="DD-MM-YYYY" max="2050"
+                        [min]='mindate'></ion-datetime>
+                    </ion-item>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col>
+                    <ion-item>
+                      <ion-label>To Date</ion-label>
+                      <ion-datetime placeholder="Select Date" [formControl]="formtravel.controls['todate']"
+                        [disabled]="isleads" (ionChange)="ondatechange()" displayFormat="DD-MM-YYYY" max="2050"
+                        [min]='mintodate'></ion-datetime>
+                    </ion-item>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col>
+                    <ion-item>
+                      <ion-label position="floating">Plan Name<span style="color:red!important">*</span></ion-label>
+                      <ion-input type="text" [formControl]="formtravel.controls['planname']"></ion-input>
+                    </ion-item>
+                    <div padding-left>
+                      <ng-container *ngFor="let validation of validation_messages.planname">
+                        <div
+                          *ngIf="formtravel.get('planname').hasError(validation.type) && formtravel.get('planname').touched">
+                          <p style="color: red;font-size: small;">{{validation.message}}</p>
+                        </div>
+                      </ng-container>
+                    </div>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col>
+                    <ion-item>
+                      <ion-label position="floating">Home Lat</ion-label>
+                      <ion-input type="text" [formControl]="formtravel.controls['homelat']" disabled="true"></ion-input>
+                    </ion-item>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col>
+                    <ion-item>
+                      <ion-label position="floating">Home Long</ion-label>
+                      <ion-input type="text" [formControl]="formtravel.controls['homelong']" disabled="true"></ion-input>
+                    </ion-item>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col>
+                    <ion-item>
+                      <ion-label>Outstation?</ion-label>
+                      <ion-checkbox slot="end" [disabled]="isleads"  [checked]="outstation_chk_box" [formControl]="formtravel.controls['outstationOrderChkCtrl']"></ion-checkbox>
+                    </ion-item>
+                  </ion-col>
+                </ion-row>
+                <ion-row style="display: none;">
+                  <ion-col>
+                    <ion-item>
+                      <ion-label>Complete</ion-label>
+                      <ion-checkbox slot="end"  [formControl]="formtravel.controls['iscomplete']"></ion-checkbox>
+                    </ion-item>
+                  </ion-col>
+                </ion-row>
+              </ion-card-content>
+            </ion-card>
+            <ion-card>
+              <ion-card-content>
+                <ion-row>
+                  <ion-col>
+                    <h5 ion-text class="text-primary">
+                      <ion-icon name="bookmarks"></ion-icon> Customer:
+                    </h5>
+                  </ion-col>
+                  <ion-col *ngIf="!leads || leads?.length==0">
+                    <ion-fab-button size="small" float-right (click)="onAddLead(null,null)">
+                      <ion-icon name="add"></ion-icon>
+                    </ion-fab-button>
+                  </ion-col>
+                </ion-row>
+                <div style="overflow-x:auto">
+                  <ion-grid style="border-collapse: collapse;" class="grid">
+
+                    <ion-row nowrap>
+                      <ion-col col-3 size="5" class="grid-header">Line Number</ion-col>
+                      <ion-col size="6" class="grid-header">Customer</ion-col>
+                      <ion-col size="6" class="grid-header">Address</ion-col>
+                      <ion-col size="3" class="grid-header">Day</ion-col>
+                      <ion-col size="6" class="grid-header" style="padding-left: 20px;">Date</ion-col>
+                      <!-- <ion-col size="5" class="grid-header">Address Lat</ion-col> -->
+                      <!-- <ion-col size="5" class="grid-header">Address Long</ion-col> -->
+                      <ion-col size="2" class="grid-header">KM</ion-col>
+                      <ion-col size="4" class="grid-header">Status</ion-col>
+
+                    </ion-row>
+
+
+                    <ion-row *ngFor="let data of leads; index as i" nowrap (click)="hideshowsublead(data)"
+                      class="forecast_row">
+
+
+                      <ion-col size="2" class="forecast_div" style="width: 100%; text-align: right;"
+                        (click)="onAddLead(data,i)">
+                        <ion-icon ios="ios-add-circle" md="md-add-circle" style="font-size: large;">
+                        </ion-icon>
+                      </ion-col>
+                      <ion-col size="1" class="forecast_div" style="width: 100%; text-align: right;">
+                        <ion-icon name="trash" (click)="removeLeads(data)" style="font-size: large;
+                color: red;"></ion-icon>
+                      </ion-col>
+                      <ion-col size="2" class="forecast_div">{{i+1}}</ion-col>
+                      <ion-col size="6" class="forecast_div">{{data.custname}}</ion-col>
+                      <ion-col size="6" class="forecast_div">{{data.addressname}}</ion-col>
+                      <ion-col size="3" class="forecast_div">{{data.day}}</ion-col>
+                      <!-- <ion-col size="6" class="forecast_div">{{data.date}}</ion-col> -->
+                      <ion-col size="6" class="forecast_div" style="padding-left: -10px !important;">
+                        <ion-datetime placeholder="Select Date" [min]='traveldatemin' [max]='traveldatemax'
+                          [(ngModel)]="data.date" [ngModelOptions]="{standalone: true}"
+                          (ionChange)="ontraveldatechange(data)" displayFormat="DD-MM-YYYY" style="margin-top: -10px;">
+                        </ion-datetime>
+                      </ion-col>
+                      <!-- <ion-col size="5" class="forecast_div">{{data.longitude}}</ion-col> -->
+                      <ion-col size="2" class="forecast_div">{{data.km}}</ion-col>
+                      <ion-col size="4" class="forecast_div">{{data.status}}</ion-col>
+
+
+
+
+
+                      <!-- <div *ngIf="!data.show">
+              <ion-row nowrap>
+                <ion-col nowrap>
+                  <ion-row nowrap>
+                    <ion-col size="1" class="grid-header"></ion-col>
+                    <ion-col size="1" class="grid-header"></ion-col>
+                    <ion-col size="1" class="grid-header"></ion-col>
+                  <ion-col size="6" class="grid-header">Task to Perform</ion-col>
+                  <ion-col size="4" class="grid-header">Done?</ion-col>
+                  </ion-row>
+
+                  <ion-row nowrap>
+                    <ion-col size="1" class="forecast_div"></ion-col>
+                    <ion-col size="1" class="forecast_div"></ion-col>
+                    <ion-col size="1" class="forecast_div"></ion-col>
+                  <ion-col size="6" class="forecast_div">Sales Check</ion-col>
+                  <ion-col size="4" class="forecast_div">
+                    <input type="checkbox">
+                  </ion-col>
+                  </ion-row>
+                  <ion-row nowrap>
+                    <ion-col size="1" class="forecast_div"></ion-col>
+                    <ion-col size="1" class="forecast_div"></ion-col>
+                    <ion-col size="1" class="forecast_div"></ion-col>
+                  <ion-col size="6" class="forecast_div">Document Check</ion-col>
+                  <ion-col size="4" class="forecast_div">
+                    <input type="checkbox">
+
+                  </ion-col>
+                  </ion-row>
+
+                </ion-col>
+              </ion-row>
+            
+              </div> -->
+
+                    </ion-row>
+
+
+                  </ion-grid>
+                </div>
+              </ion-card-content>
+            </ion-card>
+        </form>
+        <ion-button expand="block" [disabled]="!formtravel.valid || !isleads"
+          (click)="onSaveTravelPlan(formtravel.value)"
+          class="ion-margin-start ion-margin-end ion-margin-bottom btn-scheme" type="submit"
+          [disabled]="!formaddplan.valid">
+          Save
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

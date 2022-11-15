@@ -1,0 +1,43 @@
+<ion-content>
+  <form [formGroup]="alertFormGroup" (ngSubmit)="save()">
+  <ion-grid>
+    <ion-row>
+      <ion-col text-center>
+        <ion-label>New Order</ion-label>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col text-center>
+        <ion-label>Save Template</ion-label>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-item class="login-item">
+            <ion-input formControlName="txtTemplateName" type="text" placeholder="Enter Template Name" maxlength="50" required></ion-input>
+        </ion-item>
+        <div *ngIf="showError"><small><ion-label color="red">{{response.logmsg}}</ion-label></small></div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  </form>
+</ion-content>
+<ion-footer class="footer-back-color">
+  <ion-row>
+    <ion-col class="ion-no-padding">
+      <ion-button  (click)="cancel()"  color="primary"  size="large" expand="full" fill="outline" class="footer-btn-color">
+        <ion-label style="color: white;">
+          Cancel
+        </ion-label>
+      </ion-button>
+    </ion-col>
+    <ion-col class="ion-no-padding">
+      <ion-button  (click)="save()" class="submit-btn" [disabled]="!alertFormGroup.valid" color="primary"  size="large" expand="full" fill="outline" class="footer-btn-color">
+        <ion-label style="color: white;">
+          Save
+        </ion-label>
+      </ion-button>
+    </ion-col>
+  </ion-row>
+  
+</ion-footer>
