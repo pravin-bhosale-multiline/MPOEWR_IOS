@@ -39,7 +39,7 @@ workflows:
           keychain initialize
       - name: Fetch signing files
         script: |
-          app-store-connect fetch-signing-files $BUNDLE_ID --type IOS_APP_STORE --create
+          app-store-connect fetch-signing-files $BUNDLE_ID  --disable-jwt-cache --issuer-id $ISSUER_ID  --type IOS_APP_STORE --create
       - name: Add certificates to keychain
         script: |
           keychain add-certificates         
