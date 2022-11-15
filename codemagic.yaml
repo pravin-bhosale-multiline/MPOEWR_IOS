@@ -15,6 +15,7 @@ workflows:
       vars:      
         BUNDLE_ID: "multilinetech.OBPrism2" # <-- Put your Bundle Id here 
         ISSUER_ID: "69a6de97-d376-47e3-e053-5b8c7c11a4d1"
+        KEY_IDENTIFIER: "6239YW4TVU"
       xcode: latest
       node: v16.11.1
       npm: 6
@@ -39,7 +40,7 @@ workflows:
           keychain initialize
       - name: Fetch signing files
         script: |
-          app-store-connect fetch-signing-files $BUNDLE_ID  --disable-jwt-cache --issuer-id $ISSUER_ID  --type IOS_APP_STORE --create
+          app-store-connect fetch-signing-files $BUNDLE_ID  --disable-jwt-cache --issuer-id $ISSUER_ID  --key-id $KEY_IDENTIFIER   --type IOS_APP_STORE --create
       - name: Add certificates to keychain
         script: |
           keychain add-certificates         
