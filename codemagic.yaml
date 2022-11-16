@@ -16,7 +16,6 @@ workflows:
         BUNDLE_ID: "multilinetech.OBPrism2" # <-- Put your Bundle Id here 
         ISSUER_ID: "69a6de97-d376-47e3-e053-5b8c7c11a4d1"
         KEY_IDENTIFIER: "2H25J4NVW5"
-        PRIVATE_KEY:  "MIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgkfmQBHD2068bXydvFRcLICr74y9fiErOfTtuUGvjQGCgCgYIKoZIzj0DAQehRANCAASB1YaCqM4yr6OMZKAGP8xWjocSbPv1QJZJs0x4RWmjprupJaruISMnXWi4Gdc4PXau3Eh7Vx4jvlfiY3bJTjXe"
       xcode: latest
       node: v16.11.1
       npm: 6
@@ -41,7 +40,8 @@ workflows:
           keychain initialize
       - name: Fetch signing files
         script: |
-          app-store-connect fetch-signing-files $BUNDLE_ID  --disable-jwt-cache --issuer-id $ISSUER_ID  --key-id $KEY_IDENTIFIER --private-key $PRIVATE_KEY  --type IOS_APP_STORE --create
+          app-store-connect fetch-signing-files $BUNDLE_ID  --disable-jwt-cache --issuer-id $ISSUER_ID  --key-id $KEY_IDENTIFIER 
+          --private-key -----BEGIN PRIVATE KEY-----MIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgkfmQBHD2068bXydvFRcLICr74y9fiErOfTtuUGvjQGCgCgYIKoZIzj0DAQehRANCAASB1YaCqM4yr6OMZKAGP8xWjocSbPv1QJZJs0x4RWmjprupJaruISMnXWi4Gdc4PXau3Eh7Vx4jvlfiY3bJTjXe-----END PRIVATE KEY-----  --type IOS_APP_STORE --create
       - name: Add certificates to keychain
         script: |
           keychain add-certificates         
