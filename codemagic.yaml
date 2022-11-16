@@ -15,7 +15,13 @@ workflows:
       vars:      
         BUNDLE_ID: "multilinetech.OBPrism2" # <-- Put your Bundle Id here 
         ISSUER_ID: "69a6de97-d376-47e3-e053-5b8c7c11a4d1"
-        KEY_IDENTIFIER: "6239YW4TVU"
+        KEY_IDENTIFIER: "2H25J4NVW5"
+        PRIVATE_KEY: "-----BEGIN PRIVATE KEY-----
+                      MIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgkfmQBHD2068bXydv
+                      FRcLICr74y9fiErOfTtuUGvjQGCgCgYIKoZIzj0DAQehRANCAASB1YaCqM4yr6OM
+                      ZKAGP8xWjocSbPv1QJZJs0x4RWmjprupJaruISMnXWi4Gdc4PXau3Eh7Vx4jvlfi
+                      Y3bJTjXe
+                      -----END PRIVATE KEY-----"
       xcode: latest
       node: v16.11.1
       npm: 6
