@@ -35,7 +35,7 @@ workflows:
           # app-store-connect fetch-signing-files $BUNDLE_ID  --disable-jwt-cache --issuer-id $ISSUER_ID  --key-id $KEY_IDENTIFIER  --type IOS_APP_STORE --create
       - name: Add certificates to keychain
         script: |
-        #  keychain add-certificates         
+          # keychain add-certificates         
       - name: Set up code signing settings on Xcode project
         script: |
           xcode-project use-profiles
