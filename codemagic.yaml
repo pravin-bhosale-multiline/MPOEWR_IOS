@@ -3,10 +3,7 @@ workflows:
     name: iOS workflow
     environment:
       groups:
-        # Add the group environment variables in Codemagic UI (either in Application/Team variables) - https://docs.codemagic.io/variables/environment-variable-groups/
-          - app_store_credentials # <-- (Includes APP_STORE_CONNECT_ISSUER_ID, APP_STORE_CONNECT_KEY_IDENTIFIER, APP_STORE_CONNECT_PRIVATE_KEY)
-          - certificate_credentials # <-- (Includes CERTIFICATE_PRIVATE_KEY - Put your Certificate Private Key here)
-          - admin
+       - admin
       vars:      
         BUNDLE_ID: "multilinetech.OBPrism2" # <-- Put your Bundle Id here 
         ISSUER_ID: "69a6de97-d376-47e3-e053-5b8c7c11a4d1"
